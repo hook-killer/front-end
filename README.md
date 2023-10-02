@@ -1,6 +1,22 @@
-# React Bootstrap
+# Dependencies
 
-https://react-bootstrap.netlify.app/
+- React Bootstrap
+  - https://react-bootstrap.netlify.app/
+- React Popout
+  - https://codesandbox.io/s/react-window-open-react-popout-component-9o7cs
+- react-quill
+  - https://velog.io/@rlaclgns321/%EC%9B%B9-%EC%97%90%EB%94%94%ED%84%B0-React-quill
+- react-daum-postcode
+  - https://github.com/kmsbernard/react-daum-postcode
+- react-new-window
+  - https://github.com/rmariuzzo/react-new-window
+- Pretendard Font
+  - https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md
+
+# Docker
+
+- `docker build --tag hook-killer:0.1 .`
+- `docker run -d --name react-app -p 80:80 hook-killer:0.1`
 
 # Getting Started with Create React App
 
