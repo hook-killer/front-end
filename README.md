@@ -1,3 +1,5 @@
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhook-killer%2Ffront-end&count_bg=%236FC22F&title_bg=%23C93E3E&icon=react.svg&icon_color=%23E7E7E7&title=%EC%9D%91%EC%95%A0&edge_flat=false)](https://hits.seeyoufarm.com)
+
 # Dependencies
 
 - React Bootstrap
