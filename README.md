@@ -1,6 +1,24 @@
-# React Bootstrap
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhook-killer%2Ffront-end&count_bg=%236FC22F&title_bg=%23C93E3E&icon=react.svg&icon_color=%23E7E7E7&title=%EC%9D%91%EC%95%A0&edge_flat=false)](https://hits.seeyoufarm.com)
 
-https://react-bootstrap.netlify.app/
+# Dependencies
+
+- React Bootstrap
+  - https://react-bootstrap.netlify.app/
+- React Popout
+  - https://codesandbox.io/s/react-window-open-react-popout-component-9o7cs
+- react-quill
+  - https://velog.io/@rlaclgns321/%EC%9B%B9-%EC%97%90%EB%94%94%ED%84%B0-React-quill
+- react-daum-postcode
+  - https://github.com/kmsbernard/react-daum-postcode
+- react-new-window
+  - https://github.com/rmariuzzo/react-new-window
+- Pretendard Font
+  - https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md
+
+# Docker
+
+- `docker build --tag hook-killer:0.1 .`
+- `docker run -d --name react-app -p 80:80 hook-killer:0.1`
 
 # Getting Started with Create React App
 
