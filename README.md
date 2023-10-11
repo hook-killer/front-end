@@ -14,11 +14,23 @@
   - https://github.com/rmariuzzo/react-new-window
 - Pretendard Font
   - https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md
+- Axios Documentation
+  - https://axios-http.com/docs/api_intro
 
-# Docker
+## Docker
 
 - `docker build --tag hook-killer:0.1 .`
 - `docker run -d --name react-app -p 80:80 hook-killer:0.1`
+
+## Cokkie
+
+- ReactCookie Import
+- getCooke, setCookie, removeCookie
+- 근데 해당 유틸에선 음..쿠키쓸까 로컬스토리지 쓸까 고민많이했는데, 그냥 로컬스토리지 쓰기로함
+
+## React Router
+
+- [`<Switch>` 관련 v6 변화](https://0cddo-room.tistory.com/entry/react-router%EC%82%AC%EC%9A%A9%EA%B3%BC-v6%EC%97%90%EC%84%9C%EC%9D%98-switch%EC%9D%98-%EB%B3%80%ED%99%94)
 
 # Getting Started with Create React App
 
