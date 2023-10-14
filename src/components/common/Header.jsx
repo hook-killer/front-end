@@ -274,7 +274,10 @@ const LoginButton = styled.input`
   text-align: center;
 `;
 
-const LanguageSelect = styled.select``;
+const LanguageSelect = styled.select`
+  width: 100%;
+  text-align: center;
+`;
 
 const AvaterCircleDiv = styled.div`
   display: grid;

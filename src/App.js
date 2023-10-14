@@ -22,14 +22,10 @@ const App = () => {
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
-  const [token, setToken] = useState(
-    isNull(storageToken) ? "abc" /*"" */ : storageToken
-  );
-  const [role, setRole] = useState(
-    isNull(storageRole) ? "ADMIN" /*"GUEST"*/ : storageRole
-  );
+  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "허위닉네임" /*"" */ : storageNickName
+    isNull(storageNickName) ? "" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
