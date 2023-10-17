@@ -64,6 +64,22 @@ const App = () => {
                 path="/article/add"
                 element={<ArticleAdd />}
               />
+                <Route
+                path="/article/boardId"
+                element={<ArticleList />}
+              />
+                <Route
+                path="/notice/add"
+                element={<NoticeAdd/>}
+              />
+                <Route
+                path="/notice/list"
+                element={<NoticeList/>} 
+              />
+                <Route 
+                path="notice/contentId"
+                element={<NoticeDetail/>}
+              />
             </Routes>
           </Container>
         </BrowserRouter>
