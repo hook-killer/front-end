@@ -1,5 +1,5 @@
-import multiPartClient from "./DefaultClient";
-import { login } from "./authApi";
+import {multiPartClient} from "./DefaultClient";
+
 let requestMapping = "/file";
 
 /**
@@ -9,4 +9,8 @@ let requestMapping = "/file";
  * @returns
  */
 export const uploadImgList = (imageList) =>
-  multiPartClient.post(requestMapping + "/image", imageList);
+  multiPartClient.post(requestMapping + "/images", imageList);
+
+
+export const uploadImg = (image) =>
+  multiPartClient.post(requestMapping + "/image", image);
