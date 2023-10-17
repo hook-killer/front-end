@@ -89,7 +89,6 @@ const ReactQuillTemplate = (props) => {
   ];
 
   const handleButtonClick = async () => {
-    setIsLoading(true);
 
     console.log('title : ', title)
     console.log('quillValue : ', quillValue)
@@ -101,22 +100,12 @@ const ReactQuillTemplate = (props) => {
         content: quillValue,
       };
 
-    // articleAxios(addArticleForm)
-    // .then(response => console.log(response))
-    // .catch(error => console.log(error));
-
     articleAxios(addArticleForm)
-    .then(response => { 
-    console.log(response);
-    setIsLoading(false);
-  })
-    .catch(error => {
-    console.log(error);
-    setIsLoading(false);
-  });
-    
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
 
   };
+    
 
   return (
       <>
