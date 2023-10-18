@@ -95,14 +95,15 @@ const ReactQuillTemplate = (props) => {
 
       const addArticleForm = {
         boardId: 1,
+        articleId: 1,
         orgArticleLanguage: "KO",
         title: title,
         content: quillValue,
       };
 
     articleAxios(addArticleForm)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
+    .then(response => console.log("response : ", response))
+    .catch(error => console.log("error : ", error));
 
   };
     

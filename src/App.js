@@ -13,6 +13,9 @@ import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list"
+import NoticeAdd from "./components/notice/add";
+import NoticeDetail from "./components/notice/detail";
+import NoticeList from "./components/notice/list";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -66,15 +69,11 @@ const App = () => {
                 element={<ArticleAdd />}
               />
                 <Route
-                path="/article/boardId"
-                element={<ArticleList />}
-              />
-                <Route
                 path="/notice/add"
                 element={<NoticeAdd/>}
               />
                 <Route
-                path="/notice/list"
+                path="/notice"
                 element={<NoticeList/>} 
               />
                 <Route 
