@@ -20,9 +20,19 @@ const SelectLanguage = (props) => {
   ];
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
-    setLanguage(e.target.value);
-    removeCookie("language");
-    setCookie("language", e.target.value);
+    // setLanguage(e.target.value);
+    // removeCookie("language");
+    // setCookie("language", e.target.value);
+  
+    const newLanguage = e.target.value;
+  setLanguage(newLanguage);
+
+  // 언어를 쿠키에 저장
+  removeCookie("language");
+  setCookie("language", newLanguage);
+
+  // 페이지 새로고침
+  window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
@@ -241,6 +251,23 @@ const Header = (props) => {
           />
         </Col>
       </Row>
+      <Row>
+        <Link to="/article/list/1" style={{ textDecoration: "none" }}>
+          <button className="list-group-item list-group-item-action px-4">
+            <small>한국어 모임</small>
+            </button>
+          </Link>
+        <Link to="/article/list/2" style={{ textDecoration: "none" }}>
+            <button className="list-group-item list-group-item-action px-4">
+            <small>일본어 모임</small>
+            </button>
+          </Link>
+        <Link to="/article/list/3" style={{ textDecoration: "none" }}>
+            <button className="list-group-item list-group-item-action px-4">
+            <small>중국어 모임</small>
+            </button>
+          </Link>
+      </Row>
     </HeaderDiv>
   );
 };
@@ -272,7 +299,7 @@ const LoginButton = styled.input`
   border: 0;
   font-weight: 400;
   padding: 0.375rem 0.75rem;
-  width: 90%;
+  width: 100%;
   text-align: center;
 `;
 
