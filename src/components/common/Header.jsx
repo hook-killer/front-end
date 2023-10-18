@@ -241,6 +241,23 @@ const Header = (props) => {
           />
         </Col>
       </Row>
+      <Row>
+        <Link to="/article/list/1" style={{ textDecoration: "none" }}>
+          <button className="list-group-item list-group-item-action px-4">
+            <small>한국어 모임</small>
+            </button>
+          </Link>
+        <Link to="/article/list/2" style={{ textDecoration: "none" }}>
+            <button className="list-group-item list-group-item-action px-4">
+            <small>일본어 모임</small>
+            </button>
+          </Link>
+        <Link to="/article/list/3" style={{ textDecoration: "none" }}>
+            <button className="list-group-item list-group-item-action px-4">
+            <small>중국어 모임</small>
+            </button>
+          </Link>
+      </Row>
     </HeaderDiv>
   );
 };
@@ -272,7 +289,7 @@ const LoginButton = styled.input`
   border: 0;
   font-weight: 400;
   padding: 0.375rem 0.75rem;
-  width: 90%;
+  width: 100%;
   text-align: center;
 `;
 

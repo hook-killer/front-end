@@ -12,6 +12,7 @@ import { getCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import ArticleAdd from "./components/article/add";
+import ArticleList from "./components/article/list"
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -63,6 +64,10 @@ const App = () => {
                 <Route
                 path="/article/add"
                 element={<ArticleAdd />}
+              />
+                <Route
+                path="/article/list/:boardId"
+                element={<ArticleList />}
               />
             </Routes>
           </Container>
