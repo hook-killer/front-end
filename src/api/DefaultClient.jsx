@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getCookie } from "../utils/ReactCookie";
+import { isNull } from "../utils/NullUtils";
 
 // React Axios Timeout = 5s
 
@@ -8,7 +9,7 @@ export const jsonClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 5000,
   headers: {
-    Authorization: "Bearer " + getCookie("token"),
+    Authorization: "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
     language: getCookie("language"),
     "Content-Type": "application/json",
   },
@@ -19,7 +20,7 @@ export const multiPartClient = axios.create({
   baseURL: process.env.REACT_APP_BASE_URL,
   timeout: 5000,
   headers: {
-    Authorization: "Bearer " + getCookie("token"),
+    Authorization: "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
     language: getCookie("language"),
     "Content-Type": "multipart/form-data",
   },
