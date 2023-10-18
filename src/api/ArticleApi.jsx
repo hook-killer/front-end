@@ -1,6 +1,9 @@
 import { jsonClient, multiPartClient } from "./DefaultClient";
 
-var requestMapping = "/article"
+var addRequestMapping = "/article";
 
 export const addArticle = (addArticleForm) => 
-  jsonClient.post(requestMapping, addArticleForm)
+  jsonClient.post(addRequestMapping, addArticleForm)
+
+export const listArticle = (boardId) =>
+ jsonClient.get(`${addRequestMapping}/list/${boardId}`)

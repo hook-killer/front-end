@@ -34,7 +34,7 @@ const SearchForm = styled.form`
   display: flex;
   position: relative;
   border-radius: 5px;
-  border: 5px solid rgba(11, 195, 11, 0.74);
+  border: 5px solid #6a24fe;
   background: white;
   width: 100%;
   &:hover {
