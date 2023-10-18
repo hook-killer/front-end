@@ -20,9 +20,19 @@ const SelectLanguage = (props) => {
   ];
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
-    setLanguage(e.target.value);
-    removeCookie("language");
-    setCookie("language", e.target.value);
+    // setLanguage(e.target.value);
+    // removeCookie("language");
+    // setCookie("language", e.target.value);
+  
+    const newLanguage = e.target.value;
+  setLanguage(newLanguage);
+
+  // 언어를 쿠키에 저장
+  removeCookie("language");
+  setCookie("language", newLanguage);
+
+  // 페이지 새로고침
+  window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
