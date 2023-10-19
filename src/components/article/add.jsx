@@ -9,11 +9,14 @@ import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const ReactQuillTemplate = (props) => {
+const ArticleAdd = (props) => {
   const { t, i18n } = useTranslation();
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
+  const token = props.token;
+  const language = i18n.language;
+  console.log("token : ", token, " language : ", language);
 
   const handleQuillChange = (e) => {
     console.log(e);
@@ -114,7 +117,7 @@ const ReactQuillTemplate = (props) => {
       content: quillValue,
     };
 
-    articleAxios(addArticleForm, language)
+    articleAxios(addArticleForm, i18n.language, token)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
   };
@@ -171,4 +174,4 @@ const ReactQuillTemplate = (props) => {
   );
 };
 
-export default ReactQuillTemplate;
+export default ArticleAdd;

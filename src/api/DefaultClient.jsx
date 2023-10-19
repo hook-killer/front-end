@@ -11,7 +11,7 @@ export const jsonClient = (language, token) =>
     timeout: 5000,
     headers: {
       Authorization:
-        "Bearer " + isNull(token) ? "" : token,
+        "Bearer " + token,
       language: language,
       "Content-Type": "application/json",
     },
@@ -24,7 +24,7 @@ export const multiPartClient = (language, token) =>
     timeout: 5000,
     headers: {
       Authorization:
-      "Bearer " + isNull(token) ? "" : token,
+      "Bearer " + token,
       language: language,
       "Content-Type": "multipart/form-data",
     },

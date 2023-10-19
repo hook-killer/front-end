@@ -61,7 +61,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/mypage" element={<Mypage token={token}/>} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -70,13 +70,13 @@ const App = () => {
                 path="/register"
                 element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-              <Route path="/article/add" element={<ArticleAdd />} />
+              <Route path="/article/add" element={<ArticleAdd token={token}/>} />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd />} />
+              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -84,10 +84,10 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate />}
+                element={<NoticeUpdate token={token}/>}
               />
               <Route
-                path="/sendVerificationEmail"
+                path="/verifyEmail"
                 element={<EmailVerification />}
               />
               <Route />
