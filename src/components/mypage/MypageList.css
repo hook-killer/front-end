@@ -1,0 +1,96 @@
+.post-table {
+  border-collapse: separate; 
+  background-color: transparent;
+  border-spacing: 0; 
+  width: 60%;
+  margin-top: 20px;
+  border: 1px solid gray; 
+}
+
+.post-table colgroup {
+  border: 1px solid gray; /* Gray border */
+  background-color: #f5f5f5; /* Background color */
+  padding: 8px; /* Padding for spacing */
+}
+
+
+.post-reply {
+  border-collapse: separate; 
+  background-color: transparent;
+  border-spacing: 0; 
+  width: 60%;
+  margin-top: 20px;
+  border: 1px solid gray; 
+}
+
+.post-reply colgroup {
+  border: 1px solid gray; /* Gray border */
+  background-color: #f5f5f5; /* Background color */
+  padding: 8px; /* Padding for spacing */
+}
+.post-like {
+  border-collapse: separate; 
+  background-color: transparent;
+  border-spacing: 0; 
+  width: 60%;
+  margin-top: 20px;
+  border: 1px solid gray; 
+}
+
+.post-like colgroup {
+  border: 1px solid gray; /* Gray border */
+  background-color: #f5f5f5; /* Background color */
+  padding: 8px; /* Padding for spacing */
+}
+
+
+.mypagelist-container {
+  display: flex;
+  border: 1px solid gray; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.list-heading {
+  text-align: center;
+}
+
+.post-table td {
+  border: 1px solid gray;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.post-table th {
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+}
+
+
+.post-reply td {
+  border: 1px solid gray;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.post-reply th {
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+}
+
+
+.post-like td {
+  border: 1px solid gray;
+  padding: 8px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.post-like th {
+  border: 1px solid gray;
+  background-color: #f2f2f2;
+}

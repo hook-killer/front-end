@@ -12,7 +12,8 @@ import { getCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import ArticleAdd from "./components/article/add";
-import ArticleList from "./components/article/list"
+import ArticleList from "./components/article/list";
+import Mypage from "./pages/Mypage";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -24,10 +25,14 @@ const App = () => {
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
+  const [token, setToken] = useState(
+    isNull(storageToken)
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjk3Njc1NDk0LCJleHAiOjE2OTc3MTE0OTQsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.t25-E_ALVQ9sm7sh021buLwAyfrXwnkPtoq4EmFHW__12QTaDPr3ZUyPrFYwZGxKMTGzVob1Vgnz8zaCDGtfAweyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjk3Njc1NDk0LCJleHAiOjE2OTc3MTE0OTQsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.t25-E_ALVQ9sm7sh021buLwAyfrXwnkPtoq4EmFHW__12QTaDPr3ZUyPrFYwZGxKMTGzVob1Vgnz8zaCDGtfAw"
+      : storageToken
+  );
+  const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "" : storageNickName
+    isNull(storageNickName) ? "관리자" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
@@ -53,6 +58,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={Test1()} />
               <Route path="/fuckingBong" element={Test2()} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -61,14 +67,8 @@ const App = () => {
                 path="/register"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
               />
-                <Route
-                path="/article/add"
-                element={<ArticleAdd />}
-              />
-                <Route
-                path="/article/list/:boardId"
-                element={<ArticleList />}
-              />
+              <Route path="/article/add" element={<ArticleAdd />} />
+              <Route path="/article/list/:boardId" element={<ArticleList />} />
             </Routes>
           </Container>
         </BrowserRouter>
