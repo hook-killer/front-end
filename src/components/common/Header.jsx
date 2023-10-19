@@ -7,16 +7,25 @@ import { Link } from "react-router-dom";
 import { getCookie, removeCookie, setCookie } from "../../utils/ReactCookie";
 import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
+import { useTranslation } from "react-i18next";
+
+
 
 const SelectLanguage = (props) => {
   const lang = props.language;
   const setLanguage = props.languageSet;
-
+  const { t, i18n } = useTranslation();
+    
   const languageData = [
-    { value: "KO", description: "한국어" },
-    { value: "EN", description: "English" },
-    { value: "CN", description: "中文" },
-    { value: "JP", description: "日本語" },
+    { value: "KO", description: t("한국어") },
+    { value: "EN", description: t("English") },
+    { value: "CN", description: t("中文") },
+    { value: "JP", description: t("日本語") },
+
+    // { value: "KO", description: "한국어" },
+    // { value: "EN", description: "English" },
+    // { value: "CN", description: "中文" },
+    // { value: "JP", description: "日本語" },
   ];
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
@@ -25,14 +34,18 @@ const SelectLanguage = (props) => {
     // setCookie("language", e.target.value);
   
     const newLanguage = e.target.value;
-  setLanguage(newLanguage);
+    
+  
 
+  i18n.changeLanguage(newLanguage);
+    console.log(newLanguage);
   // 언어를 쿠키에 저장
   removeCookie("language");
   setCookie("language", newLanguage);
+  setLanguage(newLanguage);
 
   // 페이지 새로고침
-  window.location.reload();
+  // window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
@@ -205,6 +218,7 @@ const doSearching = (e) => {
 };
 
 const Header = (props) => {
+  const { t } = useTranslation();
   let role = props.role;
   let token = props.token;
   let language = props.language;
@@ -254,17 +268,17 @@ const Header = (props) => {
       <Row>
         <Link to="/article/list/1" style={{ textDecoration: "none" }}>
           <button className="list-group-item list-group-item-action px-4">
-            <small>한국어 모임</small>
+            {t('header.한국어 모임')}
             </button>
           </Link>
         <Link to="/article/list/2" style={{ textDecoration: "none" }}>
             <button className="list-group-item list-group-item-action px-4">
-            <small>일본어 모임</small>
+            {t('header.일본어 모임')}
             </button>
           </Link>
         <Link to="/article/list/3" style={{ textDecoration: "none" }}>
             <button className="list-group-item list-group-item-action px-4">
-            <small>중국어 모임</small>
+            {t('header.중국어 모임')}
             </button>
           </Link>
       </Row>

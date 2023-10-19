@@ -1,0 +1,14 @@
+{
+  "header": {
+    "한국어 모임": "Korean language meeting",
+    "일본어 모임": "Japanese language meeting",
+    "중국어 모임": "Chinese language meeting"
+  },
+  "list": {
+    "제목": "Title",
+    "작성자": "Author",
+    "작성일": "Date",
+    "추천": "Recommend",
+    "새글": "New Article"
+  }
+}

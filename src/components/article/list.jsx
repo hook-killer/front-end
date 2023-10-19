@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { listArticle as articleAxios } from "../../api/ArticleApi";
 import styled from "styled-components";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
+import { Button, Col, Row } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 
 const ListArticleForm = ({props}) => {
-  const [data, setData] = useState([]);
-
-  const {boardId} = useParams();
+  const { t, i18n } = useTranslation();
+  const [ data, setData] = useState([]);
+  const { boardId } = useParams();
 
   useEffect(() => {
     articleAxios(boardId)
@@ -27,61 +30,16 @@ const ListArticleForm = ({props}) => {
       });
   }, []); // 빈 배열을 전달하여 이펙트가 컴포넌트가 처음 렌더링될 때만 실행되도록 합니다.
 
-//   return (
-//     <div>
-//       {data.map((item, index) => (
-//         <div key={index}>
-//           <br />
-//           번호: {item.articleId} <br />
-//           제목: {item.title} <br />
-//           내용: <div dangerouslySetInnerHTML={{ __html: item.content }} />
-//         </div>
-//       ))}
-//     </div>
-//   );
-// };
-
-// return (
-//   <div className="list-container">
-//     <table className="post-table">
-//       <colgroup>
-//         <col span="1" style={{ width: "20%" }} />
-//         <col span="1" style={{ width: "35%" }} />
-//         <col span="1" style={{ width: "20%" }} />
-//         <col span="1" style={{ width: "20%" }} />
-//         <col span="1" style={{ width: "15%" }} />
-//       </colgroup>
-//       <thead>
-//         <tr>
-//           <th>번호</th>
-//           <th>제목</th>
-//           <th>작성자</th>
-//           <th>작성일</th>
-//           <th>추천</th>
-          
-//         </tr>
-//       </thead>
-//       <tbody>
-//         {data.map((item, index) => (
-//           <tr key={index}>
-//             <td>{item.articleId}</td>
-//             <td>{item.title}</td>
-//             <td>{item.createdUser}</td>
-//             {/* <td><div dangerouslySetInnerHTML={{ __html: item.content }} /></td> */}
-//             <td>{item.createAt}</td>
-//             <td>{item.likeCount}</td>
-            
-
-//           </tr>
-//         ))}
-//       </tbody>
-//     </table>
-//   </div>
-// );
-// console.log(item);
-// }
 
 return (
+  <>
+  {/* <div>
+  <button onClick={() => i18n.changeLanguage('en')}>English</button>
+  <button onClick={() => i18n.changeLanguage('ko')}>한국어</button>
+  <button onClick={() => i18n.changeLanguage('jp')}>日本語</button>
+  <button onClick={() => i18n.changeLanguage('cn')}>中文</button>
+  </div> */}
+  
   <TableContainer className="list-container">
     <Table className="post-table">
       <ColGroup>
@@ -94,10 +52,10 @@ return (
       <TableHead>
         <tr>
           <th></th>
-          <th>제목</th>
-          <th>작성자</th>
-          <th>작성일</th>
-          <th>추천</th>
+          <th>{t('list.제목')}</th>
+          <th>{t('list.작성자')}</th>
+          <th>{t('list.작성일')}</th>
+          <th>{t('list.추천')}</th>
         </tr>
       </TableHead>
       <TableBody>
@@ -113,8 +71,19 @@ return (
       </TableBody>
     </Table>
   </TableContainer>
+  <Row className="mt-5">
+    <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+      <Link to={{ pathname:'/article/add' }}>
+      {/* <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">새글</Button> */}
+      <Button style={{ backgroundColor: '#6A24FE', border: 'none' }} variant="primary" className="w-100 text-center">{t('list.새글')}</Button>
+  </Link>
+  </Col>
+  </Row>
+</>
 );
 };
+
+
 
 
 export default ListArticleForm;
@@ -179,4 +148,4 @@ const TableBody = styled.tbody`
       border-spacing: 0;
     }
   }
-`;
+`
