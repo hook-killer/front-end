@@ -63,7 +63,6 @@ return (
           <tr key={index}>
             <td>{item.articleId}</td>
             <td>{item.title}</td>
-            <td>{item.createdUser}</td>
             <td>{item.createAt}</td>
             <td>{item.likeCount}</td>
           </tr>

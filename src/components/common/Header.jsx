@@ -36,7 +36,7 @@ const SelectLanguage = (props) => {
     setLanguage(newLanguage);
 
     // 페이지 새로고침
-    // window.location.reload();
+    window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
