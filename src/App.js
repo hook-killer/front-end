@@ -14,8 +14,9 @@ import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
-import ArticleList from "./components/article/list"
-import SearchResultList from "./components/search/result"
+import ArticleList from "./components/article/list";
+import SearchResultList from "./components/search/result";
+import Mypage from "./pages/Mypage";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -24,29 +25,21 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [language, setLanguage] = useState(getLanguageFromCookie());
-
-  useEffect(() => {
-    setCookie("language", language);
-  }, [language]);
-  
-  function getLanguageFromCookie() {
-    return getCookie("language") || "KO";
-  }
-
-  
-
-  // const [language, setLanguage] = useState(
-  //   isNull(storageLanguage) ? "KO" : storageLanguage
-  // );
   const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
+  const [language, setLanguage] = useState(
+    isNull(storageLanguage) ? "KO" : storageLanguage
+  );
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "" : storageNickName
+    isNull(storageNickName) ? "관리자" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
   );
+
+  useEffect(() => {
+    setCookie("language", language);
+  }, [language]);
 
   return (
     <>
@@ -68,6 +61,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -76,15 +70,9 @@ const App = () => {
                 path="/register"
                 element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
+              <Route path="/article/add" element={<ArticleAdd />} />
+              <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route
-                path="/article/add"
-                element={<ArticleAdd />}
-              />
-              <Route
-                path="/article/list/:boardId"
-                element={<ArticleList />}
-              />
-                <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
