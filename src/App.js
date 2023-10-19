@@ -7,12 +7,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
 import "./App.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list"
+import SearchResultList from "./components/search/result"
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -68,6 +69,10 @@ const App = () => {
                 <Route
                 path="/article/list/:boardId"
                 element={<ArticleList />}
+              />
+                <Route
+                path="/search/result/:word"
+                element={<SearchResultList />}
               />
             </Routes>
           </Container>

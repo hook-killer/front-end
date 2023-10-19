@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import logo from "../../asset/logo192.png";
 import styled from "styled-components";
 import SearchBar from "../search/searchBar";
+import ReleatedSearches from "../search/RelatedSearches"
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getCookie, removeCookie, setCookie } from "../../utils/ReactCookie";
 import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
+import RelatedSearches from "../search/RelatedSearches";
 
 const SelectLanguage = (props) => {
   const lang = props.language;
@@ -25,14 +27,14 @@ const SelectLanguage = (props) => {
     // setCookie("language", e.target.value);
   
     const newLanguage = e.target.value;
-  setLanguage(newLanguage);
+    setLanguage(newLanguage);
 
-  // 언어를 쿠키에 저장
-  removeCookie("language");
-  setCookie("language", newLanguage);
+    // 언어를 쿠키에 저장
+    removeCookie("language");
+    setCookie("language", newLanguage);
 
-  // 페이지 새로고침
-  window.location.reload();
+    // 페이지 새로고침
+    window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
@@ -199,16 +201,18 @@ const MemberArea = (props) => {
   return LoginMenu(props);
 };
 
-const doSearching = (e) => {
-  // TODO: Search Event작성
-  console.log("쎼환이 빠뽀~~~~");
-};
-
 const Header = (props) => {
   let role = props.role;
   let token = props.token;
   let language = props.language;
   let nickName = props.nickName;
+
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const doSearching = (e) => {
+    // TODO: Search Event작성
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <HeaderDiv>
@@ -228,11 +232,11 @@ const Header = (props) => {
         </Col>
         <Col
           xs={7}
-          style={{ padding: "auto" }}
-          className="align-items-center d-flex align-items-center"
+          style={{ padding: "auto", position: "relative" }}
+          className="align-items-center flex align-items-center"
         >
           <SearchBar onChange={(e) => doSearching(e)} />
-          {/* TODO:검색단어 입력시 조회창 입력 */}
+          <RelatedSearches searchTerm={searchTerm} />
         </Col>
         <Col
           xs={3}
@@ -316,3 +320,4 @@ const AvaterCircleDiv = styled.div`
   background-color: #ffbd30;
   place-items: center;
 `;
+
