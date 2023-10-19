@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import RelatedSearches from "./RelatedSearches";
 
 const SearchBar = ({ onChange }) => {
   return (
@@ -10,7 +11,7 @@ const SearchBar = ({ onChange }) => {
         placeholder="검색어를 입력해주세요 ex) 응애, BongGuSu BabBurger~"
         name="searchInput"
         onChange={onChange}
-        onKeyDown={keyEventControll}
+        onKeyDown={(e) => keyEventControll(e)}
       />
     </SearchForm>
   );
@@ -23,7 +24,12 @@ const SearchBar = ({ onChange }) => {
 const keyEventControll = (e) => {
   switch (e.code) {
     case "Enter":
-      // TODO: Input창에서 Enter클릭시 처리할 이벤트 구현
+      // TODO: Input창에서 Enter클릭시 처리할 이벤트 구현 -> article list 띄우기
+      const inputValue = e.target.value;
+      console.log("inputValue : ", inputValue);
+      const state = { offset : 0, limit : 10 };
+      history.pushState(state, null, `/search/result/${inputValue}`)
+      window.location.href = `/search/result/${inputValue}`;
       e.preventDefault();
       break;
     default:

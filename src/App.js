@@ -14,7 +14,8 @@ import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
-import ArticleList from "./components/article/list";
+import ArticleList from "./components/article/list"
+import SearchResultList from "./components/search/result"
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -82,6 +83,10 @@ const App = () => {
               <Route
                 path="/article/list/:boardId"
                 element={<ArticleList />}
+              />
+                <Route
+                path="/search/result/:word"
+                element={<SearchResultList />}
               />
               <Route
                 path="/sendVerificationEmail"
