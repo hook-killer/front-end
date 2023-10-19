@@ -20,24 +20,17 @@ export const login = (loginForm) =>
 export const register = (registerForm) =>
   jsonClient.post(requestMapping + "/register", registerForm);
 
-
 /**
-* 인증메일 발송
-* "AuthCotnroller"의 POST, "/sendVerificationEmail
-* @param {} emailForm
-* @returns
-*/
-export const sendEmail = (emailForm) =>
-  jsonClient.post(`${requestMapping}/sendVerificationEmail`, emailForm)
-
-/**
-* 인증메일 발송
-* "AuthCotnroller"의 POST, "/verify/{token}
+* 인증메일
+* "AuthCotnroller"의 GET, "/verifyEmail
 * @param {} verify
 * @returns
 */
-export const verifyEmail = (token) =>
-  jsonClient.post(`${requestMapping}/verify?token=${token}`)
+export const verifyEmail = (verificationToken) =>
+  jsonClient.get(`${requestMapping}/verifyEmail?verificationToken=${verificationToken}`)
+
+export const kakaoBack = (kakoLoginForm) =>
+  jsonClient.get(`${requestMapping}/oauth/kakao/link`, kakoLoginForm)
 
 /**
  * 해당 API의 경우에는 일단 내가 기능 만들어 줄 때 logout Mapping값이 존재해서 일단 만들어줌

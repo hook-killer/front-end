@@ -22,14 +22,31 @@ const SelectLanguage = (props) => {
     { value: "CN", description: t("中文") },
     { value: "JP", description: t("日本語") },
   ];
+
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
+<<<<<<< Updated upstream
     const newLanguage = e.target.value;
     i18n.changeLanguage(newLanguage);
     // 언어를 쿠키에 저장
     removeCookie("language");
     setCookie("language", newLanguage);
     setLanguage(newLanguage);
+=======
+    // setLanguage(e.target.value);
+    // removeCookie("language");
+    // setCookie("language", e.target.value);
+
+    const newLanguage = e.target.value;
+    setLanguage(newLanguage);
+
+    // 언어를 쿠키에 저장
+    removeCookie("language");
+    setCookie("language", newLanguage);
+
+    // 페이지 새로고침
+    window.location.reload();
+>>>>>>> Stashed changes
   };
 
   const optionList = languageData.map((language, i) => (
@@ -281,6 +298,26 @@ const Header = (props) => {
           />
         </Col>
       </Row>
+<<<<<<< Updated upstream
+=======
+      <Row>
+        <Link to="/article/list/1" style={{ textDecoration: "none" }}>
+          <button className="list-group-item list-group-item-action px-4">
+            <small>한국어 모임</small>
+          </button>
+        </Link>
+        <Link to="/article/list/2" style={{ textDecoration: "none" }}>
+          <button className="list-group-item list-group-item-action px-4">
+            <small>일본어 모임</small>
+          </button>
+        </Link>
+        <Link to="/article/list/3" style={{ textDecoration: "none" }}>
+          <button className="list-group-item list-group-item-action px-4">
+            <small>중국어 모임</small>
+          </button>
+        </Link>
+      </Row>
+>>>>>>> Stashed changes
     </HeaderDiv>
   );
 };

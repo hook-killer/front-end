@@ -14,6 +14,7 @@ import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
+<<<<<<< Updated upstream
 import ArticleList from "./components/article/list";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
@@ -21,6 +22,10 @@ import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
+=======
+import ArticleList from "./components/article/list"
+import KakaoLogin from "./components/auth/KakaoLogin";
+>>>>>>> Stashed changes
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -89,6 +94,10 @@ const App = () => {
               <Route
                 path="/verifyEmail"
                 element={<EmailVerification />}
+              />
+              <Route
+                path="/auth/oauth/kakao/callback"
+                element={<KakaoLogin />}
               />
               <Route />
             </Routes>
