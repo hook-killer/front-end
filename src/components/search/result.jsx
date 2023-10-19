@@ -19,6 +19,7 @@ const SearchResultList = () => {
   const state = window.history.state;
 
   const handlePageChange = (newOffset, newLimit) => {
+    console.log("newOffset : ", newOffset, " newLimit : ", newLimit);
     setMyOffset(newOffset);
     setMyLimit(newLimit);
 
@@ -29,10 +30,12 @@ const SearchResultList = () => {
   const fetchDataFromApi = (offset, limit) => {
     // API 호출을 수행하고 데이터를 업데이트합니다.
     // 결과 데이터는 setData를 사용하여 업데이트합니다.
+    console.log("fetch에서의 Offset : ", offset, " limit : ", limit);
 
     searchResult(word, offset, limit)
     .then((res) => {
       if (res.data && res.data.length > 0) {
+        console.log("Data : ", data)
         setData(res.data);
         setMyOffset(offset);
         console.log("myOffset : ", myOffset);
@@ -74,7 +77,7 @@ const SearchResultList = () => {
   }, [data])
 
   useEffect(() => {
-    searchResult(word, state.offset, state.limit)
+    searchResult(word, myOffset, state.limit)
     .then((res) => {
       if (res.data && res.data.length > 0) {
         setData(res.data);
@@ -92,7 +95,7 @@ const SearchResultList = () => {
         console.log('Request Error : ', error.message);
       } 
     })
-  }, []);
+  }, [data]);
 
   return (
     <SearchResultInfoContainer>
