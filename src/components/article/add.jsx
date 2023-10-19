@@ -6,7 +6,7 @@ import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 
 const ReactQuillTemplate = (props) => {
   const [quillValue, setQuillValue] = useState("");
@@ -103,7 +103,7 @@ const ReactQuillTemplate = (props) => {
     articleAxios(addArticleForm)
     .then(response => console.log(response))
     .catch(error => console.log(error));
-
+    
   };
     
 
@@ -139,10 +139,11 @@ const ReactQuillTemplate = (props) => {
       />
         </Col>
       </Row>
-      
       <Row className="mt-5">
-        <Col className="d-flex justify-content-end" xs={12}>
-          <Button variant="primary" className="w-100 text-center" onClick={handleButtonClick}>작성</Button>
+        <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+          <Link to={{pathname:"/article/list"}}>
+            <Button variant="primary" className="w-100 text-center" style={{backgroundColor:'#6A24FE', border:'none'}} onClick={handleButtonClick}>작성</Button>
+          </Link>
         </Col>
       </Row>
     </>
