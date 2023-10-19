@@ -1,14 +1,14 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, {useState, useRef, useMemo} from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
-import { addArticle as articleAxios } from "../../api/ArticleApi";
+import { addNotice as noticeAddAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const ReactQuillTemplate = (props) => {
+const NoticeAdd = (props) => {
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
@@ -32,12 +32,10 @@ const ReactQuillTemplate = (props) => {
           ],
           ["link", "image"],
           [
-            // dropdown with defaults from theme
             { align: [] },
             { color: [] },
             { background: [] },
           ],
-          ["clean"],
         ],
         handlers: {
           image: () => {
@@ -46,11 +44,11 @@ const ReactQuillTemplate = (props) => {
             input.setAttribute("accept", "image/*");
             input.click();
 
-            input.addEventListener("change", async () => {
+            input.addEventListener("change", async() => {
               const file = input.files[0];
               const formData = new FormData();
-              formData.append("image", file);
-              formData.append("naverObjectStorageUsageType", "ARTICLE");
+              FormData.append("image", file);
+              FormData.append("naverObjectStorageUsageType", "ARTICLE");
 
               try {
                 const result = await imageAxios(formData);
@@ -60,16 +58,16 @@ const ReactQuillTemplate = (props) => {
                 const range = editor.getSelection();
                 editor.insertEmbed(range.index, "image", IMG_URL);
                 editor.setSelection(range.index + 1);
-                // setQuillValue(quillValue+IMG_URL)
+              
               } catch (error) {
-                console.log("이미지 업로드 실패");
+                console.log("이미지 업로드에 실패했습니다.");
               }
             });
           },
         },
       },
     };
-  }, []);
+  },[]);
 
   let formats = [
     "header",
@@ -92,69 +90,63 @@ const ReactQuillTemplate = (props) => {
     console.log("title : ", title);
     console.log("quillValue : ", quillValue);
 
-    const addArticleForm = {
-      boardId: 1,
-      articleId: 1,
-      orgArticleLanguage: "KO",
+    const addNoticeForm = {
+
+      language: "KO",
       title: title,
       content: quillValue,
     };
 
-    articleAxios(addArticleForm)
-      .then((response) => console.log("response : ", response))
-      .catch((error) => console.log("error : ", error));
+    noticeAddAxios(addNoticeForm)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
   };
 
   return (
     <>
-      <Row>
-        <Col className="w-100">
-          <TextField
-            type="text"
-            placeholder="제목을 입력하세요!"
-            style={{
-              marginTop: "10px",
-              marginBottom: "10px",
-              fontSize: "24px",
-              width: "100%",
-            }}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </Col>
-      </Row>
-      <Row className="mb-5">
-        <Col className="w-100">
-          <ReactQuill
-            ref={quillRef}
-            style={{ height: "100%", width: "100%" }}
-            theme="snow"
-            modules={modules}
-            formats={formats}
-            value={quillValue}
-            onChange={handleQuillChange}
-          />
-        </Col>
-      </Row>
-      <Row className="mt-5">
-        <Col
-          className="d-flex justify-content-end justify-content-center"
-          xs={12}
-        >
-          <Link to={{ pathname: "/article/list" }}>
-            <Button
-              variant="primary"
-              className="w-100 text-center"
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
-              onClick={handleButtonClick}
-            >
-              작성
-            </Button>
+    <h4 style={{
+      marginTop: "30px"}}
+      >공지사항 글 작성</h4>
+    <Row>
+      <Col className="w-100">
+        <TextField 
+          type="text"
+          placeholder="제목을 입력하세요."
+          style={{
+            marginTop: "10px",
+            marginBottom: "10px",
+            fontSize: "24px",
+            width: "100%"
+          }}
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+        />
+      </Col>
+    </Row>
+    <Row className="mb-5">
+
+      <Col className="w-100">
+        <ReactQuill
+          ref={quillRef}
+          style={{height: "100%", width: "100%"}}
+          theme="snow"
+          modules={modules}
+          formats={formats}
+          value={quillValue}
+          onChange={handleQuillChange}
+        />
+      </Col>
+    </Row>
+
+    <Row className="mt-5">
+        <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+          <Link to={{pathname:"/notice"}}>
+            <Button variant="primary" className="w-100 text-center" style={{backgroundColor:'#6A24FE', border:'none'}} onClick={handleButtonClick}>작성</Button>
           </Link>
         </Col>
       </Row>
     </>
-  );
+  )
 };
 
-export default ReactQuillTemplate;
+export default NoticeAdd;

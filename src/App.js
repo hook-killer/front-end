@@ -15,6 +15,10 @@ import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
+import NoticeAdd from "./components/notice/add";
+import NoticeDetail from "./components/notice/detail";
+import NoticeList from "./components/notice/list";
+import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
 
@@ -75,6 +79,16 @@ const App = () => {
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
+              />
+              <Route path="/notice/add" element={<NoticeAdd />} />
+              <Route path="/notice" element={<NoticeList />} />
+              <Route
+                path="/notice/:noticeArticleId"
+                element={<NoticeDetail />}
+              />
+              <Route
+                path="/notice/update/:noticeArticleId"
+                element={<NoticeUpdate />}
               />
               <Route
                 path="/sendVerificationEmail"
