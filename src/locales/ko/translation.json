@@ -1,6 +1,7 @@
 {
   "header": {
     "mypage": "마이페이지",
+    "admin": "관리자 페이지",
     "koBoard": "한국어 게시판",
     "jpBoard": "일본어 게시판",
     "cnBoard": "중국어 게시판"

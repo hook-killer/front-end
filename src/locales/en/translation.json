@@ -1,6 +1,7 @@
 {
   "header": {
-    "mypage": "MyPage",
+    "mypage": "My Page",
+    "admin": "Admin Page",
     "koBoard": "Korean Board",
     "jpBoard": "Japanese Board",
     "cnBoard": "Chinese Board"
