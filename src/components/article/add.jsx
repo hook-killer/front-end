@@ -7,8 +7,10 @@ import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const ReactQuillTemplate = (props) => {
+  const { t, i18n } = useTranslation();
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
@@ -88,6 +90,18 @@ const ReactQuillTemplate = (props) => {
     "background",
   ];
 
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
+
+  // 리스너 등록
+  i18n.on("languageChanged", languageChangeHandler);
+
+  // 컴포넌트가 언마운트될 때 리스너 제거
+  return () => {
+    i18n.off("languageChanged", languageChangeHandler);
+  };
+}, [i18n]);
+
   const handleButtonClick = async () => {
     console.log("title : ", title);
     console.log("quillValue : ", quillValue);
@@ -100,7 +114,7 @@ const ReactQuillTemplate = (props) => {
       content: quillValue,
     };
 
-    articleAxios(addArticleForm)
+    articleAxios(addArticleForm, language)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
   };
@@ -111,7 +125,7 @@ const ReactQuillTemplate = (props) => {
         <Col className="w-100">
           <TextField
             type="text"
-            placeholder="제목을 입력하세요!"
+            placeholder={t('articleadd.제목을 입력하세요.')}
             style={{
               marginTop: "10px",
               marginBottom: "10px",
@@ -148,7 +162,7 @@ const ReactQuillTemplate = (props) => {
               style={{ backgroundColor: "#6A24FE", border: "none" }}
               onClick={handleButtonClick}
             >
-              작성
+              {t('articleadd.작성')}
             </Button>
           </Link>
         </Col>
