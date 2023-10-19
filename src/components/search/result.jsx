@@ -19,7 +19,6 @@ const SearchResultList = () => {
   const state = window.history.state;
 
   const handlePageChange = (newOffset, newLimit) => {
-    console.log("newOffset : ", newOffset, " newLimit : ", newLimit);
     setMyOffset(newOffset);
     setMyLimit(newLimit);
 
@@ -35,13 +34,9 @@ const SearchResultList = () => {
     searchResult(word, offset, limit)
     .then((res) => {
       if (res.data && res.data.length > 0) {
-        console.log("Data : ", data)
         setData(res.data);
         setMyOffset(offset);
-        console.log("myOffset : ", myOffset);
         setMyLimit(limit);
-        console.log("myLimit : ", myLimit);
-        console.log("searchResult Data: ", data);
       }
     })
     .catch((error) => {
@@ -60,9 +55,7 @@ const SearchResultList = () => {
     .then((res) => {
       if (res.data && res.data.length > 0) {
         setWholeData(res.data);
-        console.log("data: ", res.data)
         setWholeDataSize(wholeData.length);
-        console.log("whole Data : ", wholeDataSize)
       }
     })
     .catch((error) => {
@@ -81,9 +74,6 @@ const SearchResultList = () => {
     .then((res) => {
       if (res.data && res.data.length > 0) {
         setData(res.data);
-        for (let i = 0; i < data.length; i++) {
-          console.log(i, "번째 data : ", data[i]);
-        }
       }
     })
     .catch((error) => {
