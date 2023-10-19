@@ -15,12 +15,15 @@ import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
+import ArticleDetail from "./components/article/detail";
+import ArticleDelete from "./components/article/delete";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
+
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -29,7 +32,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NjAzNTQ1LCJleHAiOjE2OTc2Mzk1NDUsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.RjqfcRyI9JzgEDqOxWC9xk_ZBns9skxns3V0F9qdLpjl7mTyjl5CyWjQ5xa7MueXYgq2V3TFTiYqaBttizAIeA" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
@@ -72,6 +75,8 @@ const App = () => {
               />
               <Route path="/article/add" element={<ArticleAdd token={token}/>} />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
+              <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
+              <Route path="/article/delete/:articleId" element={<ArticleDelete token={token} />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
@@ -84,7 +89,7 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate token={token}/>}
+                element={<NoticeUpdate token={token} />}
               />
               <Route
                 path="/verifyEmail"
