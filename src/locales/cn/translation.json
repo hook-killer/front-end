@@ -12,7 +12,12 @@
     "추천": "推荐",
     "새글": "新文章"
   },
+  "main": {
+    "popular[1]": "韩国留言板人气帖子",
+    "popular[2]": "日本公告栏人气公告栏",
+    "popular[3]": "中文留言板人气留言板"
+  },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ" : "请输入您的搜索词 ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "请输入您的搜索词 ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
   }
 }
