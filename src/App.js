@@ -2,7 +2,7 @@ import "normalize.css";
 import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-import Test1 from "./components/test/test1";
+import PopularBox from "./components/main/PopularBox";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
@@ -11,9 +11,12 @@ import { useState } from "react";
 import { getCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
+import RegisterForm from "./components/auth/Register";
+import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import Mypage from "./pages/Mypage";
+
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -56,7 +59,7 @@ const App = () => {
           />
           <Container>
             <Routes>
-              <Route exact path="/" element={Test1()} />
+              <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
               <Route path="/mypage" element={<Mypage />} />
               <Route
@@ -65,10 +68,21 @@ const App = () => {
               />
               <Route
                 path="/register"
-                element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
+                element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-              <Route path="/article/add" element={<ArticleAdd />} />
-              <Route path="/article/list/:boardId" element={<ArticleList />} />
+              <Route
+                path="/article/add"
+                element={<ArticleAdd />}
+              />
+              <Route
+                path="/article/list/:boardId"
+                element={<ArticleList />}
+              />
+              <Route
+                path="/sendVerificationEmail"
+                element={<EmailVerification />}
+              />
+              <Route />
             </Routes>
           </Container>
         </BrowserRouter>
