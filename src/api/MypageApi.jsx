@@ -1,4 +1,4 @@
-import { jsonClient, multiPartClient } from "./DefaultClient";
+import { jsonClient, multiPartClient } from "./MainCustomClient";
 
 var myPageRequestMapping = "/mypage";
 

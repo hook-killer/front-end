@@ -1,4 +1,4 @@
-import { jsonClient } from "./DefaultClient";
+import { jsonClient } from "./SearchCustomClient";
 
 var addRequestMapping = "/search";
 

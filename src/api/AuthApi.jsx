@@ -1,4 +1,4 @@
-import { jsonClient } from "./DefaultClient";
+import { jsonClient } from "./MainCustomClient";
 
 let requestMapping = "/auth";
 

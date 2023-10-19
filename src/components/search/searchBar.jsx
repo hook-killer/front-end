@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import RelatedSearches from "./RelatedSearches";
+import { useTranslation } from "react-i18next";
 
 const SearchBar = ({ onChange }) => {
+  const { t, i18n } = useTranslation();
+  
+
   return (
     <SearchForm className="searchForm">
       <SearchInput
         type="text"
         className="searchInput"
-        placeholder="검색어를 입력해주세요 ex) 응애, BongGuSu BabBurger~"
+        placeholder={t('searchBar.검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ')}
         name="searchInput"
         onChange={onChange}
         onKeyDown={(e) => keyEventControll(e)}
