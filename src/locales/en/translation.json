@@ -1,0 +1,15 @@
+{
+  "header": {
+    "mypage": "MyPage",
+    "koBoard": "Korean Board",
+    "jpBoard": "Japanese Board",
+    "cnBoard": "Chinese Board"
+  },
+  "list": {
+    "제목": "Title",
+    "작성자": "Author",
+    "작성일": "Date",
+    "추천": "Recommend",
+    "새글": "New Article"
+  }
+}

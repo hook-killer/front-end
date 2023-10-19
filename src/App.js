@@ -7,8 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
 import "./App.css";
-import { useState } from "react";
-import { getCookie } from "./utils/ReactCookie";
+import React, { useState, useEffect } from "react";
+import { getCookie, setCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
@@ -23,9 +23,21 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [language, setLanguage] = useState(
-    isNull(storageLanguage) ? "KO" : storageLanguage
-  );
+  const [language, setLanguage] = useState(getLanguageFromCookie());
+
+  useEffect(() => {
+    setCookie("language", language);
+  }, [language]);
+  
+  function getLanguageFromCookie() {
+    return getCookie("language") || "KO";
+  }
+
+  
+
+  // const [language, setLanguage] = useState(
+  //   isNull(storageLanguage) ? "KO" : storageLanguage
+  // );
   const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [nickName, setNickName] = useState(
