@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { myPageList as myPageListAxios } from "../../api/MypageApi";
-import { useParams } from "react-router";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
 const MypageList = () => {
-  const { searchType } = useParams(); // URL에서 searchType을 가져옴
+  // const { searchType } = useParams(); // URL에서 searchType을 가져옴
+
+  const [searchType, setSearchType] = useState("ARTICLE");
 
   const [items, setItems] = useState([]);
 
@@ -30,7 +30,11 @@ const MypageList = () => {
 
   return (
     <>
-      <Link to="/mypage/article">게시글</Link>
+      <div>
+        <button onClick={() => setSearchType("ARTICLE")}>게시글</button>
+        <button onClick={() => setSearchType("REPLY")}>댓글</button>
+        <button onClick={() => setSearchType("LIKE")}>좋아요</button>
+      </div>
       <TableContainer className="mypagelist-container">
         <Table className="post-table">
           <ColGroup>
