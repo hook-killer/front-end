@@ -2,7 +2,7 @@ import "normalize.css";
 import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-import Test1 from "./components/test/test1";
+import PopularBox from "./components/main/PopularBox";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
@@ -14,7 +14,7 @@ import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
-import ArticleList from "./components/article/list"
+import ArticleList from "./components/article/list";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -53,7 +53,7 @@ const App = () => {
           />
           <Container>
             <Routes>
-              <Route exact path="/" element={Test1()} />
+              <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
               <Route
                 path="/login"
