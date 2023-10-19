@@ -16,6 +16,7 @@ import ArticleList from "./components/article/list"
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
+import NoticeUpdate from "./components/notice/update";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -77,8 +78,12 @@ const App = () => {
                 element={<NoticeList/>} 
               />
                 <Route 
-                path="notice/contentId"
+                path="/notice/:noticeArticleId"
                 element={<NoticeDetail/>}
+              />
+                <Route
+                path="/notice/update/:noticeArticleId"
+                element={<NoticeUpdate/>}
               />
                 <Route
                 path="/article/list/:boardId"
