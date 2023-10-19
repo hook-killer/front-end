@@ -2,6 +2,7 @@
   "header": {
     "mypage": "My Page",
     "admin": "Admin Page",
+    "notice": "Notice",
     "koBoard": "Korean Board",
     "jpBoard": "Japanese Board",
     "cnBoard": "Chinese Board"
@@ -44,6 +45,11 @@
   "noticeadd": {
     "공지사항": "Notice",
     "제목을 입력하세요.": "Please enter a title. ",
-    "작성": "Add"
+    "작성": "Add",
+    "orgLanguage": "Posting Language",
+    "kr": "Korean",
+    "en": "English",
+    "jp": "Japanese",
+    "cn": "Chinese"
   }
 }
