@@ -14,6 +14,7 @@ const NoticeAdd = (props) => {
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
+  const token = props.token;
 
   const handleQuillChange = (e) => {
     console.log(e);

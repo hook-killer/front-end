@@ -1,12 +1,13 @@
-import { jsonClient, multiPartClient } from "./MainCustomClient";
+import { jsonClient as DefaultClient } from "./DefaultClient";
+import { jsonClient as MainCustomClient, multiPartClient } from "./MainCustomClient";
 
 var addRequestMapping = "/article";
 
-export const addArticle = (addArticleForm, language) =>
-  jsonClient(language).post(addRequestMapping, addArticleForm);
+export const addArticle = (addArticleForm, language, token) =>
+  DefaultClient(language, token).post(addRequestMapping, addArticleForm);
 
 export const listArticle = (boardId, language) =>
-  jsonClient(language).get(`${addRequestMapping}/list/${boardId}`);
+  MainCustomClient(language).get(`${addRequestMapping}/list/${boardId}`);
 
 export const popularArticle = (boardId, language) =>
-  jsonClient(language).get(`${addRequestMapping}/popular/${boardId}`);
+  MainCustomClient(language).get(`${addRequestMapping}/popular/${boardId}`);

@@ -29,7 +29,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Njk3NDQ5LCJleHAiOjE2OTc3MzM0NDksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.8lDwe08cbpDSO1cce7q_ARuJp6aoXSveHab5KnLuS16cMrTngeWX2pubxE7Ibet__pn7r-JgH6l_g-3AOl3IEw" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
@@ -61,7 +61,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage />} />
+              <Route path="/mypage" element={<Mypage token={token}/>} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -70,13 +70,13 @@ const App = () => {
                 path="/register"
                 element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-              <Route path="/article/add" element={<ArticleAdd />} />
+              <Route path="/article/add" element={<ArticleAdd token={token}/>} />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd />} />
+              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -84,10 +84,10 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate />}
+                element={<NoticeUpdate token={token}/>}
               />
               <Route
-                path="/sendVerificationEmail"
+                path="/verifyEmail"
                 element={<EmailVerification />}
               />
               <Route />
