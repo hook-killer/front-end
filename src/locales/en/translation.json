@@ -1,8 +1,9 @@
 {
   "header": {
-    "한국어 모임": "Korean language meeting",
-    "일본어 모임": "Japanese language meeting",
-    "중국어 모임": "Chinese language meeting"
+    "mypage": "MyPage",
+    "koBoard": "Korean Board",
+    "jpBoard": "Japanese Board",
+    "cnBoard": "Chinese Board"
   },
   "list": {
     "제목": "Title",

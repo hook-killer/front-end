@@ -1,24 +1,26 @@
-import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
 import translationKo from "./locales/ko/translation.json";
 import translationEn from "./locales/en/translation.json";
 import translationJp from "./locales/jp/translation.json";
 import translationCn from "./locales/cn/translation.json";
+import { isNull } from "./utils/NullUtils";
+import { getCookie } from "./utils/ReactCookie";
 
 const resources = {
-  ko: {
-    translation: translationKo
+  KO: {
+    translation: translationKo,
   },
-  en: {
-    translation: translationEn
+  EN: {
+    translation: translationEn,
   },
-  jp: {
-    translation: translationJp
+  JP: {
+    translation: translationJp,
   },
-  cn: {
-    translation: translationCn
-  }
+  CN: {
+    translation: translationCn,
+  },
 };
 
 i18n
@@ -26,8 +28,8 @@ i18n
   .use(LanguageDetector)
   .init({
     resources,
-    lng: 'ko',
-    fallbackLng: 'cn',
+    lng: isNull(getCookie("language")) ? "KO" : getCookie("language"),
+    fallbackLng: "EN",
     debug: true,
     interpolation: {
       escapeValue: false,
