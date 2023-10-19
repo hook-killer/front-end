@@ -1,15 +1,15 @@
-import { jsonClient, multiPartClient } from "./DefaultClient";
+import { jsonClient, multiPartClient } from "./MainCustomClient";
 
 var requestMapping = "/notice"
 
-export const addNotice = (addNoticeForm) =>
-  jsonClient.post(requestMapping, addNoticeForm)
+export const addNotice = (addNoticeForm, language) =>
+  jsonClient(language).post(requestMapping, addNoticeForm)
 
-export const noticeList = () =>
-  jsonClient.get(`${requestMapping}`)
+export const noticeList = (language) =>
+  jsonClient(language).get(`${requestMapping}`)
 
-export const noticeDetail = (noticeArticleId) =>
-  jsonClient.get(`${requestMapping}/${noticeArticleId}`)
+export const noticeDetail = (noticeArticleId, language) =>
+  jsonClient(language).get(`${requestMapping}/${noticeArticleId}`)
 
 export const noticeDelete = (noticeArticleId) => 
   jsonClient.delete(`${requestMapping}/${noticeArticleId}`)

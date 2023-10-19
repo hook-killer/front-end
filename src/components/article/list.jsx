@@ -65,10 +65,10 @@ const ListArticleForm = ({ props }) => {
           <TableHead>
             <tr>
               <th>NO</th>
-              <th>{t("list.제목")}</th>
-              <th>{t("list.추천")}</th>
-              <th>{t("list.작성자")}</th>
-              <th>{t("list.작성일")}</th>
+              <th>{t("articlelist.제목")}</th>
+              <th>{t("articlelist.추천")}</th>
+              <th>{t("articlelist.작성자")}</th>
+              <th>{t("articlelist.작성일")}</th>
             </tr>
           </TableHead>
           <TableBody>
@@ -96,7 +96,7 @@ const ListArticleForm = ({ props }) => {
               variant="primary"
               className="w-100 text-center"
             >
-              {t("list.새글")}
+              {t("articlelist.새글")}
             </Button>
           </Link>
         </Col>

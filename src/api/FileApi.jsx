@@ -1,4 +1,4 @@
-import {multiPartClient} from "./DefaultClient";
+import {multiPartClient} from "./MainCustomClient";
 
 let requestMapping = "/file";
 

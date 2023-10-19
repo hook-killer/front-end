@@ -4,15 +4,18 @@ import styled from"styled-components";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const NoticeDetail = () => {
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState('');
 
   const {noticeArticleId} = useParams();
 
   useEffect(() => {
+    const languageChangeHandler = () => {
     console.log('useEffect 들어옴')
-    noticeDetailAxios(noticeArticleId)
+    noticeDetailAxios(noticeArticleId, i18n.language)
       .then((response) => {
         console.log("response : ", response)
         console.log("response.data.length : ", response.data.length)
@@ -31,7 +34,20 @@ const NoticeDetail = () => {
           console.log('Request Error: ', error.message);
         }
       });
-  }, []);
+  };
+  
+  languageChangeHandler();
+
+  // 리스너 등록
+  i18n.on("languageChanged", languageChangeHandler);
+
+  // 컴포넌트가 언마운트될 때 리스너 제거
+  return () => {
+    i18n.off("languageChanged", languageChangeHandler);
+  };
+}, [i18n]);
+
+console.log(data);
 
   return (
     <>
@@ -39,23 +55,23 @@ const NoticeDetail = () => {
       <Table>
         <TableBody>
           <tr>
-            <th style={{textAlign: 'center'}}>번호</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.번호')}</th>
             <td>{data.id}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>제목</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.제목')}</th>
             <td>{data.title}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>작성일</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.작성일')}</th>
             <td>{data.createAt}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>내용</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.내용')}</th>
             <td dangerouslySetInnerHTML={{ __html : data.content }}></td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>첨부파일</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.첨부파일')}</th>
             <td>{data.file}</td>
           </tr>
         </TableBody>
@@ -66,19 +82,19 @@ const NoticeDetail = () => {
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         
         <Link to={ `/notice/update/${data.id}` }>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">수정</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.수정")}</Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">목록</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.목록")}</Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">삭제</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.삭제")}</Button>
         </Link>
       </Col>
     </Row>
