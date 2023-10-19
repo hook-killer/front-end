@@ -2,21 +2,25 @@ import "normalize.css";
 import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
-import Test1 from "./components/test/test1";
+import PopularBox from "./components/main/PopularBox";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
 import "./App.css";
-import { useState } from "react";
-import { getCookie } from "./utils/ReactCookie";
+import React, { useState, useEffect } from "react";
+import { getCookie, setCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
+import RegisterForm from "./components/auth/Register";
+import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
-import ArticleList from "./components/article/list"
+import ArticleList from "./components/article/list";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
+import SearchResultList from "./components/search/result";
+import Mypage from "./pages/Mypage";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -25,17 +29,21 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
+  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "" : storageNickName
+    isNull(storageNickName) ? "관리자" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
   );
+
+  useEffect(() => {
+    setCookie("language", language);
+  }, [language]);
 
   return (
     <>
@@ -55,40 +63,38 @@ const App = () => {
           />
           <Container>
             <Routes>
-              <Route exact path="/" element={Test1()} />
+              <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
+              <Route path="/mypage" element={<Mypage />} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
               />
               <Route
                 path="/register"
-                element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
+                element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-                <Route
-                path="/article/add"
-                element={<ArticleAdd />}
+              <Route path="/article/add" element={<ArticleAdd />} />
+              <Route path="/article/list/:boardId" element={<ArticleList />} />
+              <Route
+                path="/search/result/:word"
+                element={<SearchResultList />}
               />
-                <Route
-                path="/notice/add"
-                element={<NoticeAdd/>}
-              />
-                <Route
-                path="/notice"
-                element={<NoticeList/>} 
-              />
-                <Route 
+              <Route path="/notice/add" element={<NoticeAdd />} />
+              <Route path="/notice" element={<NoticeList />} />
+              <Route
                 path="/notice/:noticeArticleId"
-                element={<NoticeDetail/>}
+                element={<NoticeDetail />}
               />
-                <Route
+              <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate/>}
+                element={<NoticeUpdate />}
               />
-                <Route
-                path="/article/list/:boardId"
-                element={<ArticleList />}
+              <Route
+                path="/sendVerificationEmail"
+                element={<EmailVerification />}
               />
+              <Route />
             </Routes>
           </Container>
         </BrowserRouter>

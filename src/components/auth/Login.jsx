@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styled from "styled-components";
 import kakaoBtn from "../../asset/kakao.png";
+import { Link } from "react-router-dom";
+
 
 // TODO: 로그인 기능 구현하기!!!!!
-const KakaoLogin = (e) => {};
+const KakaoLogin = (e) => { };
 
 const LoginForm = ({ props }) => {
   const [username, setUsername] = useState("");
@@ -62,7 +64,10 @@ const LoginForm = ({ props }) => {
         </Row>
         <Row>
           <Col xs={12} className="text-center">
-            <RegisterButton type="button" value="Register" />
+            <Link to="/register">
+              <RegisterButton type="button" value="Register" />
+            </Link>
+
           </Col>
         </Row>
         <Separator>

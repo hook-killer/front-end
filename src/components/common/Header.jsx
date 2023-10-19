@@ -2,37 +2,41 @@ import React, { useEffect, useState } from "react";
 import logo from "../../asset/logo192.png";
 import styled from "styled-components";
 import SearchBar from "../search/searchBar";
+import ReleatedSearches from "../search/RelatedSearches";
 import { Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getCookie, removeCookie, setCookie } from "../../utils/ReactCookie";
 import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
+import RelatedSearches from "../search/RelatedSearches";
+import { useTranslation } from "react-i18next";
 
 const SelectLanguage = (props) => {
   const lang = props.language;
   const setLanguage = props.languageSet;
+  const { t, i18n } = useTranslation();
 
   const languageData = [
-    { value: "KO", description: "한국어" },
-    { value: "EN", description: "English" },
-    { value: "CN", description: "中文" },
-    { value: "JP", description: "日本語" },
+    { value: "KO", description: t("한국어") },
+    { value: "EN", description: t("English") },
+    { value: "CN", description: t("中文") },
+    { value: "JP", description: t("日本語") },
   ];
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
     // setLanguage(e.target.value);
     // removeCookie("language");
     // setCookie("language", e.target.value);
-  
+
     const newLanguage = e.target.value;
-  setLanguage(newLanguage);
+    i18n.changeLanguage(newLanguage);
+    // 언어를 쿠키에 저장
+    removeCookie("language");
+    setCookie("language", newLanguage);
+    setLanguage(newLanguage);
 
-  // 언어를 쿠키에 저장
-  removeCookie("language");
-  setCookie("language", newLanguage);
-
-  // 페이지 새로고침
-  window.location.reload();
+    // 페이지 새로고침
+    // window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
@@ -59,8 +63,6 @@ const NotLoginMenu = () => {
     </Link>
   );
 };
-
-
 
 const LoginMenu = (props) => {
   let role = props.role;
@@ -124,19 +126,19 @@ const LoginMenu = (props) => {
               </Link>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  <small>한국어 모임</small>
+                  {t("header.cnBaord")}
                 </button>
               </Link>
 
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  <small>일본어 모임</small>
+                  {t("header.jpBaord")}
                 </button>
               </Link>
 
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  <small>중국어 모임</small>
+                  {t("header.cnBaord")}
                 </button>
               </Link>
             </div>
@@ -199,16 +201,19 @@ const MemberArea = (props) => {
   return LoginMenu(props);
 };
 
-const doSearching = (e) => {
-  // TODO: Search Event작성
-  console.log("쎼환이 빠뽀~~~~");
-};
-
 const Header = (props) => {
+  const { t } = useTranslation();
   let role = props.role;
   let token = props.token;
   let language = props.language;
   let nickName = props.nickName;
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const doSearching = (e) => {
+    // TODO: Search Event작성
+    setSearchTerm(e.target.value);
+  };
 
   return (
     <HeaderDiv>
@@ -228,11 +233,11 @@ const Header = (props) => {
         </Col>
         <Col
           xs={7}
-          style={{ padding: "auto" }}
-          className="align-items-center d-flex align-items-center"
+          style={{ padding: "auto", position: "relative" }}
+          className="align-items-center flex align-items-center"
         >
           <SearchBar onChange={(e) => doSearching(e)} />
-          {/* TODO:검색단어 입력시 조회창 입력 */}
+          <RelatedSearches searchTerm={searchTerm} />
         </Col>
         <Col
           xs={3}
@@ -254,19 +259,19 @@ const Header = (props) => {
       <Row>
         <Link to="/article/list/1" style={{ textDecoration: "none" }}>
           <button className="list-group-item list-group-item-action px-4">
-            <small>한국어 모임</small>
-            </button>
-          </Link>
+            {t("header.koBoard")}
+          </button>
+        </Link>
         <Link to="/article/list/2" style={{ textDecoration: "none" }}>
-            <button className="list-group-item list-group-item-action px-4">
-            <small>일본어 모임</small>
-            </button>
-          </Link>
+          <button className="list-group-item list-group-item-action px-4">
+            {t("header.jpBoard")}
+          </button>
+        </Link>
         <Link to="/article/list/3" style={{ textDecoration: "none" }}>
-            <button className="list-group-item list-group-item-action px-4">
-            <small>중국어 모임</small>
-            </button>
-          </Link>
+          <button className="list-group-item list-group-item-action px-4">
+            {t("header.cnBoard")}
+          </button>
+        </Link>
       </Row>
     </HeaderDiv>
   );

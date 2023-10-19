@@ -6,7 +6,7 @@ import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-
+import { Link } from "react-router-dom";
 
 const ReactQuillTemplate = (props) => {
   const [quillValue, setQuillValue] = useState("");
@@ -14,7 +14,7 @@ const ReactQuillTemplate = (props) => {
   const quillRef = useRef(null);
 
   const handleQuillChange = (e) => {
-    console.log(e)
+    console.log(e);
     setQuillValue(e);
   };
 
@@ -69,7 +69,7 @@ const ReactQuillTemplate = (props) => {
         },
       },
     };
-  },[]);
+  }, []);
 
   let formats = [
     "header",
@@ -89,61 +89,68 @@ const ReactQuillTemplate = (props) => {
   ];
 
   const handleButtonClick = async () => {
+    console.log("title : ", title);
+    console.log("quillValue : ", quillValue);
 
-    console.log('title : ', title)
-    console.log('quillValue : ', quillValue)
-
-      const addArticleForm = {
-        boardId: 1,
-        articleId: 1,
-        orgArticleLanguage: "KO",
-        title: title,
-        content: quillValue,
-      };
+    const addArticleForm = {
+      boardId: 1,
+      articleId: 1,
+      orgArticleLanguage: "KO",
+      title: title,
+      content: quillValue,
+    };
 
     articleAxios(addArticleForm)
-    .then(response => console.log("response : ", response))
-    .catch(error => console.log("error : ", error));
-
+      .then((response) => console.log("response : ", response))
+      .catch((error) => console.log("error : ", error));
   };
-    
 
   return (
-      <>
+    <>
       <Row>
-      <Col className="w-100">
+        <Col className="w-100">
           <TextField
-          type="text"
-          placeholder="제목을 입력하세요!"
-          style={{
-            marginTop: "10px",
-            marginBottom: "10px",
-            fontSize: "24px",
-            width: "100%"
-          }}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+            type="text"
+            placeholder="제목을 입력하세요!"
+            style={{
+              marginTop: "10px",
+              marginBottom: "10px",
+              fontSize: "24px",
+              width: "100%",
+            }}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Col>
       </Row>
       <Row className="mb-5">
-
         <Col className="w-100">
-        <ReactQuill
-          ref={quillRef}
-          style={{ height: "100%", width: "100%" }}
-          theme="snow"
-          modules={modules}
-          formats={formats}
-          value={quillValue}
-          onChange={handleQuillChange}
-      />
+          <ReactQuill
+            ref={quillRef}
+            style={{ height: "100%", width: "100%" }}
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={quillValue}
+            onChange={handleQuillChange}
+          />
         </Col>
       </Row>
-      
       <Row className="mt-5">
-        <Col className="d-flex justify-content-end" xs={12}>
-          <Button variant="primary" className="w-100 text-center" onClick={handleButtonClick}>작성</Button>
+        <Col
+          className="d-flex justify-content-end justify-content-center"
+          xs={12}
+        >
+          <Link to={{ pathname: "/article/list" }}>
+            <Button
+              variant="primary"
+              className="w-100 text-center"
+              style={{ backgroundColor: "#6A24FE", border: "none" }}
+              onClick={handleButtonClick}
+            >
+              작성
+            </Button>
+          </Link>
         </Col>
       </Row>
     </>
