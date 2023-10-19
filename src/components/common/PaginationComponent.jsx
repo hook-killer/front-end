@@ -8,7 +8,8 @@ const PaginationComponent = ({ totalItems, itemsPerPage, onPageChange }) => {
   const handlePageChange = (page) => {
     console.log("페이지네이션에서 handlePageChange 실행");
     setActivePage(page);
-    onPageChange((page - 1) * itemsPerPage, itemsPerPage);
+    // onPageChange((page - 1) * itemsPerPage, itemsPerPage);
+    onPageChange((page - 1), itemsPerPage);
   };
 
   return (

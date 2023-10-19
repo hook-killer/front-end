@@ -11,5 +11,8 @@
     "작성일": "Date",
     "추천": "Recommend",
     "새글": "New Article"
+  },
+  "searchBar": {
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ" : "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
   }
 }
