@@ -5,8 +5,8 @@ var addRequestMapping = "/article";
 export const addArticle = (addArticleForm) =>
   jsonClient.post(addRequestMapping, addArticleForm);
 
-export const listArticle = (boardId) =>
-  jsonClient.get(`${addRequestMapping}/list/${boardId}`);
+export const listArticle = (boardId, language) =>
+  jsonClient(language).get(`${addRequestMapping}/list/${boardId}`);
 
-export const popularArticle = (boardId) =>
-  jsonClient.get(`${addRequestMapping}/popular/${boardId}`);
+export const popularArticle = (boardId, language) =>
+  jsonClient(language).get(`${addRequestMapping}/popular/${boardId}`);

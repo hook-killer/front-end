@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { popularArticle } from "../../api/ArticleApi";
 import { Link } from "react-router-dom";
 import { Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const GetNumberIcon = (number) => {
   return number < 5 ? (
@@ -12,7 +13,7 @@ const GetNumberIcon = (number) => {
   );
 };
 
-const RenderRankingBox = (props) => {
+const RenderRankingBox = (props, t) => {
   const board = props.board;
   const articles = props.articles;
   const articleLength = articles.length;
@@ -45,7 +46,9 @@ const RenderRankingBox = (props) => {
     <RankingDivBox key={`popularRankingBox_${board.boardId}`}>
       <Row className="d-flex justify-content-end mb-0 align-items-end">
         <Col>
-          <p className="h4 d-inline-block text-truncate">{`${board.description}게시판 인기 게시물`}</p>
+          <p className="h4 d-inline-block text-truncate">
+            {t(`main.popular[${board.boardId}]`)}
+          </p>
         </Col>
         <Col className="text-end">
           <Link
@@ -62,39 +65,52 @@ const RenderRankingBox = (props) => {
 };
 
 const PopularBox = () => {
+  const { t, i18n } = useTranslation();
+
   const [boards, setBoards] = useState([
-    { boardId: 1, description: "한국" },
-    { boardId: 2, description: "일본" },
-    { boardId: 3, description: "중국" },
+    { boardId: 1, description: t("main.koPopular") },
+    { boardId: 2, description: t("main.jpPopular") },
+    { boardId: 3, description: t("main.cnPopular") },
   ]);
   const [articleData, setArticleData] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const requests = [];
-        //순서 보장을위함
-        for (let i = 0; i < boards.length; i++) {
-          const board = boards[i];
-          const response = await popularArticle(board.boardId);
+  const setArticleDataByServer = async () => {
+    try {
+      const requests = [];
+      //순서 보장을위함
+      for (let i = 0; i < boards.length; i++) {
+        const board = boards[i];
+        const response = await popularArticle(board.boardId, i18n.language);
 
-          requests.push({
-            board: board,
-            articles: response.data,
-          });
-        }
-        setArticleData(requests);
-      } catch (error) {
-        console.error("Axios Error");
+        requests.push({
+          board: board,
+          articles: response.data,
+        });
       }
-    };
-    fetchData();
+      setArticleData(requests);
+    } catch (error) {
+      console.error("Axios Error");
+    }
+  };
+
+  useEffect(() => {
+    setArticleDataByServer();
   }, []);
+
+  useEffect(() => {
+    setArticleDataByServer();
+    // 리스너 등록
+    i18n.on("languageChanged", setArticleDataByServer);
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", setArticleDataByServer);
+    };
+  }, [i18n]);
 
   return (
     <>
       {articleData.map((data, index) => {
-        return RenderRankingBox(data);
+        return RenderRankingBox(data, t);
       })}
     </>
   );

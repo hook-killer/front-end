@@ -12,7 +12,12 @@
     "추천": "推薦",
     "새글": "サグル"
   },
+  "main": {
+    "popular[1]": "韓国掲示板 人気 掲示物",
+    "popular[2]": "日本掲示板 人気 掲示板",
+    "popular[3]": "中国語掲示板 人気 掲示板"
+  },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ" : "検索語を入力してください ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "検索語を入力してください ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
   }
 }

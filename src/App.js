@@ -41,10 +41,6 @@ const App = () => {
     isNull(storageProfile) ? "" : storageProfile
   );
 
-  useEffect(() => {
-    setCookie("language", language);
-  }, [language]);
-
   return (
     <>
       <LayoutDiv>
