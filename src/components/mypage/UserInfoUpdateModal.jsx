@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { updateUserInfo, getUserInfo } from "../../api/MypageApi";
 import jwtDecode from "jwt-decode";
 
-const UserInfoUpdateModal = () => {
-  const token = localStorage.getItem("token");
+const UserInfoUpdateModal = ({ props }) => {
+  const token = props.token;
+  const language = props.language;
   const decodedToken = jwtDecode(token);
   const userId = decodedToken.id;
 
@@ -17,7 +18,7 @@ const UserInfoUpdateModal = () => {
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await getUserInfo();
+        const response = await getUserInfo(language, token);
         const data = response.data;
         setNickName(data.nickName);
         setThumbnail(data.thumbnail);
@@ -52,7 +53,7 @@ const UserInfoUpdateModal = () => {
     };
 
     try {
-      const response = await updateUserInfo(userInfoToUpdate);
+      const response = await updateUserInfo(userInfoToUpdate, language, token);
 
       if (response.data.result) {
         setMessage(response.data.message);

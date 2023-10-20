@@ -4,20 +4,20 @@ import UserProfile from "../components/mypage/UserProfile";
 import MypageList from "../components/mypage/MypageList";
 import "./Mypage.css";
 
-const Mypage = () => {
+const Mypage = ({ token, language }) => {
   return (
     <div className="mypage-container">
       <div className="content">
         <div className="left-section">
           <div className="left-top">
-            <UserThumbnail></UserThumbnail>
+            <UserThumbnail token={token} language={language}></UserThumbnail>
           </div>
           <div className="left-bottom">
-            <UserProfile></UserProfile>
+            <UserProfile token={token} language={language}></UserProfile>
           </div>
         </div>
         <div className="right-section">
-          <MypageList></MypageList>
+          <MypageList token={token} language={language}></MypageList>
         </div>
       </div>
     </div>

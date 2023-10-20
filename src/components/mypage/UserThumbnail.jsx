@@ -1,20 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   uploadThumbnail,
   getUserInfo,
   updateUserInfo,
 } from "../../api/MypageApi";
 
-const ThumbnailComponent = () => {
+const UserThumbnail = ({ token, language }) => {
   const [userId, setUserId] = useState(null); // 유저 아이디 상태 추가
   const [thumbnail, setThumbnail] = useState("");
   const [file, setFile] = useState(null);
+  const hiddenFileInput = useRef(null);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
       try {
-        const response = await getUserInfo();
-        if (response && response.data) {
+        const response = await getUserInfo(language, token);
+        if (response.status == 200) {
           if (response.data.thumbnail) {
             setThumbnail(response.data.thumbnail);
           }
@@ -30,8 +31,20 @@ const ThumbnailComponent = () => {
     fetchUserInfo();
   }, []);
 
-  const handleChange = (event) => {
-    let selectedFile = event.target.files[0];
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      handleFileChange(files[0]);
+      uploadAndSave(files[0]);
+    }
+  };
+
+  const handleFileChange = (selectedFile) => {
     let reader = new FileReader();
 
     reader.onloadend = () => {
@@ -44,14 +57,22 @@ const ThumbnailComponent = () => {
     }
   };
 
-  const handleSubmit = async () => {
+  const handleClick = async () => {
+    hiddenFileInput.current.click();
+  };
+
+  const uploadAndSave = async (file) => {
     if (file) {
       try {
-        const uploadResponse = await uploadThumbnail(file);
+        const uploadResponse = await uploadThumbnail(file, token);
 
         if (uploadResponse.data.result) {
           const newThumbnailPath = uploadResponse.data.thumnail;
-          await updateUserInfo({ userId: userId, thumbnail: newThumbnailPath }); // 유저 아이디 상태 사용
+          await updateUserInfo(
+            { userId: userId, thumbnail: newThumbnailPath },
+            language,
+            token
+          );
           setThumbnail(newThumbnailPath);
 
           alert(uploadResponse.data.message);
@@ -70,16 +91,36 @@ const ThumbnailComponent = () => {
         style={{
           borderRadius: "50%",
           overflow: "hidden",
-          width: "100px",
-          height: "100px",
+          width: "200px",
+          height: "200px",
         }}
       >
         <img src={thumbnail} alt="" style={{ width: "100%", height: "100%" }} />
       </div>
-      <input type="file" onChange={handleChange} />
-      <button onClick={handleSubmit}>수정</button>
+      <div
+        onClick={handleClick}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+        }}
+      >
+        📂 Upload Area
+      </div>
+      <input
+        type="file"
+        ref={hiddenFileInput}
+        onChange={(e) => {
+          handleFileChange(e.target.files[0]);
+          uploadAndSave(e.target.files[0]); // 즉시 파일 업로드
+        }}
+        style={{ display: "none" }}
+      />
     </div>
   );
 };
 
-export default ThumbnailComponent;
+export default UserThumbnail;

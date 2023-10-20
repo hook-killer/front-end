@@ -1,36 +1,84 @@
 import React, { useState, useEffect } from "react";
 import { myPageList as myPageListAxios } from "../../api/MypageApi";
-import { useParams } from "react-router";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-const MypageList = () => {
-  const { searchType } = useParams(); // URL에서 searchType을 가져옴
+const TableBodyContent = (searchType, rowDatas) => {
+  console.log("TableBodyContent : >>> ", searchType, rowDatas);
+  if (searchType == "article") {
+    return ArticleRow(rowDatas);
+  }
+  if (searchType == "reply") {
+    return ReplyRow(rowDatas);
+  }
+  return LikeRow(rowDatas);
+};
+
+const ArticleRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`ArticleRow_${rowData.boardId}_${index}`}>
+      <td>{rowData.boardId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.createAt}</td>
+      <td>{rowData.likeCount}</td>
+    </tr>
+  ));
+
+const ReplyRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`ReplyRow_${rowData.articleId}_${index}`}>
+      <td>{rowData.articleId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.content}</td>
+      <td>{rowData.createAt}</td>
+    </tr>
+  ));
+
+const LikeRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`LikeRow_${rowData.boardId}_${index}`}>
+      <td>{rowData.boardId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.createdUser?.nickName}</td>
+      <td>{rowData.createAt}</td>
+    </tr>
+  ));
+
+const MypageList = ({ token, language }) => {
+  // const { searchType } = useParams(); // URL에서 searchType을 가져옴
+
+  const [searchType, setSearchType] = useState("article");
 
   const [items, setItems] = useState([]);
 
+  const myCreatedListRender = async () => {
+    try {
+      const response = await myPageListAxios(language, token, searchType);
+      if (response.status == 200) {
+        console.log("response : ", response);
+        setItems(response.data);
+        return;
+      }
+      throw new Error("Not Success Error");
+    } catch (error) {
+      console.log("fucking");
+    }
+  };
   useEffect(() => {
-    myPageListAxios(searchType)
-      .then((response) => {
-        if (response.data && response.data.length > 0) {
-          setItems(response.data);
-          console.log(response.data);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log("Server Error:", error.response.data);
-        } else if (error.request) {
-          console.log("No response from server:", error.request);
-        } else {
-          console.log("Request Error:", error.message);
-        }
-      });
+    myCreatedListRender();
   }, [searchType]);
+
+  const changeSearchType = (searchTypeValue) => {
+    setSearchType(searchTypeValue);
+  };
 
   return (
     <>
-      <Link to="/mypage/article">게시글</Link>
+      <div>
+        <button onClick={() => changeSearchType("article")}>게시글</button>
+        <button onClick={() => changeSearchType("reply")}>댓글</button>
+        <button onClick={() => changeSearchType("like")}>좋아요</button>
+      </div>
+
       <TableContainer className="mypagelist-container">
         <Table className="post-table">
           <ColGroup>
@@ -41,7 +89,7 @@ const MypageList = () => {
           </ColGroup>
           <TableHead>
             <tr>
-              {searchType === "ARTICLE" && (
+              {searchType === "article" && (
                 <>
                   <th>게시판</th>
                   <th>제목</th>
@@ -49,7 +97,7 @@ const MypageList = () => {
                   <th>추천수</th>
                 </>
               )}
-              {searchType === "REPLY" && (
+              {searchType === "reply" && (
                 <>
                   <th>게시판</th>
                   <th>제목</th>
@@ -57,7 +105,7 @@ const MypageList = () => {
                   <th>작성일</th>
                 </>
               )}
-              {searchType === "LIKE" && (
+              {searchType === "like" && (
                 <>
                   <th>게시판</th>
                   <th>제목</th>
@@ -67,36 +115,7 @@ const MypageList = () => {
               )}
             </tr>
           </TableHead>
-          <TableBody>
-            {items.map((item, index) => (
-              <tr key={index}>
-                {searchType === "ARTICLE" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.createAt}</td>
-                    <td>{item.likeCount}</td>
-                  </>
-                )}
-                {searchType === "REPLY" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.replyContent}</td>
-                    <td>{item.createAt}</td>
-                  </>
-                )}
-                {searchType === "LIKE" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.createUser}</td>
-                    <td>{item.createAt}</td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </TableBody>
+          <TableBody>{TableBodyContent(searchType, items)}</TableBody>
         </Table>
       </TableContainer>
     </>

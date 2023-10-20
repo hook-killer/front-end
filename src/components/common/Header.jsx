@@ -10,6 +10,7 @@ import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
 import RelatedSearches from "../search/RelatedSearches";
 import { useTranslation } from "react-i18next";
+import Mypage from "../../pages/Mypage";
 
 const SelectLanguage = (props) => {
   const lang = props.language;
@@ -71,6 +72,8 @@ const LoginMenu = (props) => {
   let nickName = props.nickName;
   let profile = props.profile;
 
+  const { t } = useTranslation();
+
   const onClickLogout = (e) => {
     removeCookie("token");
     removeCookie("role");
@@ -119,7 +122,7 @@ const LoginMenu = (props) => {
               style={{ margin: "0 -24px 0" }}
             >
               {/* LINK연결하기 */}
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to={Mypage} style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   <small>마이페이지</small>
                 </button>

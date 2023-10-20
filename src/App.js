@@ -29,8 +29,17 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
+  const [token, setToken] = useState(
+    isNull(storageToken)
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzE4Njk5LCJleHAiOjE2OTc3NTQ2OTksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.vJa-5_pqhoBg9-xLGg8bF2JllYEyiYG_gO5kKjAs4ap8Xc9b6eR_ZCQ-MnIBwrA7vFjWEr56T7oZKaQGI4mRng"
+      : storageToken
+  );
+  if (isNull(storageToken))
+    setCookie(
+      "token",
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzE4Njk5LCJleHAiOjE2OTc3NTQ2OTksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.vJa-5_pqhoBg9-xLGg8bF2JllYEyiYG_gO5kKjAs4ap8Xc9b6eR_ZCQ-MnIBwrA7vFjWEr56T7oZKaQGI4mRng"
+    );
+  const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
@@ -65,7 +74,10 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage />} />
+              <Route
+                path="/mypage"
+                element={<Mypage token={token} language={language} />}
+              />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}

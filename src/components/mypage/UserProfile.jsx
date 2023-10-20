@@ -2,24 +2,28 @@ import React, { useState, useEffect } from "react";
 import { getUserInfo } from "../../api/MypageApi";
 import UserInfoUpdateModal from "./UserInfoUpdateModal"; // UserInfoUpdateModal 컴포넌트를 임포트하세요.
 
-const UserProfile = () => {
+const UserProfile = ({ token, language }) => {
   const [userInfo, setUserInfo] = useState({
     email: "",
     nickName: "",
-    createAt: "",
+    createdAt: "",
   });
 
   const [showModal, setShowModal] = useState(false); // 모달 표시 여부를 위한 상태
 
   useEffect(() => {
-    async function fetchMyPageInfo() {
+    const fetchMyPageInfo = async () => {
       try {
-        const response = await getUserInfo();
-        setUserInfo(response.data); // 데이터 구조에 따라 적절히 수정해야 할 수 있습니다.
+        const response = await getUserInfo(language, token);
+        if (response.status == 200) {
+          setUserInfo(response.data);
+          return;
+        }
+        throw new Error("Response Fail");
       } catch (error) {
         console.error("유저 정보를 가져오는데 실패했습니다.", error);
       }
-    }
+    };
 
     fetchMyPageInfo();
   }, []);
@@ -37,7 +41,7 @@ const UserProfile = () => {
         </div>
         <div>
           <label>생성일 : </label>
-          <span>{userInfo.createAt}</span>
+          <span>{userInfo.createdAt}</span>
         </div>
       </form>
       <button onClick={() => setShowModal(true)}>수정</button>{" "}
