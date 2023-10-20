@@ -30,7 +30,7 @@ i18n
     resources,
     lng: isNull(getCookie("language")) ? "KO" : getCookie("language"),
     fallbackLng: "EN",
-    debug: true,
+    debug: false,
     interpolation: {
       escapeValue: false,
     },
