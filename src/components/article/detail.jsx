@@ -104,7 +104,7 @@ const ArticleDetail = (props) => {
       <Button
         style={{ backgroundColor: "#6A24FE", border: "none" }}
         variant="primary"
-        className="w-50 text-center"
+        className="w-100 text-center"
       >
         {t('articledetail.삭제')}
       </Button>
@@ -127,6 +127,7 @@ box-sizing: border-box;
 justify-content: center;
 padding: 10px;
 align-items: center;
+margin-top: 30px;
 `;
 
 const Table = styled.table`

@@ -139,6 +139,7 @@ const TableContainer = styled.div`
   justify-content: center;
   padding: 10px;
   align-items: center;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`

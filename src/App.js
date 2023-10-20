@@ -32,7 +32,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NjAzNTQ1LCJleHAiOjE2OTc2Mzk1NDUsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.RjqfcRyI9JzgEDqOxWC9xk_ZBns9skxns3V0F9qdLpjl7mTyjl5CyWjQ5xa7MueXYgq2V3TFTiYqaBttizAIeA" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
