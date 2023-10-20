@@ -14,7 +14,7 @@ const ArticleDelete = (props) => {
       // 기사 삭제 요청을 보냅니다.
       const response = await articleAxios(articleId, i18n.language, token);
 
-      if (response.status === 204) {
+      if (response.status === 200) {
         // 성공적으로 삭제된 경우, 루트 페이지로 리디렉션합니다.
         navigate("/");
         // TODO: 삭제 성공 메시지를 추가할 수 있습니다.
