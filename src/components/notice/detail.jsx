@@ -105,10 +105,13 @@ console.log(data);
 export default NoticeDetail;
 
 const TableContainer = styled.div`
+  border-radius: 5px;
   display: flex;
+  box-sizing: border-box;
   justify-content: center;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`

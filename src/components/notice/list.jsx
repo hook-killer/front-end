@@ -49,9 +49,9 @@ const NoticeList = ({props}) => {
 
   return (
     <>
-    <h4 style={{
+    {/* <h4 style={{
       marginTop: "30px"}}
-      >공지사항</h4>
+      >공지사항</h4> */}
     <TableContainer className="list-container">
       <Table className="notice-table">
         <ColGroup>
@@ -91,10 +91,13 @@ const NoticeList = ({props}) => {
 export default NoticeList;
 
 const TableContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
+border-radius: 5px;
+display: flex;
+box-sizing: border-box;
+justify-content: center;
+padding: 10px;
+align-items: center;
+margin-top: 30px;
 `;
 
 const Table = styled.table`
