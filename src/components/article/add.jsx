@@ -16,8 +16,8 @@ const ArticleAdd = (props) => {
   const quillRef = useRef(null);
   const token = props.token;
   const language = i18n.language;
-  console.log("token : ", token, " language : ", language);
 
+  console.log('게시물 작성 페이지', props)
   const handleQuillChange = (e) => {
     console.log(e);
     setQuillValue(e);
@@ -116,7 +116,7 @@ const ArticleAdd = (props) => {
       title: title,
       content: quillValue,
     };
-
+    console.log(token)
     articleAxios(addArticleForm, i18n.language, token)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
@@ -158,7 +158,7 @@ const ArticleAdd = (props) => {
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
-          <Link to={{ pathname: "/article/list" }}>
+          <Link to={{ pathname: "/" }}>
             <Button
               variant="primary"
               className="w-100 text-center"
