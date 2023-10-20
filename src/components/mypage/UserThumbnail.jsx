@@ -5,8 +5,8 @@ import {
   updateUserInfo,
 } from "../../api/MypageApi";
 
-const UserThumbnail = ({ token, language }) => {
-  const [userId, setUserId] = useState(null); // 유저 아이디 상태 추가
+const UserThumbnail = ({ language, token }) => {
+  const [userId, setUserId] = useState(null);
   const [thumbnail, setThumbnail] = useState("");
   const [file, setFile] = useState(null);
   const hiddenFileInput = useRef(null);
@@ -20,7 +20,7 @@ const UserThumbnail = ({ token, language }) => {
             setThumbnail(response.data.thumbnail);
           }
           if (response.data.userId) {
-            setUserId(response.data.userId); // 유저 아이디 상태 설정
+            setUserId(response.data.userId);
           }
         }
       } catch (error) {
@@ -65,6 +65,7 @@ const UserThumbnail = ({ token, language }) => {
     if (file) {
       try {
         const uploadResponse = await uploadThumbnail(file, token);
+        console.log("token", token);
 
         if (uploadResponse.data.result) {
           const newThumbnailPath = uploadResponse.data.thumnail;

@@ -43,9 +43,8 @@ const LikeRow = (rowDatas) =>
     </tr>
   ));
 
-const MypageList = ({ token, language }) => {
+const MypageList = ({ language, token }) => {
   // const { searchType } = useParams(); // URL에서 searchType을 가져옴
-
   const [searchType, setSearchType] = useState("article");
 
   const [items, setItems] = useState([]);

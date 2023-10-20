@@ -20,7 +20,7 @@ import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
-import Mypage from "../pages/Mypage";
+import Mypage from "./pages/mypage";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -31,13 +31,13 @@ const App = () => {
 
   const [token, setToken] = useState(
     isNull(storageToken)
-      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzE4Njk5LCJleHAiOjE2OTc3NTQ2OTksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.vJa-5_pqhoBg9-xLGg8bF2JllYEyiYG_gO5kKjAs4ap8Xc9b6eR_ZCQ-MnIBwrA7vFjWEr56T7oZKaQGI4mRng"
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc2MDMwLCJleHAiOjE2OTc4MTIwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.8ulvoC4PKfeQYVBtTsdYTbxYJ59I2-veMCNsG1j1DuRF77JU8PJBCdRRPbaQLULv0PNuR-902f7DDzRMTR3Sfg"
       : storageToken
   );
   if (isNull(storageToken))
     setCookie(
       "token",
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzE4Njk5LCJleHAiOjE2OTc3NTQ2OTksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.vJa-5_pqhoBg9-xLGg8bF2JllYEyiYG_gO5kKjAs4ap8Xc9b6eR_ZCQ-MnIBwrA7vFjWEr56T7oZKaQGI4mRng"
+      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc2MDMwLCJleHAiOjE2OTc4MTIwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.8ulvoC4PKfeQYVBtTsdYTbxYJ59I2-veMCNsG1j1DuRF77JU8PJBCdRRPbaQLULv0PNuR-902f7DDzRMTR3Sfg"
     );
   const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
   const [language, setLanguage] = useState(

@@ -11,13 +11,16 @@ const Mypage = ({ token, language }) => {
         <div className="left-section">
           <div className="left-top">
             <UserThumbnail token={token} language={language}></UserThumbnail>
+            {console.log("token", token)}
           </div>
           <div className="left-bottom">
             <UserProfile token={token} language={language}></UserProfile>
+            {console.log("token", token)}
           </div>
         </div>
         <div className="right-section">
           <MypageList token={token} language={language}></MypageList>
+          {console.log("token", token)}
         </div>
       </div>
     </div>

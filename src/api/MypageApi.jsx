@@ -1,4 +1,4 @@
-import { jsonClient, multiPartClient } from "./MainCustomClient";
+import { jsonClient, multiPartClient } from "./DefaultClient";
 
 var myPageRequestMapping = "/mypage";
 
@@ -22,11 +22,11 @@ export const myPageList = (language, token, searchType) =>
     `${myPageRequestMapping}/mylist/${searchType}`
   );
 
-export const uploadThumbnail = (file, token) => {
+export const uploadThumbnail = (filePath, token) => {
   const formData = new FormData();
-  formData.append("thumbnail", file);
+  formData.append("thumbnail", filePath);
 
-  return multiPartClient(token).put(
+  return multiPartClient(language, token).put(
     `${myPageRequestMapping}/thumbnail`,
     formData
   );
