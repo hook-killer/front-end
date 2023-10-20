@@ -37,7 +37,7 @@
     "react-popout": "^3.0.2",
     "react-quill": "^2.0.0",
     "react-router": "^6.16.0",
-    "react-router-dom": "^6.16.0",
+    "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "react-simple-widgets": "^6.7.0",
     "styled-component": "^2.8.0",

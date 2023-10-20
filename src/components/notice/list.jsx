@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from "react";
-import { noticeList as noticeListAxios } from "../../api/NoticeApi";
+import { noticeList as noticeAxios } from "../../api/NoticeApi";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -14,9 +14,23 @@ const NoticeList = ({props}) => {
     color: 'black'
   }
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+
+  const page = searchParams.get('page');
+  const articleLimit = searchParams.get('articleLimit');
+
+  console.log("searchParams : ", searchParams);
+  console.log("page : ", page);
+  console.log("articleLimit : ", articleLimit);
+
+  function queryString (page, artibleLimit) {
+    
+  }
+
   useEffect(() => {
     const languageChangeHandler = () => {
-    noticeListAxios(i18n.language)
+    noticeAxios(i18n.language)
       .then((response) => {
         if (response.data && response.data.length > 0) {
           setData(response.data);
@@ -49,9 +63,6 @@ const NoticeList = ({props}) => {
 
   return (
     <>
-    <h4 style={{
-      marginTop: "30px"}}
-      >공지사항</h4>
     <TableContainer className="list-container">
       <Table className="notice-table">
         <ColGroup>
@@ -80,7 +91,12 @@ const NoticeList = ({props}) => {
     <Row className="mt-5">
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         <Link to={{ pathname:'/notice/add' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.새글')}</Button>
+          <Button 
+          style={{backgroundColor:'#6A24FE', border:'none'}} 
+          variant="primary" 
+          className="w-100 text-center">
+            {t('noticelist.새글')}
+          </Button>
         </Link>
       </Col>
     </Row>
@@ -91,10 +107,13 @@ const NoticeList = ({props}) => {
 export default NoticeList;
 
 const TableContainer = styled.div`
+  border-radius: 5px;
   display: flex;
+  box-sizing: border-box;
   justify-content: center;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`

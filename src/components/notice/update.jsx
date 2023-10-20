@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
-import { noticeUpdate as noticeUpdateAxios } from "../../api/NoticeApi";
+import { noticeUpdate as noticeAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NoticeUpdate = (props) => {
+  const { t, i18n } = useTranslation();
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
+  const token = props.token;
+  const language = i18n.language;
+  console.log("token : ", token, " language : ", language);
 
   const handleQuillChange = (e) => {
     console.log(e);
@@ -36,6 +41,7 @@ const NoticeUpdate = (props) => {
             { color: [] },
             { background: [] },
           ],
+          ["clean"],
         ],
         handlers: {
           image: () => {
@@ -44,11 +50,11 @@ const NoticeUpdate = (props) => {
             input.setAttribute("accept", "image/*");
             input.click();
 
-            input.updateEventListener("change", async() => {
+            input.addEventListener("change", async() => {
               const file = input.files[0];
               const formData = new FormData();
-              FormData.append("image", file);
-              FormData.append("naverObjectStorageUsageType", "ARTICLE");
+              formData.append("image", file);
+              formData.append("naverObjectStorageUsageType", "ARTICLE");
 
               try {
                 const result = await imageAxios(formData);
@@ -86,63 +92,82 @@ const NoticeUpdate = (props) => {
     "background",
   ];
 
-  const handleButtonClick = async () => {
-    console.log("title : ", title);
-    console.log("quillValue : ", quillValue);
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
 
-    const noticeUpdateForm = {
+  // 리스너 등록
+  i18n.on("languageChanged", languageChangeHandler);
 
-      language: "KO",
-      title: title,
-      content: quillValue,
-    };
-
-    noticeUpdateAxios(noticeUpdateForm)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
+  // 컴포넌트가 언마운트될 때 리스너 제거
+  return () => {
+    i18n.off("languageChanged", languageChangeHandler);
   };
+}, [i18n]);
+
+const handleButtonClick = async () => {
+  console.log("title : ", title);
+  console.log("quillValue : ", quillValue);
+
+  const noticeUpdateForm = {
+
+    language: "KO",
+    title: title,
+    content: quillValue,
+  };
+
+  noticeAxios(noticeUpdateForm, i18n.language, token)
+  .then(response => console.log(response))
+  .catch(error => console.log(error));
+};
 
   return (
     <>
-    <Row>
-      <Col className="w-100">
-        <TextField 
-          type="text"
-          placeholder="제목을 입력하세요."
-          style={{
-            marginTop: "10px",
-            marginBottom: "10px",
-            fontSize: "24px",
-            width: "100%"
-          }}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </Col>
-    </Row>
-    <Row className="mb-5">
-
-      <Col className="w-100">
-        <ReactQuill
-          ref={quillRef}
-          style={{height: "100%", width: "100%"}}
-          theme="snow"
-          modules={modules}
-          formats={formats}
-          value={quillValue}
-          onChange={handleQuillChange}
-        />
-      </Col>
-    </Row>
-
-    <Row className="mt-5">
-        <Col className="d-flex justify-content-end justify-content-center" xs={12}>
-          <Link to={{pathname:"/notice"}}>
-            <Button variant="primary" className="w-100 text-center" style={{backgroundColor:'#6A24FE', border:'none'}} onClick={handleButtonClick}>작성</Button>
-          </Link>
+      <Row>
+        <Col className="w-100">
+          <TextField 
+            type="text"
+            placeholder={t('noticeadd.제목을 입력하세요.')}
+            style={{
+              marginTop: "10px",
+              marginBottom: "10px",
+              fontSize: "24px",
+              width: "100%"
+            }}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
         </Col>
       </Row>
-    </>
+      <Row className="mb-5">
+
+        <Col className="w-100">
+          <ReactQuill
+            ref={quillRef}
+            style={{height: "100%", width: "100%"}}
+            theme="snow"
+            modules={modules}
+            formats={formats}
+            value={quillValue}
+            onChange={handleQuillChange}
+          />
+        </Col>
+      </Row>
+
+      <Row className="mt-5">
+          <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+
+            <Link to={{pathname:"/notice"}}>
+              <Button 
+                variant="primary" 
+                className="w-100 text-center" 
+                style={{backgroundColor:'#6A24FE', border:'none'}} 
+                onClick={handleButtonClick}>
+                {t('noticeadd.작성')}
+              </Button>
+            </Link>
+          </Col>
+        </Row>
+      </>
   )
 };
 

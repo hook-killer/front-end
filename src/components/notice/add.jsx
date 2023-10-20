@@ -2,7 +2,7 @@ import React, { useState, useRef, useMemo } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
-import { addNotice as noticeAddAxios } from "../../api/NoticeApi";
+import { addNotice as noticeAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
@@ -16,6 +16,8 @@ const NoticeAdd = (props) => {
   const [language, setLanguage] = useState(i18n.language);
   const quillRef = useRef(null);
   const token = props.token;
+  // const language = i18n.language;
+  console.log("token : ", token, " language : ", language);
 
   const handleQuillChange = (e) => {
     console.log(e);
@@ -35,7 +37,13 @@ const NoticeAdd = (props) => {
             { indent: "+1" },
           ],
           ["link", "image"],
-          [{ align: [] }, { color: [] }, { background: [] }],
+
+          [
+            { align: [] },
+            { color: [] },
+            { background: [] },
+          ],
+          ["clean"],
         ],
         handlers: {
           image: () => {
@@ -47,8 +55,8 @@ const NoticeAdd = (props) => {
             input.addEventListener("change", async () => {
               const file = input.files[0];
               const formData = new FormData();
-              FormData.append("image", file);
-              FormData.append("naverObjectStorageUsageType", "ARTICLE");
+              formData.append("image", file);
+              formData.append("naverObjectStorageUsageType", "ARTICLE");
 
               try {
                 const result = await imageAxios(formData);
@@ -109,9 +117,9 @@ const NoticeAdd = (props) => {
       content: quillValue,
     };
 
-    noticeAddAxios(addNoticeForm, i18n.language, token)
-      .then((response) => console.log(response))
-      .catch((error) => console.log(error));
+    noticeAxios(addNoticeForm, i18n.language, token)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
   };
 
   return (

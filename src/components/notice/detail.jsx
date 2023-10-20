@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from "react";
-import { noticeDetail as noticeDetailAxios } from "../../api/NoticeApi";
+import { noticeDetail as noticeAxios } from "../../api/NoticeApi";
 import styled from"styled-components";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-const NoticeDetail = () => {
+const NoticeDetail = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState('');
+  const token = props.token;
 
   const {noticeArticleId} = useParams();
 
   useEffect(() => {
     const languageChangeHandler = () => {
     console.log('useEffect 들어옴')
-    noticeDetailAxios(noticeArticleId, i18n.language)
+    noticeAxios(noticeArticleId, i18n.language)
       .then((response) => {
         console.log("response : ", response)
         console.log("response.data.length : ", response.data.length)
@@ -69,10 +70,11 @@ console.log(data);
           <tr>
             <th style={{textAlign: 'center'}}>{t('noticedetail.내용')}</th>
             <td dangerouslySetInnerHTML={{ __html : data.content }}></td>
+            {/* <td dangerouslySetInnerHTML={{ __html : data.file }}></td> */}
           </tr>
           <tr>
             <th style={{textAlign: 'center'}}>{t('noticedetail.첨부파일')}</th>
-            <td>{data.file}</td>
+            <td dangerouslySetInnerHTML={{ __html : data.file }}></td>
           </tr>
         </TableBody>
       </Table>
@@ -82,21 +84,35 @@ console.log(data);
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         
         <Link to={ `/notice/update/${data.id}` }>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.수정")}</Button>
+          <Button 
+            style={{backgroundColor:'#6A24FE', border:'none'}} 
+            variant="primary" 
+            className="w-100 text-center">
+            {t("noticedetail.수정")}
+          </Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.목록")}</Button>
+          <Button 
+            style={{backgroundColor:'#6A24FE', border:'none'}} 
+            variant="primary" className="w-100 text-center">
+            {t("noticedetail.목록")}
+            </Button>
         </Link>
 
         &nbsp;&nbsp;
 
-        <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.삭제")}</Button>
+        <Link to={`/notice/delete/${data.id}`}>
+          <Button 
+            style={{backgroundColor:'#6A24FE', border:'none'}} 
+            variant="primary" 
+            className="w-100 text-center">
+            {t("noticedetail.삭제")}
+          </Button>
         </Link>
-      </Col>
+      </Col>  
     </Row>
     </>
   );
@@ -104,11 +120,33 @@ console.log(data);
 
 export default NoticeDetail;
 
+const ContentDiv = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow: auto; /* Enable scrolling */
+  overflow-x: hidden;
+  word-break: break-all;
+  white-space: pre-wrap;
+  ::-webkit-scrollbar {
+    width: 10px; /* Set the width of the scrollbar */
+  }
+  ::-custom-scrollbar-container {
+    background-color: #f1f1f1;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #888; /* Set the color of the scrollbar thumb */
+    border-radius: 5px; /* Round the edges of the scrollbar thumb */
+  }
+`;
+
 const TableContainer = styled.div`
+  border-radius: 5px;
   display: flex;
+  box-sizing: border-box;
   justify-content: center;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`
