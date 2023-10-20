@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-const ListArticleForm = ({ props }) => {
+const ListArticleForm = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
   const { boardId } = useParams();
@@ -46,7 +46,7 @@ const ListArticleForm = ({ props }) => {
     return () => {
       i18n.off("languageChanged", languageChangeHandler);
     };
-  }, [i18n]);
+  }, [i18n, boardId]);
 
   console.log(data);
 

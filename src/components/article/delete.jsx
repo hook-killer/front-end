@@ -2,15 +2,17 @@ import React from "react";
 import { deleteArticle as articleAxios } from "../../api/ArticleApi";
 import { useNavigate } from "react-router-dom"; // useHistory 대신 useNavigate 사용
 import { useTranslation } from "react-i18next";
+import { useParams } from "react-router";
 
 const ArticleDelete = (props) => {
   const { t, i18n } = useTranslation();
   const token = props.token;
-  const articleId = props.articleId;
+  const {articleId} = useParams();
   const navigate = useNavigate(); // useNavigate 사용
 
   const handleDelete = async () => {
     try {
+      console.log("token", token)
       // 기사 삭제 요청을 보냅니다.
       const response = await articleAxios(articleId, i18n.language, token);
 
