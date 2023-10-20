@@ -114,24 +114,24 @@ const LoginMenu = (props) => {
               style={{ margin: "0 -24px 0" }}
             >
               {/* LINK연결하기 */}
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/mypage" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.mypage")}
                 </button>
               </Link>
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/1" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.koBoard")}
                 </button>
               </Link>
 
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/2" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.jpBoard")}
                 </button>
               </Link>
 
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/3" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.cnBoard")}
                 </button>
@@ -153,7 +153,7 @@ const LoginMenu = (props) => {
                   className="list-group list-group-flush"
                   style={{ margin: "0 -24px 0" }}
                 >
-                  <Link to="/" style={{ textDecoration: "none" }}>
+                  <Link to="/admin" style={{ textDecoration: "none" }}>
                     <button className="list-group-item list-group-item-action px-4">
                       {t("header.admin")}
                     </button>
@@ -240,6 +240,14 @@ const Header = (props) => {
             >
               {t("header.cnBoard")}
             </Link>
+            </Nav.Link>
+            <Nav.Link
+              href="/notice"
+              className="w-100 text-center p-0"
+              style={{ minWidth: "150px" }}
+            >
+              {t("header.notice")}
+            </Nav.Link>
             <SelectLanguage
               language={language}
               languageSet={props.languageSet}
