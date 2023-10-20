@@ -3,17 +3,25 @@ import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styled from "styled-components";
 import kakaoBtn from "../../asset/kakao.png";
 import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
+import { setCookie } from "../../utils/ReactCookie";
+import { login } from "../../api/AuthApi";
+import { KAKAO_AUTH_URL } from "../../utils/Oauth";
+import { useTranslation } from "react-i18next";
 
 // TODO: 로그인 기능 구현하기!!!!!
-const KakaoLogin = (e) => { };
+const KakaoLogin = (e) => {
+  window.location.href = KAKAO_AUTH_URL;
+};
 
 const LoginForm = ({ props }) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigater = useNavigate();
+  const [t, i18n] = useTranslation();
 
-  const handleUsernameChange = (e) => {
-    setUsername(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
   };
 
   const handlePasswordChange = (e) => {
@@ -22,8 +30,25 @@ const LoginForm = ({ props }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // 로그인 로직을 여기에 추가하면 됩니다.
-    console.log("로그인 시도:", { username, password });
+
+    const AuthRequest = {
+      email,
+      password
+    }
+
+    login(AuthRequest, i18n.language)
+      .then(response => {
+        (response.data.email === email)
+        setCookie('jwtToken', response.data.token)
+        navigater('/');
+      })
+      .catch(error => {
+        if (error.response && error.response.data.success === false) {
+          alert(error.response.data.reason);
+        } else {
+          console.error('Error', error);
+        }
+      })
   };
 
   return (
@@ -31,7 +56,7 @@ const LoginForm = ({ props }) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>로그인</TitleH1>
+            <TitleH1>{t('login.로그인')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
@@ -39,8 +64,8 @@ const LoginForm = ({ props }) => {
             <LoginInput
               type="text"
               placeholder="UserId"
-              value={username}
-              onChange={handleUsernameChange}
+              value={email}
+              onChange={handleEmailChange}
               required
             />
           </Col>
@@ -59,7 +84,7 @@ const LoginForm = ({ props }) => {
         </Row>
         <Row>
           <Col xs={12} className="d-flex ">
-            <LoginSubmit type="submit" value="Login" />
+            <LoginSubmit type="submit" value="Login" onClick={handleSubmit} />
           </Col>
         </Row>
         <Row>

@@ -15,12 +15,16 @@ import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
+import ArticleDetail from "./components/article/detail";
+import ArticleDelete from "./components/article/delete";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
+import KakaoLogin from "./components/auth/KakaoLogin";
+
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -61,7 +65,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage token={token}/>} />
+              <Route path="/mypage" element={<Mypage token={token} />} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -70,13 +74,15 @@ const App = () => {
                 path="/register"
                 element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-              <Route path="/article/add" element={<ArticleAdd token={token}/>} />
+              <Route path="/article/add" element={<ArticleAdd token={token} />} />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
+              <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
+              <Route path="/article/delete/:articleId" element={<ArticleDelete token={token} />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
+              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -84,11 +90,15 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate token={token}/>}
+                element={<NoticeUpdate token={token} />}
               />
               <Route
                 path="/verifyEmail"
                 element={<EmailVerification />}
+              />
+              <Route
+                path="/kakao/callback"
+                element={<KakaoLogin />}
               />
               <Route />
             </Routes>

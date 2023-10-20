@@ -11,3 +11,9 @@ export const listArticle = (boardId, language) =>
 
 export const popularArticle = (boardId, language) =>
   MainCustomClient(language).get(`${addRequestMapping}/popular/${boardId}`);
+
+export const detailArticle = (articleId, language) =>
+  MainCustomClient(language).get(`${addRequestMapping}/${articleId}`);
+
+export const deleteArticle = (articleId, language, token) =>
+  DefaultClient(language, token).delete(addRequestMapping, articleId);
