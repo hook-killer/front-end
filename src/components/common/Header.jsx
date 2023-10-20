@@ -240,14 +240,13 @@ const Header = (props) => {
             >
               {t("header.cnBoard")}
             </Link>
-            </Nav.Link>
-            <Nav.Link
+            <Link
               href="/notice"
               className="w-100 text-center p-0"
               style={{ minWidth: "150px" }}
             >
               {t("header.notice")}
-            </Nav.Link>
+            </Link>
             <SelectLanguage
               language={language}
               languageSet={props.languageSet}
