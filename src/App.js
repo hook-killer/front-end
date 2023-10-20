@@ -1,5 +1,5 @@
 import "normalize.css";
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Link, Routes, useLocation } from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import PopularBox from "./components/main/PopularBox";
@@ -95,7 +95,7 @@ const App = () => {
                 element={<EmailVerification />}
               />
               <Route
-                path="/kakao/callback"
+                path="/auth/oauth/kakao"
                 element={<KakaoLogin />}
               />
               <Route />

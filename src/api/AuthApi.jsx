@@ -26,8 +26,8 @@ export const register = (registerForm, language) =>
 * @param {} verify
 * @returns
 */
-export const verifyEmail = (verificationToken) =>
-  jsonClient.get(`${requestMapping}/verifyEmail?verificationToken=${verificationToken}`)
+export const verifyEmail = (verificationToken, language) =>
+  jsonClient(language).get(`${requestMapping}/verifyEmail?verificationToken=${verificationToken}`)
 
 export const kakaoBack = (kakoLoginForm) =>
   jsonClient.get(`${requestMapping}/oauth/kakao/link`, kakoLoginForm)
