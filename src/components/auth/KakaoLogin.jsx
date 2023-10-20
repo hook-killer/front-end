@@ -13,10 +13,9 @@ const KakaoLogin = (props) => {
     const kakaoBack = async () => {
       await axios({
         method: "GET",
-        url: `${process.env.REACT_APP_REDIRECT_URL}?code=${code}`,
+        url: `${process.env.REACT_APP_KAKAO_REDIRECT_URI}?code=${code}`,
         headers: {
-          "Content-Type": "application/json;charset=utf-8",
-          "Access-Control-Allow-Origin": "*", //json형태로 데이터를 보내겠다는뜻
+          "Content-Type": "application/json;charset=utf-8"
         },
       }).then((res) => { //백에서 완료후 우리사이트 전용 토큰 넘겨주는게 성공했다면
         console.log(res);

@@ -92,7 +92,7 @@ const App = () => {
                 element={<EmailVerification />}
               />
               <Route
-                path="/auth/oauth/kakao/callback"
+                path="/kakao/callback"
                 element={<KakaoLogin />}
               />
               <Route />

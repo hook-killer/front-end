@@ -27,7 +27,7 @@ const SelectLanguage = (props) => {
     //상태변경, 쿠키제거 및 새로 지정
     const newLanguage = e.target.value;
     i18n.changeLanguage(newLanguage);
-    // 언어를 쿠키에 저장
+    // 언어를 쿠키에 저장 a
     removeCookie("language");
     setCookie("language", newLanguage);
     setLanguage(newLanguage);
@@ -282,26 +282,6 @@ const Header = (props) => {
           />
         </Col>
       </Row>
-<<<<<<< Updated upstream
-=======
-      <Row>
-        <Link to="/article/list/1" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            <small>한국어 모임</small>
-          </button>
-        </Link>
-        <Link to="/article/list/2" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            <small>일본어 모임</small>
-          </button>
-        </Link>
-        <Link to="/article/list/3" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            <small>중국어 모임</small>
-          </button>
-        </Link>
-      </Row>
->>>>>>> Stashed changes
     </HeaderDiv >
   );
 };
