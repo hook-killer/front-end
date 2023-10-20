@@ -165,7 +165,7 @@ const ArticleAdd = (props) => {
               style={{ backgroundColor: "#6A24FE", border: "none" }}
               onClick={handleButtonClick}
             >
-              {t('articleadd.작성')}
+              {t('articleadd.Add')}
             </Button>
           </Link>
         </Col>
