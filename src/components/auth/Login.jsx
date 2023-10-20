@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../utils/ReactCookie";
 import { login } from "../../api/AuthApi";
 import { KAKAO_AUTH_URL } from "../../utils/Oauth";
+import { useTranslation } from "react-i18next";
 
 // TODO: 로그인 기능 구현하기!!!!!
 const KakaoLogin = (e) => {
@@ -17,6 +18,7 @@ const LoginForm = ({ props }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigater = useNavigate();
+  const [t, i18n] = useTranslation();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -34,7 +36,7 @@ const LoginForm = ({ props }) => {
       password
     }
 
-    login(AuthRequest)
+    login(AuthRequest, i18n.language)
       .then(response => {
         (response.data.email === email)
         setCookie('jwtToken', response.data.token)
@@ -54,7 +56,7 @@ const LoginForm = ({ props }) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>로그인</TitleH1>
+            <TitleH1>{t('login.로그인')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
