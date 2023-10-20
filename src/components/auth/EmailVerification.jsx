@@ -1,33 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { verifyEmail } from "../../api/AuthApi";
+import { login } from "../../api/AuthApi";
+import { setCookie } from "../../utils/ReactCookie";
 
 const EmailVerificationPage = () => {
-  const [verificationStatus, setVerificationStatus] = useState("인증 중");
+  const [verificationStatus, setVerificationStatus] = useState("아직 인증하지 않음");
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    // 컴포넌트가 마운트되면 실행될 코드
-    const token = new URLSearchParams(location.search).get("token");
+  const token = new URLSearchParams(location.search).get("verificationToken");
+  console.log(token)
 
-    verifyEmail(token)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          setVerificationStatus("인증 완료");
-          setTimeout(() => {
-            navigate("/login");
-          }, 5000);
-        } else {
-          setVerificationStatus("인증 실패");
-        }
-      })
-      .catch((error) => {
-        console.error(error);
+  verifyEmail(token)
+    .then((response) => {
+      if (response.status === 200) {
+        setVerificationStatus("인증 완료");
+        navigate("/");
+      } else {
         setVerificationStatus("인증 실패");
-      });
-  }, [location.search, navigate]);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      setVerificationStatus("인증 실패");
+    });
 
   return (
     <div>

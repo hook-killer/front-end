@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { TitleH1 } from "../styled/HTagComponent";
 import { AuthInput } from "../styled/AuthComponent.jsx";
 import { register } from "../../api/AuthApi";
+import { login } from "../../api/AuthApi";
+import { setCookie } from "../../utils/ReactCookie";
 
 const RegisterForm = ({ props }) => {
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
+  const naviater = useNavigate();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -23,8 +26,7 @@ const RegisterForm = ({ props }) => {
     setPassword(e.target.value);
   };
 
-  const handleSubmit = (e) => {
-    console.log(email, password, nickName)
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const singUpRequest = {
@@ -33,34 +35,43 @@ const RegisterForm = ({ props }) => {
       password,
     };
 
-    register(singUpRequest)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.success) {
-          alert("회원가입이 성공적으로 완료되었습니다. 이메일 인증을 진행해주세요.");
+    try {
+      const response = await register(singUpRequest);
 
-          const MailRequest = { // 이메일 정보를 만듭니다.
-            email
-          };
-          /*
-                    sendEmail(MailRequest)
-                      .then((response) => response.json())
-                      .then((response) => {
-                        console.log(response.data);
-                        //navigate("/sendVerificationEmail");
-                      })
-                      .catch((error) => {
-                        console.error(error);
-                      });
-          */
-        } else {
-          alert("회원가입에 실패했습니다.");
+      if (response.data.id) {
+        alert("회원가입이 성공적으로 완료되었습니다. 이메일 인증을 진행해주세요.");
+
+        const AuthRequest = {
+          email,
+          password
         }
 
-      });
+        const loginResponse = await login(AuthRequest)
 
-    // email, nickname, password를 사용하여 사용자 계정을 생성하는 코드를 작성합니다.
+        if (loginResponse.data.token) {
+
+          setCookie('jwtToken', response.data.token);
+          console.log(response.data.token);
+          alert("로그인 성공");
+          naviater("/");
+
+        } else if (response.data.status === NOT_ACITVE) {
+
+          alert("이메일 인증을 완료하지 않아서 로그인 페이지로 이동합니다.");
+          naviater("/login")
+        }
+      } else {
+        alert("회원가입에 실패했습니다.");
+      }
+    } catch (error) {
+      if (error.response && error.response.data.success === false) {
+        alert(error.response.data.reason);
+      } else {
+        console.error('Error:', error);
+      }
+    }
   };
+
 
   return (
     <RegisterDiv className="d-flex justify-content-center align-items-center">

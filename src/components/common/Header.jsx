@@ -22,11 +22,12 @@ const SelectLanguage = (props) => {
     { value: "CN", description: t("中文") },
     { value: "JP", description: t("日本語") },
   ];
+
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
     const newLanguage = e.target.value;
     i18n.changeLanguage(newLanguage);
-    // 언어를 쿠키에 저장
+    // 언어를 쿠키에 저장 a
     removeCookie("language");
     setCookie("language", newLanguage);
     setLanguage(newLanguage);
@@ -281,7 +282,7 @@ const Header = (props) => {
           />
         </Col>
       </Row>
-    </HeaderDiv>
+    </HeaderDiv >
   );
 };
 
