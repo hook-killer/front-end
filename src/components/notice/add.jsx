@@ -7,11 +7,14 @@ import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const NoticeAdd = (props) => {
+  const { t, i18n } = useTranslation();
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
   const quillRef = useRef(null);
+  const token = props.token;
 
   const handleQuillChange = (e) => {
     console.log(e);
@@ -86,6 +89,19 @@ const NoticeAdd = (props) => {
     "background",
   ];
 
+
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
+
+  // 리스너 등록
+  i18n.on("languageChanged", languageChangeHandler);
+
+  // 컴포넌트가 언마운트될 때 리스너 제거
+  return () => {
+    i18n.off("languageChanged", languageChangeHandler);
+  };
+}, [i18n]);
+
   const handleButtonClick = async () => {
     console.log("title : ", title);
     console.log("quillValue : ", quillValue);
@@ -97,7 +113,7 @@ const NoticeAdd = (props) => {
       content: quillValue,
     };
 
-    noticeAddAxios(addNoticeForm)
+    noticeAddAxios(addNoticeForm, language)
     .then(response => console.log(response))
     .catch(error => console.log(error));
   };
@@ -106,12 +122,12 @@ const NoticeAdd = (props) => {
     <>
     <h4 style={{
       marginTop: "30px"}}
-      >공지사항 글 작성</h4>
+      >{t('noticeadd.공지사항')}</h4>
     <Row>
       <Col className="w-100">
         <TextField 
           type="text"
-          placeholder="제목을 입력하세요."
+          placeholder={t('noticeadd.제목을 입력하세요.')}
           style={{
             marginTop: "10px",
             marginBottom: "10px",
@@ -141,7 +157,7 @@ const NoticeAdd = (props) => {
     <Row className="mt-5">
         <Col className="d-flex justify-content-end justify-content-center" xs={12}>
           <Link to={{pathname:"/notice"}}>
-            <Button variant="primary" className="w-100 text-center" style={{backgroundColor:'#6A24FE', border:'none'}} onClick={handleButtonClick}>작성</Button>
+            <Button variant="primary" className="w-100 text-center" style={{backgroundColor:'#6A24FE', border:'none'}} onClick={handleButtonClick}>{t('noticeadd.작성')}</Button>
           </Link>
         </Col>
       </Row>

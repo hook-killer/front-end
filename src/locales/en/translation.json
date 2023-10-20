@@ -1,18 +1,49 @@
 {
   "header": {
-    "mypage": "MyPage",
+    "mypage": "My Page",
+    "admin": "Admin Page",
     "koBoard": "Korean Board",
     "jpBoard": "Japanese Board",
     "cnBoard": "Chinese Board"
   },
-  "list": {
+  "articlelist": {
     "제목": "Title",
     "작성자": "Author",
     "작성일": "Date",
     "추천": "Recommend",
     "새글": "New Article"
   },
+  "articleadd": {
+    "제목을 입력하세요.": "Please enter a title. ",
+    "작성": "Add"
+  },
+  "main": {
+    "popular[1]": "Korean Popular Articles",
+    "popular[2]": "Japanese Popular Articles",
+    "popular[3]": "Chinese Popular Articles"
+  },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ" : "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+  },
+  "noticelist": {
+    "번호": "No",
+    "제목": "Title",
+    "작성일": "Date",
+    "새글": "New Article"
+  },
+  "noticedetail": {
+    "번호": "No",
+    "제목": "Title",
+    "작성일": "Date",
+    "내용": "Content",
+    "첨부파일": "Attachment",
+    "수정": "Modification",
+    "목록": "List",
+    "삭제": "Delete"
+  },
+  "noticeadd": {
+    "공지사항": "Notice",
+    "제목을 입력하세요.": "Please enter a title. ",
+    "작성": "Add"
   }
 }

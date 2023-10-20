@@ -3,8 +3,10 @@ import { noticeList as noticeListAxios } from "../../api/NoticeApi";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 
 const NoticeList = ({props}) => {
+  const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
 
   const customLinkStyle = {
@@ -13,7 +15,8 @@ const NoticeList = ({props}) => {
   }
 
   useEffect(() => {
-    noticeListAxios()
+    const languageChangeHandler = () => {
+    noticeListAxios(i18n.language)
       .then((response) => {
         if (response.data && response.data.length > 0) {
           setData(response.data);
@@ -29,7 +32,20 @@ const NoticeList = ({props}) => {
           console.log('Request Error: ', error.message);
         }
       });
-  }, []);
+  };
+  
+  languageChangeHandler();
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
+
+  console.log(data);
 
   return (
     <>
@@ -45,9 +61,9 @@ const NoticeList = ({props}) => {
         </ColGroup>
         <TableHead>
           <tr>
-            <th>번호</th>
-            <th>제목</th>
-            <th>작성일</th>
+            <th>{t('noticelist.번호')}</th>
+            <th>{t('noticelist.제목')}</th>
+            <th>{t('noticelist.작성일')}</th>
           </tr>
         </TableHead>
         <TableBody>
@@ -64,7 +80,7 @@ const NoticeList = ({props}) => {
     <Row className="mt-5">
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         <Link to={{ pathname:'/notice/add' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">새글</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.새글')}</Button>
         </Link>
       </Col>
     </Row>
