@@ -14,10 +14,11 @@ const KakaoLogin = (e) => {
   window.location.href = KAKAO_AUTH_URL;
 };
 
-const LoginForm = ({ props }) => {
+const LoginForm = ( props ) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigater = useNavigate();
+  const setToken = props.tokenSet;
   const [t, i18n] = useTranslation();
 
   const handleEmailChange = (e) => {
@@ -37,10 +38,13 @@ const LoginForm = ({ props }) => {
     }
 
     login(AuthRequest, i18n.language)
-      .then(response => {
-        (response.data.email === email)
-        setCookie('jwtToken', response.data.token)
-        navigater('/');
+      .then(response => {        
+        if(response.status == 200){
+          console.log('토큰저장', response.data.token)
+          setToken(response.data.token)
+          setCookie('jwtToken', response.data.token)
+          navigater('/article/9');
+        }
       })
       .catch(error => {
         if (error.response && error.response.data.success === false) {

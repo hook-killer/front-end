@@ -219,26 +219,27 @@ const Header = (props) => {
             style={{ maxHeight: "30px" }}
             navbarScroll
           >
-            <Nav.Link
-              href="/article/list/1"
+            <Link
+              to="/article/list/1"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
             >
               {t("header.koBoard")}
-            </Nav.Link>
-            <Nav.Link
-              href="/article/list/2"
+            </Link>
+            <Link
+              to="/article/list/2"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
             >
               {t("header.jpBoard")}
-            </Nav.Link>
-            <Nav.Link
-              href="/article/list/3"
+            </Link>
+            <Link
+              to="/article/list/3"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
             >
               {t("header.cnBoard")}
+            </Link>
             </Nav.Link>
             <Nav.Link
               href="/notice"
