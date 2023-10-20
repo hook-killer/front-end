@@ -121,13 +121,13 @@ const ArticleDetail = (props) => {
 export default ArticleDetail;
 
 const TableContainer = styled.div`
-border-radius: 5px;
-display: flex;
-box-sizing: border-box;
-justify-content: center;
-padding: 10px;
-align-items: center;
-margin-top: 30px;
+  border-radius: 5px;
+  display: flex;
+  box-sizing: border-box;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`

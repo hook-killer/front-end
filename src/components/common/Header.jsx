@@ -240,10 +240,11 @@ const Header = (props) => {
             >
               {t("header.cnBoard")}
             </Link>
+            
             <Link
-              href="/notice"
+              to="/notice"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
             >
               {t("header.notice")}
             </Link>
