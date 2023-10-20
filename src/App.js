@@ -23,6 +23,7 @@ import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
+import KakaoLogin from "./components/auth/KakaoLogin";
 
 
 const App = () => {
@@ -64,7 +65,7 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage token={token}/>} />
+              <Route path="/mypage" element={<Mypage token={token} />} />
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -73,7 +74,7 @@ const App = () => {
                 path="/register"
                 element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
               />
-              <Route path="/article/add" element={<ArticleAdd token={token}/>} />
+              <Route path="/article/add" element={<ArticleAdd token={token} />} />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
               <Route path="/article/delete/:articleId" element={<ArticleDelete token={token} />} />
@@ -81,7 +82,7 @@ const App = () => {
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
+              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -94,6 +95,10 @@ const App = () => {
               <Route
                 path="/verifyEmail"
                 element={<EmailVerification />}
+              />
+              <Route
+                path="/kakao/callback"
+                element={<KakaoLogin />}
               />
               <Route />
             </Routes>
