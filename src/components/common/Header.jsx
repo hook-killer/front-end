@@ -22,11 +22,12 @@ const SelectLanguage = (props) => {
     { value: "CN", description: t("中文") },
     { value: "JP", description: t("日本語") },
   ];
+
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
     const newLanguage = e.target.value;
     i18n.changeLanguage(newLanguage);
-    // 언어를 쿠키에 저장
+    // 언어를 쿠키에 저장 a
     removeCookie("language");
     setCookie("language", newLanguage);
     setLanguage(newLanguage);
@@ -113,6 +114,7 @@ const LoginMenu = (props) => {
               style={{ margin: "0 -24px 0" }}
             >
               {/* LINK연결하기 */}
+
               <Link
                 to={{ pathname: "/mypage" }}
                 style={{ textDecoration: "none" }}
@@ -121,19 +123,19 @@ const LoginMenu = (props) => {
                   {t("header.mypage")}
                 </button>
               </Link>
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/1" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.koBoard")}
                 </button>
               </Link>
 
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/2" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.jpBoard")}
                 </button>
               </Link>
 
-              <Link to="/" style={{ textDecoration: "none" }}>
+              <Link to="/article/list/3" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.cnBoard")}
                 </button>
@@ -155,7 +157,7 @@ const LoginMenu = (props) => {
                   className="list-group list-group-flush"
                   style={{ margin: "0 -24px 0" }}
                 >
-                  <Link to="/" style={{ textDecoration: "none" }}>
+                  <Link to="/admin" style={{ textDecoration: "none" }}>
                     <button className="list-group-item list-group-item-action px-4">
                       {t("header.admin")}
                     </button>
@@ -221,26 +223,45 @@ const Header = (props) => {
             style={{ maxHeight: "30px" }}
             navbarScroll
           >
-            <Nav.Link
-              href="/article/list/1"
+            <Link
+              to="/article/list/1"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.koBoard")}
-            </Nav.Link>
-            <Nav.Link
-              href="/article/list/2"
+            </Link>
+            <Link
+              to="/article/list/2"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.jpBoard")}
-            </Nav.Link>
+            </Link>
+            <Link
+              to="/article/list/3"
+              className="w-100 text-center p-0"
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
+            >
+              {t("header.cnBoard")}
+            </Link>
             <Nav.Link
-              href="/article/list/3"
+              href="/notice"
               className="w-100 text-center p-0"
               style={{ minWidth: "150px" }}
             >
-              {t("header.cnBoard")}
+              {t("header.notice")}
             </Nav.Link>
             <SelectLanguage
               language={language}

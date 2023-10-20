@@ -15,12 +15,15 @@ import RegisterForm from "./components/auth/Register";
 import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
+import ArticleDetail from "./components/article/detail";
+import ArticleDelete from "./components/article/delete";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/mypage";
+import KakaoLogin from "./components/auth/KakaoLogin";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -70,12 +73,10 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-
               <Route
                 path="/mypage"
                 element={<Mypage token={token} language={language} />}
               />
-
               <Route
                 path="/login"
                 element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
@@ -89,6 +90,14 @@ const App = () => {
                 element={<ArticleAdd token={token} />}
               />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
+              <Route
+                path="/article/:articleId"
+                element={<ArticleDetail token={token} />}
+              />
+              <Route
+                path="/article/delete/:articleId"
+                element={<ArticleDelete token={token} />}
+              />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
@@ -104,6 +113,7 @@ const App = () => {
                 element={<NoticeUpdate token={token} />}
               />
               <Route path="/verifyEmail" element={<EmailVerification />} />
+              <Route path="/kakao/callback" element={<KakaoLogin />} />
               <Route />
             </Routes>
           </Container>

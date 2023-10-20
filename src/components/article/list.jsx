@@ -6,10 +6,16 @@ import { Link } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-const ListArticleForm = ({ props }) => {
+const ListArticleForm = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
   const { boardId } = useParams();
+  
+  const customLinkStyle = {
+    textDecoration: 'none',
+    color: 'black'
+  }
+
   useEffect(() => {
     const languageChangeHandler = () => {
       // 언어 변경 이벤트가 발생하면 새로운 언어로 업데이트
@@ -40,7 +46,7 @@ const ListArticleForm = ({ props }) => {
     return () => {
       i18n.off("languageChanged", languageChangeHandler);
     };
-  }, [i18n]);
+  }, [i18n, boardId]);
 
   console.log(data);
 
@@ -75,7 +81,7 @@ const ListArticleForm = ({ props }) => {
             {data.map((item, index) => (
               <tr key={index}>
                 <td>{item.articleId}</td>
-                <td>{item.title}</td>
+                <td><Link style={customLinkStyle} to={`/article/${item.articleId}`}>{item.title}</Link></td>
                 <td>{item.likeCount}</td>
                 <td>{item.createdUser.nickName}</td>
                 <td>{item.createAt}</td>
@@ -127,10 +133,13 @@ const ContentDiv = styled.div`
 `;
 
 const TableContainer = styled.div`
+  border-radius: 5px;
   display: flex;
+  box-sizing: border-box;
   justify-content: center;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`
