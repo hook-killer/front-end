@@ -7,12 +7,15 @@ import { AuthInput } from "../styled/AuthComponent.jsx";
 import { register } from "../../api/AuthApi";
 import { login } from "../../api/AuthApi";
 import { setCookie } from "../../utils/ReactCookie";
+import { useTranslation } from "react-i18next";
 
 const RegisterForm = ({ props }) => {
   const [email, setEmail] = useState("");
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const naviater = useNavigate();
+
+  const [t, i18n] = useTranslation();
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -36,7 +39,7 @@ const RegisterForm = ({ props }) => {
     };
 
     try {
-      const response = await register(singUpRequest);
+      const response = await register(singUpRequest, i18n.language);
 
       if (response.data.id) {
         alert("회원가입이 성공적으로 완료되었습니다. 이메일 인증을 진행해주세요.");
@@ -78,7 +81,7 @@ const RegisterForm = ({ props }) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>회원가입</TitleH1>
+            <TitleH1>{t('signup.회원가입')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
@@ -116,7 +119,7 @@ const RegisterForm = ({ props }) => {
         </Row>
         <Row className="mt-3">
           <Col xs={12} className="text-center">
-            <RegisterSubmit button type="submit" value="회원가입" onClick={handleSubmit} />
+            <RegisterSubmit type="submit" value="회원가입" onClick={handleSubmit} />
           </Col>
         </Row>
       </Form>

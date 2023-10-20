@@ -8,8 +8,8 @@ let requestMapping = "/auth";
  * @param {} loginForm
  * @returns
  */
-export const login = (loginForm) =>
-  jsonClient.post(requestMapping + "/login", loginForm);
+export const login = (loginForm, language) =>
+  jsonClient(language).post(requestMapping + "/login", loginForm);
 
 /**
  * 회원가입
@@ -17,8 +17,8 @@ export const login = (loginForm) =>
  * @param {} registerForm
  * @returns
  */
-export const register = (registerForm) =>
-  jsonClient.post(requestMapping + "/register", registerForm);
+export const register = (registerForm, language) =>
+  jsonClient(language).post(requestMapping + "/register", registerForm);
 
 /**
 * 인증메일
