@@ -1,6 +1,7 @@
 {
   "header": {
-    "mypage": "MyPage",
+    "mypage": "My Page",
+    "admin": "Admin Page",
     "koBoard": "Korean Board",
     "jpBoard": "Japanese Board",
     "cnBoard": "Chinese Board"
@@ -15,6 +16,16 @@
   "articleadd": {
     "제목을 입력하세요.": "Please enter a title. ",
     "작성": "Add"
+  },
+  "articledetail": {
+    "번호": "No",
+    "제목": "Title",
+    "작성자": "Author",
+    "작성일": "Date",
+    "내용": "Content",
+    "수정": "Modification",
+    "목록": "List",
+    "삭제": "Delete"
   },
   "main": {
     "popular[1]": "Korean Popular Articles",

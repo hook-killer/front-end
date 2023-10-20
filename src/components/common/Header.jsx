@@ -3,7 +3,7 @@ import logo from "../../asset/logo192.png";
 import styled from "styled-components";
 import SearchBar from "../search/searchBar";
 import ReleatedSearches from "../search/RelatedSearches";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Container, Nav, Navbar } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { getCookie, removeCookie, setCookie } from "../../utils/ReactCookie";
 import { isNull } from "../../utils/NullUtils";
@@ -24,19 +24,12 @@ const SelectLanguage = (props) => {
   ];
   const selectChangeEvent = (e) => {
     //상태변경, 쿠키제거 및 새로 지정
-    // setLanguage(e.target.value);
-    // removeCookie("language");
-    // setCookie("language", e.target.value);
-
     const newLanguage = e.target.value;
     i18n.changeLanguage(newLanguage);
     // 언어를 쿠키에 저장
     removeCookie("language");
     setCookie("language", newLanguage);
     setLanguage(newLanguage);
-
-    // 페이지 새로고침
-    // window.location.reload();
   };
 
   const optionList = languageData.map((language, i) => (
@@ -70,6 +63,7 @@ const LoginMenu = (props) => {
   let language = props.language;
   let nickName = props.nickName;
   let profile = props.profile;
+  let t = props.trans;
 
   const onClickLogout = (e) => {
     removeCookie("token");
@@ -121,24 +115,24 @@ const LoginMenu = (props) => {
               {/* LINK연결하기 */}
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  <small>마이페이지</small>
+                  {t("header.mypage")}
                 </button>
               </Link>
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  {t("header.cnBaord")}
-                </button>
-              </Link>
-
-              <Link to="/" style={{ textDecoration: "none" }}>
-                <button className="list-group-item list-group-item-action px-4">
-                  {t("header.jpBaord")}
+                  {t("header.koBoard")}
                 </button>
               </Link>
 
               <Link to="/" style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  {t("header.cnBaord")}
+                  {t("header.jpBoard")}
+                </button>
+              </Link>
+
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <button className="list-group-item list-group-item-action px-4">
+                  {t("header.cnBoard")}
                 </button>
               </Link>
             </div>
@@ -160,7 +154,7 @@ const LoginMenu = (props) => {
                 >
                   <Link to="/" style={{ textDecoration: "none" }}>
                     <button className="list-group-item list-group-item-action px-4">
-                      <small>관리자 페이지</small>
+                      {t("header.admin")}
                     </button>
                   </Link>
                 </div>
@@ -217,11 +211,41 @@ const Header = (props) => {
 
   return (
     <HeaderDiv>
-      <Row className="d-flex justify-content-end">
-        <Col xs={2} style={{ padding: "auto" }}>
-          <SelectLanguage language={language} languageSet={props.languageSet} />
-        </Col>
-      </Row>
+      <Navbar bg="dark" data-bs-theme="dark">
+        <Navbar.Collapse>
+          <Nav
+            className="basic-navbar-nav"
+            style={{ maxHeight: "30px" }}
+            navbarScroll
+          >
+            <Nav.Link
+              href="/article/list/1"
+              className="w-100 text-center p-0"
+              style={{ minWidth: "150px" }}
+            >
+              {t("header.koBoard")}
+            </Nav.Link>
+            <Nav.Link
+              href="/article/list/2"
+              className="w-100 text-center p-0"
+              style={{ minWidth: "150px" }}
+            >
+              {t("header.jpBoard")}
+            </Nav.Link>
+            <Nav.Link
+              href="/article/list/3"
+              className="w-100 text-center p-0"
+              style={{ minWidth: "150px" }}
+            >
+              {t("header.cnBoard")}
+            </Nav.Link>
+            <SelectLanguage
+              language={language}
+              languageSet={props.languageSet}
+            />
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
       <Row className="pt-2 ps-2 pb-2">
         <Col xs={2}>
           <Link to="/" style={{ textDecoration: "none" }}>
@@ -253,25 +277,9 @@ const Header = (props) => {
             nickNameSet={props.nickNameSet}
             profile={props.profile}
             profileSet={props.profileSet}
+            trans={t}
           />
         </Col>
-      </Row>
-      <Row>
-        <Link to="/article/list/1" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            {t("header.koBoard")}
-          </button>
-        </Link>
-        <Link to="/article/list/2" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            {t("header.jpBoard")}
-          </button>
-        </Link>
-        <Link to="/article/list/3" style={{ textDecoration: "none" }}>
-          <button className="list-group-item list-group-item-action px-4">
-            {t("header.cnBoard")}
-          </button>
-        </Link>
       </Row>
     </HeaderDiv>
   );
