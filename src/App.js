@@ -17,6 +17,7 @@ import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
 import ArticleDelete from "./components/article/delete";
+import ReplyList from "./components/reply/list";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
@@ -33,7 +34,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzgwNjc2LCJleHAiOjE2OTc4MTY2NzYsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.AdTi4Ln6SfuPgDkKbjtQN5ZpX037M7jSz0ZlQXhCRN-ZzjrMpw-GPzDu2x9tUs9EIAprohY-LTDxVi89xLdMvw" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
@@ -82,7 +83,11 @@ const App = () => {
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
+
+              <Route path="/reply/list/:articleId" element={<ReplyList token={token}/>} />
+ 
+              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
+
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
