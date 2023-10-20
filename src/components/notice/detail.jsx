@@ -10,7 +10,6 @@ const NoticeDetail = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState('');
   const token = props.token;
-
   const {noticeArticleId} = useParams();
 
   useEffect(() => {

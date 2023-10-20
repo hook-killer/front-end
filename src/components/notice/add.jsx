@@ -4,7 +4,6 @@ import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
 import { addNotice as noticeAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
-import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -19,6 +18,7 @@ const NoticeAdd = (props) => {
   // const language = i18n.language;
   console.log("token : ", token, " language : ", language);
 
+  console.log('게시물 작성 페이지', props)
   const handleQuillChange = (e) => {
     console.log(e);
     setQuillValue(e);
@@ -117,20 +117,14 @@ const NoticeAdd = (props) => {
       content: quillValue,
     };
 
+    console.log("토큰 잘 넘어오니? : ", token)
     noticeAxios(addNoticeForm, i18n.language, token)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
+    .then((response) => console.log("response : ", response))
+    .catch((error) => console.log("error : ", error));
   };
 
   return (
     <>
-      <h4
-        style={{
-          marginTop: "30px",
-        }}
-      >
-        {t("noticeadd.공지사항")}
-      </h4>
       <Row>
         <Col className="w-100">
           <TextField

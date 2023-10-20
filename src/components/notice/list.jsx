@@ -63,9 +63,6 @@ const NoticeList = ({props}) => {
 
   return (
     <>
-    <h4 style={{
-      marginTop: "30px"}}
-      >공지사항</h4>
     <TableContainer className="list-container">
       <Table className="notice-table">
         <ColGroup>
