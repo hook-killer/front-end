@@ -16,7 +16,6 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
-import ArticleDelete from "./components/article/delete";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
@@ -33,7 +32,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc4NDU4LCJleHAiOjE2OTc4MTQ0NTgsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.AYK4eK-tCwlxotU6dVQ_k5_3J31kMSyxh7WoVBpBjIMogwHZ-n1-DFblmuSdPB2BL61L7SSQ1J2V1I3ovXjAwQ" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
@@ -77,7 +76,6 @@ const App = () => {
               <Route path="/article/add" element={<ArticleAdd token={token} />} />
               <Route path="/article/list/:boardId" element={<ArticleList /> } />
               <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
-              <Route path="/article/delete/:articleId" element={<ArticleDelete token={token} />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}

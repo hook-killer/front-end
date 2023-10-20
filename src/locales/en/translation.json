@@ -8,25 +8,25 @@
     "cnBoard": "Chinese Board"
   },
   "articlelist": {
-    "제목": "Title",
-    "작성자": "Author",
-    "작성일": "Date",
-    "추천": "Recommend",
-    "새글": "New Article"
+    "Title": "Title",
+    "Author": "Author",
+    "Date": "Date",
+    "Recommend": "Recommend",
+    "New Article": "New Article"
   },
   "articleadd": {
     "제목을 입력하세요.": "Please enter a title. ",
-    "작성": "Add"
+    "Add": "Add"
   },
   "articledetail": {
-    "번호": "No",
-    "제목": "Title",
-    "작성자": "Author",
-    "작성일": "Date",
-    "내용": "Content",
-    "수정": "Modification",
-    "목록": "List",
-    "삭제": "Delete"
+    "No": "No",
+    "Title": "Title",
+    "Author": "Author",
+    "Date": "Date",
+    "Content": "Content",
+    "Modification": "Modification",
+    "List": "List",
+    "Delete": "Delete"
   },
   "main": {
     "popular[1]": "Korean Popular Articles",
@@ -37,25 +37,25 @@
     "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
   },
   "noticelist": {
-    "번호": "No",
-    "제목": "Title",
-    "작성일": "Date",
-    "새글": "New Article"
+    "No": "No",
+    "Title": "Title",
+    "Date": "Date",
+    "New Article": "New Article"
   },
   "noticedetail": {
-    "번호": "No",
-    "제목": "Title",
-    "작성일": "Date",
-    "내용": "Content",
-    "첨부파일": "Attachment",
-    "수정": "Modification",
-    "목록": "List",
-    "삭제": "Delete"
+    "No": "No",
+    "Title": "Title",
+    "Date": "Date",
+    "Content": "Content",
+    "Attachment": "Attachment",
+    "Modification": "Modification",
+    "List": "List",
+    "Delete": "Delete"
   },
   "noticeadd": {
-    "공지사항": "Notice",
+    "Notice": "Notice",
     "제목을 입력하세요.": "Please enter a title. ",
-    "작성": "Add",
+    "Add": "Add",
     "orgLanguage": "Posting Language",
     "kr": "Korean",
     "en": "English",
@@ -63,9 +63,10 @@
     "cn": "Chinese"
   },
   "login": {
-    "로그인": "Login"
+    "Login": "Login",
+    "KaKaoLogin" : "KaKao Login"
   },
   "signup": {
-    "회원가입": "SignUp"
+    "SignUp": "SignUp"
   }
 }
