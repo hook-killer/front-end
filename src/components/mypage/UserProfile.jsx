@@ -4,9 +4,8 @@ import UserInfoUpdateModal from "./UserInfoUpdateModal"; // UserInfoUpdateModal 
 
 const UserProfile = ({ token, language }) => {
   const [userInfo, setUserInfo] = useState({
-    email: "",
     nickName: "",
-    createdAt: "",
+    password: "",
   });
 
   const [showModal, setShowModal] = useState(false); // 모달 표시 여부를 위한 상태
