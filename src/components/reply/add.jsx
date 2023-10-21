@@ -11,12 +11,6 @@ const ReplyAdd = (props) => {
 
   const {articleId} = useParams();
 
-  console.log("articleId : ", parseInt(articleId));
-
-  console.log("language : ", i18n.language);
-  
-  console.log("token : ", token);
-
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const inputValue = e.target[0].value; // 첫 번째 input의 값 (내용을 입력하는 부분)
@@ -25,18 +19,18 @@ const ReplyAdd = (props) => {
   
   const handleButtonSubmit = (value) => {
     const replyContent = value;
-    console.log("replyContent : ", replyContent);
     // value로 입력된 내용을 받아서 처리
     const addReplyForm = {
       articleId: parseInt(articleId),
       orgReplyLanguage: i18n.language, // i18n 혹은 현재 설정된 언어를 받아와야함
       content: replyContent
     };
-    console.log("button submit 완료!");
-    console.log("addReplyForm : ", addReplyForm)
     addReply(addReplyForm, i18n.language, token)
     .then((response) => console.log("response : ", response))
-    .catch((error) => console.log("error : ", error));
+    .catch((error) => {
+      console.log("error : ", error);
+      alert("댓글 등록 실패! 내용이 너무 길거나 권한이 없습니다!");
+    });
   };
 
   return (

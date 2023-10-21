@@ -16,7 +16,6 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
-import ArticleDelete from "./components/article/delete";
 import ReplyList from "./components/reply/list";
 import ReplyAdd from "./components/reply/add";
 import NoticeAdd from "./components/notice/add";
