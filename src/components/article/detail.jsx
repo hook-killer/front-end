@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { detailArticle as detailArticleAxios, deleteArticle as deleteArticleAxios } from "../../api/ArticleApi";
+import { detailArticle as detailArticleAxios, deleteArticle as deleteArticleAxios, likeArticle as likeArticleAxios, dislikedArticle as dislikedArticleAxios} from "../../api/ArticleApi";
 import styled from"styled-components";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ const ArticleDetail = (props) => {
   const navigate = useNavigate();
 
   const {articleId} = useParams();
+  const [liked, setLiked] = useState(false);
 
   const setArticleByServer = async () => {
     try {
@@ -38,8 +39,41 @@ const ArticleDetail = (props) => {
     }
   }
 
+  const checkIfLiked = async () => {
+    try {
+      const response = await dislikedArticleAxios(articleId, i18n.language, token);
+      if (response.status === 200) {
+        setLiked(response.data.result); // 서버에서 받은 정보에 따라 좋아요 상태 설정
+        console.log("좋아요 상태 확인 : ", response);
+      } else {
+        console.error("좋아요 상태 확인 실패");
+      }
+    } catch (error) {
+      console.error("좋아요 상태 확인 중 오류 발생");
+    }
+  };
+
+  const handleLike = async () => {
+    try {
+      const response = await likeArticleAxios(articleId, i18n.language, token);
+      
+      if (response.status === 200) {
+        console.log("좋아요 업데이트 성공");
+        setLiked(!liked);
+      } else {
+        console.error("좋아요 업데이트 실패");
+      }
+    } catch (error) {
+      console.error("좋아요 업데이트 중 오류 발생");
+      console.log(articleId);
+      console.log(token);
+    }
+  };
+
+
   useEffect(() => {
     setArticleByServer();
+    checkIfLiked();
   }, []);
 
   useEffect(() => {
@@ -122,7 +156,18 @@ const ArticleDetail = (props) => {
 
       <Button
         style={{ backgroundColor: "#6A24FE", border: "none" }} variant="primary" onClick={() => handleDelete()}>
-        {t('articledetail.Delete')}</Button>
+        {t('articledetail.Delete')}
+      </Button>
+      <Button
+        style={{ backgroundColor: "#6A24FE", border: "none" }} variant="primary" onClick={handleLike}>
+          {liked ? "싫어요" : "좋아요"}
+           {/* {liked ? "싫어요" : "좋아요"} 이미 좋아요를 누른 경우 버튼 텍스트 변경 */}
+        {/* {t('articledetail.Like')} */}
+      </Button>
+      <div>
+        <p>추천: {data.likeCount}</p>
+      </div>
+
       </Col>
     </Row>
     </>
