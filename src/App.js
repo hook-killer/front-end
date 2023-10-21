@@ -1,5 +1,5 @@
 import "normalize.css";
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Link, Routes, useLocation } from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import PopularBox from "./components/main/PopularBox";
@@ -69,14 +69,14 @@ const App = () => {
               <Route path="/mypage" element={<Mypage token={token} />} />
               <Route
                 path="/login"
-                element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
+                element={<LoginForm tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
               />
               <Route
                 path="/register"
-                element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
+                element={<RegisterForm roleSet={setRole} nickNameSet={setNickName} />}
               />
               <Route path="/article/add" element={<ArticleAdd token={token} />} />
-              <Route path="/article/list/:boardId" element={<ArticleList /> } />
+              <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
               <Route
                 path="/search/result/:word"
@@ -104,8 +104,8 @@ const App = () => {
                 element={<EmailVerification />}
               />
               <Route
-                path="/kakao/callback"
-                element={<KakaoLogin />}
+                path="/auth/oauth/kakao"
+                element={<KakaoLogin tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
               />
               <Route />
             </Routes>
