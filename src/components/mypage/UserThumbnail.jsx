@@ -1,65 +1,80 @@
-import React, { useState, useEffect, useRef } from "react";
-import {
-  updateUserThumbnailPath,
-  postUserProfile,
-  getUserInfo,
-} from "../../api/MypageApi";
+import React, { useState, useRef } from "react";
+import { updateUserThumbnailPath, postUserProfile } from "../../api/MypageApi";
 
 const UserThumbnail = ({ language, token }) => {
-  const [userId, setUserId] = useState(null);
   const [thumbnail, setThumbnail] = useState("");
+  const [usageType, setUsageType] = useState("PROFILE");
   const hiddenFileInput = useRef(null);
 
-  useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfo(language, token);
-        if (response.status === 200) {
-          setThumbnail(response.data.thumbnail || "");
-          setUserId(response.data.userId || null);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user info", error);
+  // useEffect(() => {
+  //   const fetchUserInfo = async () => {
+  //     try {
+  //       const response = await getUserInfo(language, token);
+  //       if (response.status === 200) {
+  //         setThumbnail(response.data.thumbnail || "");
+  //         setUserId(response.data.userId || null);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to fetch user info", error);
+  //     }
+  //   };
+
+  //   fetchUserInfo();
+  // }, [language, token]);
+
+  const handleFileChange = async (selectedFile) => {
+    if (!selectedFile) return;
+
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("naverObjectStorageUsageType", usageType);
+
+      const uploadResponse = postUserProfile(formData, language, token);
+
+      const newFilePath = uploadResponse.data;
+      console.log("filetoken", token);
+      console.log("uploadResponse", uploadResponse);
+
+      const updateResponse = await updateUserThumbnailPath(
+        { thumbnail: newFilePath },
+        language,
+        token
+      );
+      console.log("token", token);
+
+      if (updateResponse.data.result) {
+        setThumbnail(newFilePath);
+        alert(updateResponse.data.message);
+      } else {
+        alert(updateResponse.data.message);
       }
-    };
-
-    fetchUserInfo();
-  }, [language, token]);
-
-  const handleFileChange = (selectedFile) => {
-    let reader = new FileReader();
-
-    reader.onloadend = () => {
-      setThumbnail(reader.result);
-      uploadAndSave(selectedFile);
-    };
-
-    if (selectedFile) {
-      reader.readAsDataURL(selectedFile);
+    } catch (error) {
+      alert("썸네일 업데이트 실패!");
     }
   };
 
-  const uploadAndSave = async (selectedFile) => {
-    if (selectedFile) {
-      try {
-        const formData = new FormData();
-        formData.append("image", selectedFile);
-        formData.append("naverObjectStorageUsageType", "PROFILE");
+  // const uploadAndSave = async (selectedFile) => {
+  //   if (selectedFile) {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("image", selectedFile);
+  //       formData.append("naverObjectStorageUsageType", "PROFILE");
 
-        const uploadResponse = await postUserProfile(formData, language, token);
-        const newFilePath = uploadResponse.data.filePath;
+  //       const uploadResponse = await postUserProfile(formData, language, token);
+  //       const newFilePath = uploadResponse.data.filePath;
 
-        if (response.data.result) {
-          setThumbnail(response.data.thumbnail);
-          alert(response.data.message);
-        } else {
-          alert(response.data.message);
-        }
-      } catch (error) {
-        alert("썸네일 업데이트 실패!");
-      }
-    }
-  };
+  //       if (response.data.result) {
+  //         setThumbnail(response.data.thumbnail);
+  //         alert(response.data.message);
+  //       } else {
+  //         alert(response.data.message);
+  //       }
+  //     } catch (error) {
+  //       alert("썸네일 업데이트 실패!");
+  //     }
+  //   }
+  // };
 
   const handleClick = async () => {
     hiddenFileInput.current.click();

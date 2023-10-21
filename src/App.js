@@ -32,16 +32,8 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(
-    isNull(storageToken)
-      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc2MDMwLCJleHAiOjE2OTc4MTIwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.8ulvoC4PKfeQYVBtTsdYTbxYJ59I2-veMCNsG1j1DuRF77JU8PJBCdRRPbaQLULv0PNuR-902f7DDzRMTR3Sfg"
-      : storageToken
-  );
-  if (isNull(storageToken))
-    setCookie(
-      "token",
-      "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc2MDMwLCJleHAiOjE2OTc4MTIwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.8ulvoC4PKfeQYVBtTsdYTbxYJ59I2-veMCNsG1j1DuRF77JU8PJBCdRRPbaQLULv0PNuR-902f7DDzRMTR3Sfg"
-    );
+  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+
   const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
