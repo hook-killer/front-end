@@ -52,13 +52,6 @@ const ListArticleForm = (props) => {
 
   return (
     <>
-      {/* <div>
-  <button onClick={() => i18n.changeLanguage('en')}>English</button>
-  <button onClick={() => i18n.changeLanguage('ko')}>한국어</button>
-  <button onClick={() => i18n.changeLanguage('jp')}>日本語</button>
-  <button onClick={() => i18n.changeLanguage('cn')}>中文</button>
-  </div> */}
-
       <TableContainer className="list-container">
         <Table className="post-table">
           <ColGroup>
@@ -71,10 +64,10 @@ const ListArticleForm = (props) => {
           <TableHead>
             <tr>
               <th>NO</th>
-              <th>{t("articlelist.제목")}</th>
-              <th>{t("articlelist.추천")}</th>
-              <th>{t("articlelist.작성자")}</th>
-              <th>{t("articlelist.작성일")}</th>
+              <th>{t("articlelist.Title")}</th>
+              <th>{t("articlelist.Recommend")}</th>
+              <th>{t("articlelist.Author")}</th>
+              <th>{t("articlelist.Date")}</th>
             </tr>
           </TableHead>
           <TableBody>
@@ -102,7 +95,7 @@ const ListArticleForm = (props) => {
               variant="primary"
               className="w-100 text-center"
             >
-              {t("articlelist.새글")}
+              {t("articlelist.New Article")}
             </Button>
           </Link>
         </Col>

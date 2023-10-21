@@ -60,7 +60,7 @@ const LoginForm = ( props ) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>{t('login.로그인')}</TitleH1>
+            <TitleH1>{t('login.Login')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
@@ -111,7 +111,7 @@ const LoginForm = ( props ) => {
                 className="me-3"
                 height="80%"
               />
-              카카오 로그인
+              {t('login.KaKaoLogin')}
             </KakaoButton>
           </Col>
         </Row>

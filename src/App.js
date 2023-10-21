@@ -78,7 +78,6 @@ const App = () => {
               <Route path="/article/add" element={<ArticleAdd token={token} />} />
               <Route path="/article/list/:boardId" element={<ArticleList /> } />
               <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
-              <Route path="/article/delete/:articleId" element={<ArticleDelete token={token} />} />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
