@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { listReply, deleteReply } from "../../api/ReplyApi";
-import styled from "styled-components";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
-import { Alert, Button, Col, Row } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Accordion from 'react-bootstrap/Accordion';
 import ListGroup from 'react-bootstrap/ListGroup';
-import AlertDismissible from './AlertDismissible'; // 파일 경로는 실제 프로젝트 구조에 맞게 수정해주세요.
 import { useAccordionButton } from 'react-bootstrap/AccordionButton';
 
 const ReplyList = (props) => {
@@ -41,7 +38,7 @@ const ReplyList = (props) => {
     const confirmed = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmed) {
       console.log(props.token)
-      deleteReply(replyId, "KO", token)
+      deleteReply(replyId, "십새야", token)
       .then((res) => {
         console.log(res)
         alert("삭제 성공!")

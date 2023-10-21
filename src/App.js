@@ -18,6 +18,7 @@ import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
 import ArticleDelete from "./components/article/delete";
 import ReplyList from "./components/reply/list";
+import ReplyAdd from "./components/reply/add";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
@@ -34,7 +35,7 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3NzgwNjc2LCJleHAiOjE2OTc4MTY2NzYsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.AdTi4Ln6SfuPgDkKbjtQN5ZpX037M7jSz0ZlQXhCRN-ZzjrMpw-GPzDu2x9tUs9EIAprohY-LTDxVi89xLdMvw" : storageToken);
+  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3ODYyMjAxLCJleHAiOjE2OTc4OTgyMDEsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.RJ_pveaTT8GGFYAZMoZI_yMz-k8936Z5DK1A0aoOVx1mkbsRdsx92swUWzG5XVVmn0m8lSj9NZSPOHIKp1JPeA" : storageToken);
   const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
@@ -83,8 +84,11 @@ const App = () => {
                 element={<SearchResultList />}
               />
 
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
               <Route path="/reply/list/:articleId" element={<ReplyList token={token}/>} />
- 
+              <Route path="/reply/add/:articleId" element={<ReplyAdd token={token} />} />
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
+
               <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
 
               <Route path="/notice" element={<NoticeList />} />
