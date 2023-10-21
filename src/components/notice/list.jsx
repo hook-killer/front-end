@@ -72,9 +72,9 @@ const NoticeList = ({props}) => {
         </ColGroup>
         <TableHead>
           <tr>
-            <th>{t('noticelist.번호')}</th>
-            <th>{t('noticelist.제목')}</th>
-            <th>{t('noticelist.작성일')}</th>
+            <th>{t('noticelist.No')}</th>
+            <th>{t('noticelist.Title')}</th>
+            <th>{t('noticelist.Date')}</th>
           </tr>
         </TableHead>
         <TableBody>
@@ -91,12 +91,7 @@ const NoticeList = ({props}) => {
     <Row className="mt-5">
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         <Link to={{ pathname:'/notice/add' }}>
-          <Button 
-          style={{backgroundColor:'#6A24FE', border:'none'}} 
-          variant="primary" 
-          className="w-100 text-center">
-            {t('noticelist.새글')}
-          </Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.New Article')}</Button>
         </Link>
       </Col>
     </Row>

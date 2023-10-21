@@ -81,7 +81,7 @@ const RegisterForm = ({ props }) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>{t('signup.회원가입')}</TitleH1>
+            <TitleH1>{t('signup.SignUp')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
