@@ -10,10 +10,10 @@ const EmailVerificationPage = () => {
   const location = useLocation();
 
   const token = new URLSearchParams(location.search).get("verificationToken");
-  console.log(token)
 
   verifyEmail(token)
     .then((response) => {
+      console.log(response)
       if (response.status === 200) {
         setVerificationStatus("인증 완료");
         navigate("/");
