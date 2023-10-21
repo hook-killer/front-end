@@ -12,10 +12,8 @@ import { useParams } from "react-router-dom";
 const NoticeUpdate = (props) => {
   const { t, i18n } = useTranslation();
   const [ data, setData ] = useState([]);
-  const [ newTitle, setTitle ] = useState("");
-  const [ newContent, setContent ] = useState("")
-  const orgTitle = useState("");
-  const orgContent = useState("");
+  const [ newTitle, setNewTitle ] = useState("");
+  const [ newContent, setNewContent ] = useState("")
   const quillRef = useRef(null);
   const token = props.token;
   const role = props.role;
@@ -23,11 +21,13 @@ const NoticeUpdate = (props) => {
   const { noticeArticleId } = useParams();
 
   const handleQuillChange = (e) => {
-    setContent(e);
+    setNewContent(e);
   };
 
   console.log("role : ", role);
   console.log("token : ", token);
+
+  const orgTitle=null, orgContent=null;
 
   useEffect(() => {
     const languageChangeHandler = () => {
@@ -35,8 +35,10 @@ const NoticeUpdate = (props) => {
         .then((response) => {
           if (response.data) {
             setData(response.data);
-            setTitle(response.data.title);
-            setContent(response.data.content)
+            setNewTitle(response.data.title);
+            setNewContent(response.data.content)
+            orgTitle=response.data.title;
+            orgContent=response.data.content;
           }
         })
         .catch((error) => {
@@ -131,6 +133,7 @@ const NoticeUpdate = (props) => {
   const handleButtonClick = async () => {
 
     const noticeUpdateForm = {
+      noticeArticleId: noticeArticleId,
       language: language,
       orgTitle: orgTitle,
       newTitle: newTitle,
@@ -138,7 +141,7 @@ const NoticeUpdate = (props) => {
       newContent: newContent,
     };
 
-    noticeAxios(noticeUpdateForm, i18n.language, role, token)
+    noticeAxios(noticeUpdateForm, i18n.language, token)
     .then(response => console.log(response))
     .catch(error => console.log(error));
   };
@@ -159,7 +162,7 @@ const NoticeUpdate = (props) => {
               width: "100%"
             }}
             value={newTitle}
-            onChange={(e) => setTitle(e.target.value)}
+            onChange={(e) => setNewTitle(e.target.value)}
           />
         </Col>
       </Row>

@@ -15,6 +15,7 @@ export const noticeDetail = (noticeArticleId, language) =>
 export const noticeDelete = (noticeArticleId, language, token) => 
   DefaultClient(language, token).delete(`${requestMapping}/${noticeArticleId}`)
 
-export const noticeUpdate = (updateNoticeForm, noticeArticleId, language, token, role) =>
-  DefaultClient(language, token, role).put(requestMapping, updateNoticeForm, noticeArticleId)
+
+export const noticeUpdate = (updateNoticeForm, language, token) =>
+  DefaultClient(language, token).put(requestMapping, updateNoticeForm)
   
