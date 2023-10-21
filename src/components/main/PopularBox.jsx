@@ -80,8 +80,10 @@ const PopularBox = () => {
       //순서 보장을위함
       for (let i = 0; i < boards.length; i++) {
         const board = boards[i];
+        console.log("board : ", board)
+        console.log("i18n : ", i18n.language);
         const response = await popularArticle(board.boardId, i18n.language);
-
+        console.log(response)
         requests.push({
           board: board,
           articles: response.data,
@@ -89,6 +91,7 @@ const PopularBox = () => {
       }
       setArticleData(requests);
     } catch (error) {
+      console.log(error);
       console.error("Axios Error");
     }
   };

@@ -16,6 +16,8 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
+import ReplyList from "./components/reply/list";
+import ReplyAdd from "./components/reply/add";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
@@ -80,7 +82,14 @@ const App = () => {
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
-              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
+
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
+              <Route path="/reply/list/:articleId" element={<ReplyList token={token}/>} />
+              <Route path="/reply/add/:articleId" element={<ReplyAdd token={token} />} />
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
+
+              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
+
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
