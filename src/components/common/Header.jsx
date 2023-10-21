@@ -81,9 +81,7 @@ const LoginMenu = (props) => {
     <>
       {nickName}
       <PopupMenu>
-        <button className="btn btn-primary ms-1">
-          <small>Menu</small>
-        </button>
+        <MenuPopButton type="button" className="btn btn-primary ms-1" value="Menu" />
 
         <div className="card text-start">
           <div className="card-body px-4 py-4">
@@ -188,6 +186,7 @@ const LoginMenu = (props) => {
  * @param {*} param0
  * @returns
  */
+
 const MemberArea = (props) => {
   let role = props.role;
   if (role === "GUEST") {
@@ -222,29 +221,29 @@ const Header = (props) => {
             <Link
               to="/article/list/1"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
             >
               {t("header.koBoard")}
             </Link>
             <Link
               to="/article/list/2"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
             >
               {t("header.jpBoard")}
             </Link>
             <Link
               to="/article/list/3"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
             >
               {t("header.cnBoard")}
             </Link>
-            
+
             <Link
               to="/notice"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none"  }}
+              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
             >
               {t("header.notice")}
             </Link>
@@ -322,6 +321,19 @@ const LoginButton = styled.input`
   font-weight: 400;
   padding: 0.375rem 0.75rem;
   width: 100%;
+  text-align: center;
+`;
+
+const MenuPopButton = styled.input`
+  margin: 0;
+  overflow: visible;
+  background-color: #008B8B;
+  color: #fff;
+  border-radius: 5px;
+  border: 0;
+  font-weight: 400;
+  padding: 0.375rem 0.75rem;
+  width: 70px;
   text-align: center;
 `;
 
