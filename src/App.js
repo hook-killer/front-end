@@ -30,12 +30,12 @@ import KakaoLogin from "./components/auth/KakaoLogin";
 const App = () => {
   let storageLanguage = getCookie("language");
   let storageRole = getCookie("role");
-  let storageToken = getCookie("token");
+  let storageToken = getCookie("jwtToken");
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Nzc5MDc2LCJleHAiOjE2OTc4MTUwNzYsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.hVnO_SFoHcHg4_AB1xDN15VavAXLxAJcpSLbaMZG8jrM6liv7tnibMaNHqI6Azz1ZG_bhLqtr7R_6Xw7Pl9Zfw" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
+  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [role, setRole] = useState(isNull(storageRole) ? "" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
@@ -88,7 +88,7 @@ const App = () => {
               <Route path="/reply/add/:articleId" element={<ReplyAdd token={token} />} />
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
 
-              <Route path="/notice/add" element={<NoticeAdd token={token}/>} />
+              <Route path="/notice/add" element={<NoticeAdd role={role} token={token}/>} />
 
               <Route path="/notice" element={<NoticeList />} />
               <Route
@@ -97,7 +97,7 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate token={token} />}
+                element={<NoticeUpdate role={role} token={token} />}
               />
               <Route
                 path="/verifyEmail"

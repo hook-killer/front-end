@@ -11,35 +11,32 @@ import { useParams } from "react-router-dom";
 
 const NoticeUpdate = (props) => {
   const { t, i18n } = useTranslation();
-  const [data, setData] = useState("");
+  const [ data, setData ] = useState([]);
+  const [ newTitle, setTitle ] = useState("");
+  const [ newContent, setContent ] = useState("")
+  const orgTitle = useState("");
+  const orgContent = useState("");
   const quillRef = useRef(null);
   const token = props.token;
-  const [language, setLanguage] = useState(i18n.language);
-  const {noticeArticleId} = useParams();
-
-  console.log("제목 어떻게 넘어오니? ", data.title);
-  console.log("내용 어떻게 넘어오니? ", data.content);
-
-  console.log("noticeArticleID : ", noticeArticleId);
-
-  console.log("token : ", token, " language : ", language);
+  const role = props.role;
+  const [ language, setLanguage ] = useState(i18n.language);
+  const { noticeArticleId } = useParams();
 
   const handleQuillChange = (e) => {
-    console.log(e);
-    setData(e);
+    setContent(e);
   };
+
+  console.log("role : ", role);
+  console.log("token : ", token);
 
   useEffect(() => {
     const languageChangeHandler = () => {
-      console.log('useEffect 들어옴')
       noticeDetail(noticeArticleId, i18n.language)
         .then((response) => {
-          console.log("response : ", response)
-          console.log("response.data.length : ", response.data.length)
           if (response.data) {
             setData(response.data);
-            console.log("test")
-            console.log("test : ", response.data.content);
+            setTitle(response.data.title);
+            setContent(response.data.content)
           }
         })
         .catch((error) => {
@@ -53,15 +50,14 @@ const NoticeUpdate = (props) => {
         });
     };
     languageChangeHandler();
-
   // 리스너 등록
   i18n.on("languageChanged", languageChangeHandler);
 
-  // 컴포넌트가 언마운트될 때 리스너 제거
-  return () => {
-    i18n.off("languageChanged", languageChangeHandler);
-  };
-}, [i18n]);
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
 
   const modules = useMemo(() => {
     return {
@@ -132,24 +128,22 @@ const NoticeUpdate = (props) => {
     "background",
   ];
 
-const handleButtonClick = async () => {
-  console.log("title : ", title);
-  console.log("data : ", data);
+  const handleButtonClick = async () => {
 
-  const noticeUpdateForm = {
+    const noticeUpdateForm = {
+      language: language,
+      orgTitle: orgTitle,
+      newTitle: newTitle,
+      orgContent: orgContent,
+      newContent: newContent,
+    };
 
-    language: language,
-    title: title,
-    content: data,
+    noticeAxios(noticeUpdateForm, i18n.language, role, token)
+    .then(response => console.log(response))
+    .catch(error => console.log(error));
   };
 
-  noticeAxios(noticeUpdateForm, i18n.language, token)
-  .then(response => console.log(response))
-  .catch(error => console.log(error));
-
-  console.log("제목 어떻게 넘어오니? ", data.title);
-  console.log("내용 어떻게 넘어오니? ", data.content);
-};
+  console.log('languageChangeHandler Before Data , ', data)
 
   return (
     <>
@@ -164,8 +158,8 @@ const handleButtonClick = async () => {
               fontSize: "24px",
               width: "100%"
             }}
-            value={data.title}
-            onChange={(e) => setData(e.target.value)}
+            value={newTitle}
+            onChange={(e) => setTitle(e.target.value)}
           />
         </Col>
       </Row>
@@ -193,7 +187,7 @@ const handleButtonClick = async () => {
             theme="snow"
             modules={modules}
             formats={formats}
-            value={data.content}
+            value={newContent}
             onChange={handleQuillChange}
           />
         </Col>
@@ -207,7 +201,7 @@ const handleButtonClick = async () => {
                 className="w-100 text-center" 
                 style={{backgroundColor:'#6A24FE', border:'none'}} 
                 onClick={handleButtonClick}>
-                {t('noticeadd.작성')}
+                {t('작성')}
               </Button>
             </Link>
           </Col>
