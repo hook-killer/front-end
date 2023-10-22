@@ -10,7 +10,7 @@ const ListArticleForm = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
   const { boardId } = useParams();
-  
+
   const customLinkStyle = {
     textDecoration: 'none',
     color: 'black'
