@@ -35,7 +35,7 @@ const App = () => {
   let storageProfile = getCookie("profile");
 
   const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
+  const [role, setRole] = useState(isNull(storageRole) ? "" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
