@@ -18,6 +18,12 @@
     "제목을 입력하세요.": "Please enter a title. ",
     "Add": "Add"
   },
+  "articleEdit": {
+    "title": "Enter the title you wish to modify.",
+    "update": "update",
+    "notFoundArticle": "Post that doesn't exist",
+    "updateSuccess": "Modification completed"
+  },
   "articledetail": {
     "No": "No",
     "Title": "Title",
@@ -64,7 +70,7 @@
   },
   "login": {
     "Login": "Login",
-    "KaKaoLogin" : "KaKao Login"
+    "KaKaoLogin": "KaKao Login"
   },
   "signup": {
     "SignUp": "SignUp"

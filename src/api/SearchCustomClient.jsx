@@ -10,7 +10,7 @@ export const jsonClient = axios.create({
   timeout: 5000,
   headers: {
     Authorization:
-      "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
+      "Bearer " + isNull(getCookie("jwtToken")) ? "" : getCookie("jwtToken"),
     language: getCookie("language"),
     "Content-Type": "application/json",
   },
@@ -22,7 +22,7 @@ export const multiPartClient = axios.create({
   timeout: 5000,
   headers: {
     Authorization:
-      "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
+      "Bearer " + isNull(getCookie("jwtToken")) ? "" : getCookie("jwtToken"),
     language: getCookie("language"),
     "Content-Type": "multipart/form-data",
   },
