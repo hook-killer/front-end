@@ -14,8 +14,6 @@ import { useTranslation } from "react-i18next";
 const SelectLanguage = (props) => {
   const lang = props.language;
   const setLanguage = props.languageSet;
-  const setToken = props.tokenSet;
-  const setRole = props.roleSet;
   const { t, i18n } = useTranslation();
 
   const languageData = [
@@ -190,9 +188,7 @@ const LoginMenu = (props) => {
  */
 
 const MemberArea = (props) => {
-  let token = props.token;
   let role = props.role;
-  console.log(props);
   if (role === "GUEST") {
     return NotLoginMenu();
   }
