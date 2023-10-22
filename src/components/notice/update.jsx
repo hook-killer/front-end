@@ -29,38 +29,6 @@ const NoticeUpdate = (props) => {
 
   const orgTitle=null, orgContent=null;
 
-  useEffect(() => {
-    const languageChangeHandler = () => {
-      noticeDetail(noticeArticleId, i18n.language)
-        .then((response) => {
-          if (response.data) {
-            setData(response.data);
-            setNewTitle(response.data.title);
-            setNewContent(response.data.content)
-            orgTitle=response.data.title;
-            orgContent=response.data.content;
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log('Server Error: ', error.response.data);
-          } else if (error.request) {
-            console.log('No reseponse from Server: ', error.request);
-          } else {
-            console.log('Request Error: ', error.message);
-          }
-        });
-    };
-    languageChangeHandler();
-  // 리스너 등록
-  i18n.on("languageChanged", languageChangeHandler);
-
-    // 컴포넌트가 언마운트될 때 리스너 제거
-    return () => {
-      i18n.off("languageChanged", languageChangeHandler);
-    };
-  }, [i18n]);
-
   const modules = useMemo(() => {
     return {
       toolbar: {
@@ -130,6 +98,38 @@ const NoticeUpdate = (props) => {
     "background",
   ];
 
+  useEffect(() => {
+    const languageChangeHandler = () => {
+      noticeDetail(noticeArticleId, i18n.language)
+        .then((response) => {
+          if (response.data) {
+            setData(response.data);
+            setNewTitle(response.data.title);
+            setNewContent(response.data.content)
+            orgTitle=response.data.title;
+            orgContent=response.data.content;
+          }
+        })
+        .catch((error) => {
+          if (error.response) {
+            console.log('Server Error: ', error.response.data);
+          } else if (error.request) {
+            console.log('No reseponse from Server: ', error.request);
+          } else {
+            console.log('Request Error: ', error.message);
+          }
+        });
+    };
+    languageChangeHandler();
+  // 리스너 등록
+  i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
+
   const handleButtonClick = async () => {
 
     const noticeUpdateForm = {
@@ -198,13 +198,13 @@ const NoticeUpdate = (props) => {
       <Row className="mt-5">
           <Col className="d-flex justify-content-end justify-content-center" xs={12}>
 
-            <Link to={{pathname:"/notice"}}>
+            <Link to={{ pathname:"/notice" }}>
               <Button 
                 variant="primary" 
                 className="w-100 text-center" 
                 style={{backgroundColor:'#6A24FE', border:'none'}} 
                 onClick={handleButtonClick}>
-                {t('작성')}
+                {t("noticeadd.Add")}
               </Button>
             </Link>
           </Col>

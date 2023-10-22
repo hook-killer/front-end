@@ -120,20 +120,13 @@ const NoticeAdd = (props) => {
     };
 
     console.log("토큰 잘 넘어오니? : ", token)
-    noticeAxios(addNoticeForm, i18n.language, role)
+    noticeAxios(addNoticeForm, i18n.language, token)
     .then((response) => console.log("response : ", response))
     .catch((error) => console.log("error : ", error));
   };
 
   return (
     <>
-      {/* <h4
-        style={{
-          marginTop: "30px",
-        }}
-      >
-        {t("noticeadd.Notice")}
-      </h4> */}
       <Row>
         <Col className="w-100">
           <TextField

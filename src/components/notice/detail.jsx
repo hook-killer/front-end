@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { noticeDetail as noticeAxios } from "../../api/NoticeApi";
+import { noticeDetail as noticeAxios, noticeDelete as noticeDeleteAxios } from "../../api/NoticeApi";
 import styled from"styled-components";
 import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
@@ -11,11 +11,12 @@ const NoticeDetail = (props) => {
   const [data, setData] = useState('');
   const token = props.token;
   const {noticeArticleId} = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const languageChangeHandler = () => {
     console.log('useEffect 들어옴')
-    noticeAxios(noticeArticleId, i18n.language)
+    noticeAxios(noticeArticleId, i18n.language, token)
       .then((response) => {
         console.log("response : ", response)
         console.log("response.data.length : ", response.data.length)
@@ -34,24 +35,43 @@ const NoticeDetail = (props) => {
           console.log('Request Error: ', error.message);
         }
       });
-  };
+    };
   
-  languageChangeHandler();
+    languageChangeHandler();
 
-  // 리스너 등록
-  i18n.on("languageChanged", languageChangeHandler);
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
 
-  // 컴포넌트가 언마운트될 때 리스너 제거
-  return () => {
-    i18n.off("languageChanged", languageChangeHandler);
-  };
-}, [i18n]);
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
 
-console.log(data);
+  console.log(data);
+
+  const handleDelete = async () => {
+    const token = props.token;
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+
+    if (confirmed) {
+      try {
+        const response = await noticeDeleteAxios(noticeArticleId, i18n.language, token);
+        if (response.status === 200) {
+          console.log("삭제 성공");
+        } else {
+          console.error("삭제 실패");
+        }
+      } catch (error) {
+        console.error("삭제 중 오류 발생");
+      }
+      navigate("/notice");
+    }
+  }
 
   return (
     <>
-    <TableContainer className="noticeDetailTable">
+    <TableContainer className="noticeDetailTable"> 
       <Table>
         <TableBody>
           <tr>
@@ -70,12 +90,6 @@ console.log(data);
             <th style={{textAlign: 'center'}}>{t('noticedetail.Content')}</th>
             <td dangerouslySetInnerHTML={{ __html : data.content }}></td>
           </tr>
-          {/* <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.첨부파일')}</th>
-            <td dangerouslySetInnerHTML={{ __html : data.file }}></td>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.Attachment')}</th>
-            <td>{data.file}</td>
-          </tr> */}
         </TableBody>
       </Table>
     </TableContainer>
@@ -84,20 +98,33 @@ console.log(data);
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         
         <Link to={ `/notice/update/${data.id}` }>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.Modification")}</Button>
+          <Button 
+            style={{backgroundColor:'#6A24FE', border:'none'}} 
+            variant="primary" 
+            className="w-100 text-center">
+            {t("noticedetail.Modification")}
+          </Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.List")}</Button>
+          <Button 
+            style={{backgroundColor:'#6A24FE', border:'none'}} 
+            variant="primary" 
+            className="w-100 text-center">
+            {t("noticedetail.List")}
+          </Button>
         </Link>
 
         &nbsp;&nbsp;
 
-        <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.Delete")}</Button>
-        </Link>
+        <Button 
+          style={{backgroundColor:'#6A24FE', border:'none'}} 
+          variant="primary" 
+          onClick={() => handleDelete()}>
+          {t("noticedetail.Delete")}
+        </Button>
       </Col>  
     </Row>
     </>
