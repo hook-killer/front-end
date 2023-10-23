@@ -1,36 +1,98 @@
 import React, { useState, useEffect } from "react";
 import { myPageList as myPageListAxios } from "../../api/MypageApi";
-import { useParams } from "react-router";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
-const MypageList = () => {
-  const { searchType } = useParams(); // URL에서 searchType을 가져옴
+const TableBodyContent = (searchType, rowDatas) => {
+  if (searchType == "article") {
+    return ArticleRow(rowDatas);
+  }
+  if (searchType == "reply") {
+    return ReplyRow(rowDatas);
+  }
+  return LikeRow(rowDatas);
+};
+
+const ArticleRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`ArticleRow_${rowData.boardId}_${index}`}>
+      <td>{rowData.boardId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.createAt}</td>
+      <td>{rowData.likeCount}</td>
+    </tr>
+  ));
+
+const ReplyRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`ReplyRow_${rowData.articleId}_${index}`}>
+      <td>{rowData.articleId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.content}</td>
+      <td>{rowData.createAt}</td>
+    </tr>
+  ));
+
+const LikeRow = (rowDatas) =>
+  rowDatas.map((rowData, index) => (
+    <tr key={`LikeRow_${rowData.boardId}_${index}`}>
+      <td>{rowData.boardId}</td>
+      <td>{rowData.title}</td>
+      <td>{rowData.createdUser?.nickName}</td>
+      <td>{rowData.createAt}</td>
+    </tr>
+  ));
+
+const MypageList = ({ language, token }) => {
+  const { t, i18n } = useTranslation();
+  const [searchType, setSearchType] = useState("article");
 
   const [items, setItems] = useState([]);
 
+  const myCreatedListRender = async () => {
+    try {
+      const response = await myPageListAxios(i18n.language, token, searchType);
+      if (response.status == 200) {
+        setItems(response.data);
+        return;
+      }
+      throw new Error("Not Success Error");
+    } catch (error) {
+      console.log("fucking");
+    }
+  };
   useEffect(() => {
-    myPageListAxios(searchType)
-      .then((response) => {
-        if (response.data && response.data.length > 0) {
-          setItems(response.data);
-          console.log(response.data);
-        }
-      })
-      .catch((error) => {
-        if (error.response) {
-          console.log("Server Error:", error.response.data);
-        } else if (error.request) {
-          console.log("No response from server:", error.request);
-        } else {
-          console.log("Request Error:", error.message);
-        }
-      });
+    myCreatedListRender();
   }, [searchType]);
+
+  useEffect(() => {
+    myCreatedListRender();
+    // 리스너 등록
+    i18n.on("languageChanged", myCreatedListRender);
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", myCreatedListRender);
+    };
+  }, [i18n]);
+
+  const changeSearchType = (searchTypeValue) => {
+    setSearchType(searchTypeValue);
+  };
 
   return (
     <>
-      <Link to="/mypage/article">게시글</Link>
+      <div>
+        <button onClick={() => changeSearchType("article")}>
+          {t("mypagebutton.article")}
+        </button>
+        <button onClick={() => changeSearchType("reply")}>
+          {t("mypagebutton.reply")}
+        </button>
+        <button onClick={() => changeSearchType("like")}>
+          {t("mypagebutton.like")}
+        </button>
+      </div>
+
       <TableContainer className="mypagelist-container">
         <Table className="post-table">
           <ColGroup>
@@ -41,62 +103,33 @@ const MypageList = () => {
           </ColGroup>
           <TableHead>
             <tr>
-              {searchType === "ARTICLE" && (
+              {searchType === "article" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>작성일</th>
-                  <th>추천수</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.createAt")}</th>
+                  <th>{t("mypagelist.likecount")}</th>
                 </>
               )}
-              {searchType === "REPLY" && (
+              {searchType === "reply" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>댓글</th>
-                  <th>작성일</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.reply")}</th>
+                  <th>{t("mypagelist.likecount")}</th>
                 </>
               )}
-              {searchType === "LIKE" && (
+              {searchType === "like" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>작성자</th>
-                  <th>작성일</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.author")}</th>
+                  <th>{t("mypagelist.createAt")}</th>
                 </>
               )}
             </tr>
           </TableHead>
-          <TableBody>
-            {items.map((item, index) => (
-              <tr key={index}>
-                {searchType === "ARTICLE" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.createAt}</td>
-                    <td>{item.likeCount}</td>
-                  </>
-                )}
-                {searchType === "REPLY" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.replyContent}</td>
-                    <td>{item.createAt}</td>
-                  </>
-                )}
-                {searchType === "LIKE" && (
-                  <>
-                    <td>{item.boardId}</td>
-                    <td>{item.title}</td>
-                    <td>{item.createUser}</td>
-                    <td>{item.createAt}</td>
-                  </>
-                )}
-              </tr>
-            ))}
-          </TableBody>
+          <TableBody>{TableBodyContent(searchType, items)}</TableBody>
         </Table>
       </TableContainer>
     </>

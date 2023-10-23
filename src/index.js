@@ -6,6 +6,4 @@ import { CookiesProvider } from "react-cookie";
 import "./i18n";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(
-  <App />
-);
+root.render(<App />);

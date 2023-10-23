@@ -1,68 +1,82 @@
-import React, { useState, useEffect } from "react";
-import {
-  uploadThumbnail,
-  getUserInfo,
-  updateUserInfo,
-} from "../../api/MypageApi";
+import React, { useState, useRef, useEffect } from "react";
+import { getUserInfo, updateUserThumbnailPath } from "../../api/MypageApi";
+import { uploadImg } from "../../api/FileApi";
+import { useTranslation } from "react-i18next";
 
-const ThumbnailComponent = () => {
-  const [userId, setUserId] = useState(null); // 유저 아이디 상태 추가
+const UserThumbnail = ({ language, token }) => {
+  const { t, i18n } = useTranslation();
   const [thumbnail, setThumbnail] = useState("");
-  const [file, setFile] = useState(null);
+  const [usageType, setUsageType] = useState("PROFILE");
+  const hiddenFileInput = useRef(null);
+  console.log("language : ", language, " token : ", token);
+  console.log("thumb : ", thumbnail);
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfo();
-        if (response && response.data) {
-          if (response.data.thumbnail) {
-            setThumbnail(response.data.thumbnail);
-          }
-          if (response.data.userId) {
-            setUserId(response.data.userId); // 유저 아이디 상태 설정
-          }
+    getUserInfo(i18n.language, token)
+      .then((response) => {
+        if (response.status === 200) {
+          setThumbnail(response.data.thumbnail);
         }
-      } catch (error) {
-        console.error("Failed to fetch user info", error);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch user thumbnail:", error);
+      });
+  }, [language, token]);
+
+  const updateUserThumbnailImage = (response) => {
+    const filePath = response.filePath;
+    updateUserThumbnailPath({ thumbnail: filePath }, i18n.language, token).then(
+      (resp) => {
+        if (resp.status == 200) {
+          setThumbnail(filePath);
+        }
+        alert(resp.data.message);
       }
-    };
+    );
+  };
 
-    fetchUserInfo();
-  }, []);
+  const handleFileChange = async (selectedFile) => {
+    if (!selectedFile) return;
 
-  const handleChange = (event) => {
-    let selectedFile = event.target.files[0];
-    let reader = new FileReader();
+    try {
+      const formData = new FormData();
+      formData.append("image", selectedFile);
+      formData.append("naverObjectStorageUsageType", usageType);
 
-    reader.onloadend = () => {
-      setThumbnail(reader.result);
-      setFile(selectedFile);
-    };
-
-    if (selectedFile) {
-      reader.readAsDataURL(selectedFile);
+      const responseData = await uploadImg(formData, i18n.language, token)
+        .then((response) => {
+          if (response.status == 200) {
+            updateUserThumbnailImage(response.data);
+            console.log("response : ", response.data.filePath);
+            return;
+          }
+          if (response.status != 200) {
+            throw new Error("ImageUpload Fail");
+          }
+        })
+        .catch((error) => console.log(err));
+    } catch (error) {
+      alert("Thumnail Update Failed");
     }
   };
 
-  const handleSubmit = async () => {
-    if (file) {
-      try {
-        const uploadResponse = await uploadThumbnail(file);
+  const handleClick = async () => {
+    hiddenFileInput.current.click();
+  };
 
-        if (uploadResponse.data.result) {
-          const newThumbnailPath = uploadResponse.data.thumnail;
-          await updateUserInfo({ userId: userId, thumbnail: newThumbnailPath }); // 유저 아이디 상태 사용
-          setThumbnail(newThumbnailPath);
+  const handleDragOver = (e) => {
+    e.preventDefault();
+  };
 
-          alert(uploadResponse.data.message);
-        } else {
-          alert(uploadResponse.data.message);
-        }
-      } catch (error) {
-        alert("썸네일 업데이트 실패!");
-      }
+  const handleDrop = (e) => {
+    e.preventDefault();
+    const files = e.dataTransfer.files;
+    if (files.length) {
+      handleFileChange(files[0]);
     }
   };
+
+  const DEFAULT_THUMBNAIL = "/thumbnail.png";
 
   return (
     <div>
@@ -70,16 +84,44 @@ const ThumbnailComponent = () => {
         style={{
           borderRadius: "50%",
           overflow: "hidden",
-          width: "100px",
-          height: "100px",
+          width: "200px",
+          height: "200px",
         }}
       >
-        <img src={thumbnail} alt="" style={{ width: "100%", height: "100%" }} />
+        <img
+          src={
+            thumbnail
+              ? `${process.env.REACT_APP_IMG_URL}${thumbnail}`
+              : DEFAULT_THUMBNAIL
+          }
+          alt=""
+          style={{ width: "100%", height: "100%" }}
+        />
+        <img src="../"></img>
       </div>
-      <input type="file" onChange={handleChange} />
-      <button onClick={handleSubmit}>수정</button>
+      <div
+        onClick={handleClick}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+        }}
+      >
+        📂 {t("mypagebutton.upload")}
+      </div>
+      <input
+        type="file"
+        ref={hiddenFileInput}
+        onChange={(e) => {
+          handleFileChange(e.target.files[0]);
+        }}
+        style={{ display: "none" }}
+      />
     </div>
   );
 };
 
-export default ThumbnailComponent;
+export default UserThumbnail;

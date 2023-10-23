@@ -74,5 +74,30 @@
   },
   "signup": {
     "SignUp": "회원가입"
+  },
+  "mypagebutton": {
+    "article": "게시글",
+    "reply": "댓글",
+    "like": "추천",
+    "update": "수정",
+    "upload": "업로드 버튼"
+  },
+  "mypagelist": {
+    "board": "게시판",
+    "title": "제목",
+    "createAt": "작성일",
+    "likecount": "추천수",
+    "reply": "댓글",
+    "author": "작성자"
+  },
+  "userinfo": {
+    "email": "이메일",
+    "nickname": "닉네임",
+    "createAt": "생성일"
+  },
+  "userinfomodal": {
+    "newPassword": "새 비밀번호",
+    "nickname": "현재 닉네임",
+    "newNickname": "새 닉네임"
   }
 }

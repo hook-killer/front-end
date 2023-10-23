@@ -1,5 +1,5 @@
 {
-  "header": {
+  "header" : {
     "mypage": "我的页面",
     "admin": "维护者页面",
     "notice": "公告",
@@ -7,6 +7,7 @@
     "jpBoard": "日语聚会",
     "cnBoard": "汉语聚会"
   },
+
   "articlelist": {
     "Title": "标题",
     "Author": "撰写人",
@@ -67,6 +68,7 @@
     "en": "英语",
     "jp": "日语",
     "cn": "汉语"
+
   },
   "login": {
     "Login": "登录",
@@ -74,5 +76,30 @@
   },
   "signup": {
     "SignUp": "报名"
+  },
+  "mypagebutton": {
+    "article": "帖",
+    "reply": "跟帖",
+    "like": "推荐",
+    "update": "修整",
+    "upload": "上传按钮"
+  },
+  "mypagelist": {
+    "board": "公告栏",
+    "title": "题目",
+    "createAt": "拟定日期",
+    "likecount": "推荐数",
+    "reply": "跟帖",
+    "author": "撰写人"
+  },
+  "userinfo": {
+    "email": "电子邮件",
+    "nickname": "ニックネーム",
+    "createAt": "绰号"
+  },
+  "userinfomodal": {
+    "newPassword": "新建密码",
+    "nickname": "当前昵称",
+    "newNickname": "新建昵称"
   }
 }
