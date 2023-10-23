@@ -5,7 +5,7 @@ import { TextField } from "@mui/material";
 import { noticeDetail, noticeUpdate as noticeAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
 
@@ -19,6 +19,7 @@ const NoticeUpdate = (props) => {
   const role = props.role;
   const { noticeArticleId } = useParams();
   const [ orgLanguage, setOrgLanguage] = useState("KO");
+  const navigate = useNavigate();
 
   const orgTitle=null, orgContent=null
 
@@ -139,6 +140,8 @@ const NoticeUpdate = (props) => {
     noticeAxios(noticeUpdateForm, i18n.language, token)
     .then(response => console.log(response))
     .catch(error => console.log(error));
+    alert(t("articleEdit.updateSuccess"))
+    navigate(-1);
   };
 
 
@@ -192,7 +195,6 @@ const NoticeUpdate = (props) => {
       <Row className="mt-5">
           <Col className="d-flex justify-content-end justify-content-center" xs={12}>
 
-            <Link to={{ pathname:"/notice" }}>
               <Button 
                 variant="primary" 
                 className="w-100 text-center" 
@@ -200,7 +202,6 @@ const NoticeUpdate = (props) => {
                 onClick={handleButtonClick}>
                 {t("noticeadd.Add")}
               </Button>
-            </Link>
           </Col>
         </Row>
       </>
