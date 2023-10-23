@@ -13,7 +13,7 @@ import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
 import { CenterFocusStrong } from "@mui/icons-material";
-import "./pagination.css"
+import "../common/pagination.css"
 
 const NoticeList = ( props ) => {
   const { t, i18n } = useTranslation();
@@ -108,12 +108,14 @@ const NoticeList = ( props ) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="centered-container">
       <PaginationComponent
         className="pagination"
         totalItems={totalElements}
         itemsPerPage={articleLimit}
         onPageChange={pageHandler}
       />
+      </div>
       <Row className="mt-5">
         <Col
           className="d-flex justify-content-end justify-content-center"
