@@ -67,7 +67,7 @@ const LoginMenu = (props) => {
   let t = props.trans;
 
   const onClickLogout = (e) => {
-    removeCookie("token");
+    removeCookie("jwtToken");
     removeCookie("role");
     removeCookie("nickName");
     removeCookie("profile");
@@ -81,7 +81,11 @@ const LoginMenu = (props) => {
     <>
       {nickName}
       <PopupMenu>
-        <MenuPopButton type="button" className="btn btn-primary ms-1" value="Menu" />
+        <MenuPopButton
+          type="button"
+          className="btn btn-primary ms-1"
+          value="Menu"
+        />
 
         <div className="card text-start">
           <div className="card-body px-4 py-4">
@@ -221,21 +225,33 @@ const Header = (props) => {
             <Link
               to="/article/list/1"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.koBoard")}
             </Link>
             <Link
               to="/article/list/2"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.jpBoard")}
             </Link>
             <Link
               to="/article/list/3"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.cnBoard")}
             </Link>
@@ -243,7 +259,11 @@ const Header = (props) => {
             <Link
               to="/notice"
               className="w-100 text-center p-0"
-              style={{ minWidth: "150px", color: "#A6A4A5", textDecoration: "none" }}
+              style={{
+                minWidth: "150px",
+                color: "#A6A4A5",
+                textDecoration: "none",
+              }}
             >
               {t("header.notice")}
             </Link>
@@ -289,7 +309,7 @@ const Header = (props) => {
           />
         </Col>
       </Row>
-    </HeaderDiv >
+    </HeaderDiv>
   );
 };
 
@@ -327,7 +347,7 @@ const LoginButton = styled.input`
 const MenuPopButton = styled.input`
   margin: 0;
   overflow: visible;
-  background-color: #008B8B;
+  background-color: #008b8b;
   color: #fff;
   border-radius: 5px;
   border: 0;

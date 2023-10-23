@@ -28,6 +28,12 @@
     "List": "목록",
     "Delete": "삭제"
   },
+  "articleEdit": {
+    "title": "수정을 희망하는 제목을 입력하세요.",
+    "update": "수정",
+    "notFoundArticle": "존재하지 않는 게시물입니다.",
+    "updateSuccess": "수정이 완료되었습니다."
+  },
   "main": {
     "popular[1]": "한국게시판 인기 게시물",
     "popular[2]": "일본게시판 인기 게시판",
@@ -64,7 +70,7 @@
   },
   "login": {
     "Login": "로그인",
-    "KaKaoLogin" : "KaKao Login"
+    "KaKaoLogin": "KaKao Login"
   },
   "signup": {
     "SignUp": "회원가입"
