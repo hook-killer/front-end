@@ -1,23 +1,22 @@
-import { jsonClient, multiPartClient } from "./MainCustomClient";
+import { jsonClient } from "./DefaultClient";
 
 var myPageRequestMapping = "/mypage";
 
-export const getUserInfo = () => jsonClient.get(`${myPageRequestMapping}`);
+export const getUserInfo = (language, token) =>
+  jsonClient(language, token).get(`${myPageRequestMapping}`);
 
-export const updateUserInfo = ({ userId, password, thumbnail, nickName }) =>
-  jsonClient.put(`${myPageRequestMapping}`, {
-    userId,
-    password,
-    thumbnail,
-    nickName,
-  });
+export const myPageList = (language, token, searchType) =>
+  jsonClient(language, token).get(
+    `${myPageRequestMapping}/mylist/${searchType}`
+  );
 
-export const myPageList = (searchType) =>
-  jsonClient.get(`${myPageRequestMapping}/mylist/${searchType}`);
+export const updateUserInfo = (data, language, token) => {
+  return jsonClient(language, token).put(`${myPageRequestMapping}`, data);
+};
 
-export const uploadThumbnail = (file) => {
-  const formData = new FormData();
-  formData.append("thumbnail", file);
-
-  return multiPartClient.put(`${myPageRequestMapping}/thumbnail`, formData);
+export const updateUserThumbnailPath = (thumbnail, language, token) => {
+  return jsonClient(language, token).put(
+    `${myPageRequestMapping}/thumnail`,
+    thumbnail
+  );
 };

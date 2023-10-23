@@ -1,118 +1,125 @@
 import React, { useState, useEffect } from "react";
 import { updateUserInfo, getUserInfo } from "../../api/MypageApi";
-import jwtDecode from "jwt-decode";
+import { useTranslation } from "react-i18next";
 
-const UserInfoUpdateModal = () => {
-  const token = localStorage.getItem("jwtToken");
-  const decodedToken = jwtDecode(token);
-  const userId = decodedToken.id;
-
+const UserInfoUpdateModal = ({ language, token, closeModal }) => {
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [nickName, setNickName] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-  const [message, setMessage] = useState("");
-  const [nickNameError, setNickNameError] = useState("");
+  const [newNickName, setNewNickName] = useState("");
+  const [passwordBorderStyle, setPasswordBorderStyle] = useState({});
+  const [nickNameBorderStyle, setNickNameBorderStyle] = useState({});
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      try {
-        const response = await getUserInfo();
-        const data = response.data;
-        setNickName(data.nickName);
-        setThumbnail(data.thumbnail);
-      } catch (error) {
-        setMessage("사용자 정보를 가져오는데 실패했습니다.");
-      }
-    };
+    // 현재 사용자 정보
+    getUserInfo(i18n.language, token)
+      .then((response) => {
+        setPassword(response.data.password);
+        setNickName(response.data.nickName);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data", error);
+      });
+  }, [language, token]);
 
-    fetchUserInfo();
-  }, []);
+  const handlePasswordChange = (e) => {
+    const enteredPassword = e.target.value;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (password !== confirmPassword) {
-      setMessage("비밀번호와 비밀번호 확인이 일치하지 않습니다.");
-      return;
+    if (enteredPassword === password) {
+      setPasswordBorderStyle({ borderColor: "red" });
+    } else if (enteredPassword.length < 8) {
+      setPasswordBorderStyle({ borderColor: "red" });
+    } else {
+      setPasswordBorderStyle({ borderColor: "green" });
     }
 
-    // 중복 닉네임 검사 로직을 여기 추가하세요.
-    // 예: const isDuplicate = await checkDuplicateNickName(nickName);
-    // if (isDuplicate) {
-    //     setNickNameError('같은 닉네임이 존재합니다.');
-    //     return;
-    // }
+    setNewPassword(enteredPassword);
+  };
 
-    const userInfoToUpdate = {
-      userId,
-      password,
-      thumbnail,
-      nickName,
-    };
+  const handleNickNameChange = (e) => {
+    setNewNickName(e.target.value);
 
-    try {
-      const response = await updateUserInfo(userInfoToUpdate);
-
-      if (response.data.result) {
-        setMessage(response.data.message);
-      } else {
-        if (response.data.message === "같은 닉네임이 존재합니다.") {
-          setNickNameError("같은 닉네임이 존재합니다.");
-        } else {
-          setMessage("오류가 발생했습니다. 다시 시도해 주세요.");
-        }
-      }
-    } catch (error) {
-      setMessage("서버와 통신 중 오류가 발생했습니다.");
+    if (e.target.value === nickName) {
+      setNickNameBorderStyle({ borderColor: "red" });
+    } else {
+      setNickNameBorderStyle({ borderColor: "green" });
     }
   };
 
-  const handleKeyDown = () => {
-    setMessage("");
-    setNickNameError("");
+  const handleSubmit = async () => {
+    try {
+      await updateUserInfo(
+        {
+          password: newPassword,
+          nickName: newNickName,
+        },
+        i18n.language,
+        token
+      );
+      alert("UserInfo update complete.");
+      window.location.reload();
+    } catch (error) {
+      console.error("Error updating user data", error);
+      alert("UserInfo update fail.");
+    }
   };
 
   return (
-    <div className="modal">
-      <form onSubmit={handleSubmit}>
-        <input
-          type="password"
-          placeholder="새 비밀번호"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <input
-          type="password"
-          placeholder="비밀번호 확인"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          onKeyDown={handleKeyDown}
-          style={{
-            backgroundColor: password === confirmPassword ? "green" : "red",
-          }}
-        />
-        <input
-          type="text"
-          placeholder="새 닉네임"
-          value={nickName}
-          onChange={(e) => setNickName(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        {nickNameError && <div>{nickNameError}</div>}
-        <input
-          type="text"
-          placeholder="썸네일 경로"
-          value={thumbnail}
-          onChange={(e) => setThumbnail(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        <button type="submit">정보 수정</button>
-      </form>
-      {message && <div>{message}</div>}
+    <div style={modalBackgroundStyle} onClick={closeModal}>
+      <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
+        <div style={modalContentStyle}>
+          <input
+            type="password"
+            placeholder={t("userinfomodal.newPassword")}
+            style={passwordBorderStyle}
+            onChange={handlePasswordChange}
+          />
+          <input
+            type="text"
+            placeholder={t("userinfomodal.nickname")}
+            value={nickName}
+            readOnly
+          />
+          <input
+            type="text"
+            placeholder={t("userinfomodal.newNickname")}
+            style={nickNameBorderStyle}
+            onChange={handleNickNameChange}
+          />
+        </div>
+        <button onClick={handleSubmit}>수정</button>
+        <button onClick={closeModal}>닫기</button>
+      </div>
     </div>
   );
+};
+
+const modalBackgroundStyle = {
+  position: "fixed",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.7)",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+};
+
+const modalContentStyle = {
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch",
+  gap: "10px",
+};
+
+const modalStyle = {
+  backgroundColor: "#ffffff",
+  padding: "20px",
+  borderRadius: "10px",
+  width: "50%",
+  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
 };
 
 export default UserInfoUpdateModal;

@@ -1,51 +1,60 @@
 import React, { useState, useEffect } from "react";
 import { getUserInfo } from "../../api/MypageApi";
-import UserInfoUpdateModal from "./UserInfoUpdateModal"; // UserInfoUpdateModal 컴포넌트를 임포트하세요.
+import UserInfoUpdateModal from "./UserInfoUpdateModal";
+import { useTranslation } from "react-i18next";
 
-const UserProfile = () => {
+const UserProfile = ({ token, language }) => {
+  const { t, i18n } = useTranslation();
+
   const [userInfo, setUserInfo] = useState({
-    email: "",
     nickName: "",
-    createAt: "",
+    password: "",
   });
 
-  const [showModal, setShowModal] = useState(false); // 모달 표시 여부를 위한 상태
-
   useEffect(() => {
-    async function fetchMyPageInfo() {
+    const fetchMyPageInfo = async () => {
       try {
-        const response = await getUserInfo();
-        setUserInfo(response.data); // 데이터 구조에 따라 적절히 수정해야 할 수 있습니다.
+        const response = await getUserInfo(i18n.language, token);
+        if (response.status == 200) {
+          setUserInfo(response.data);
+          return;
+        }
+        throw new Error("Response Fail");
       } catch (error) {
         console.error("유저 정보를 가져오는데 실패했습니다.", error);
       }
-    }
+    };
 
     fetchMyPageInfo();
   }, []);
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
     <div>
       <form>
         <div>
-          <label>이메일 : </label>
+          <label>{t("userinfo.email")} :</label>
           <span>{userInfo.email}</span>
         </div>
         <div>
-          <label>닉네임 : </label>
+          <label>{t("userinfo.nickname")} :</label>
           <span>{userInfo.nickName}</span>
         </div>
         <div>
-          <label>생성일 : </label>
+          <label>{t("userinfo.createAt")} :</label>
           <span>{userInfo.createAt}</span>
         </div>
       </form>
-      <button onClick={() => setShowModal(true)}>수정</button>{" "}
-      {/* showModal 상태에 따라 UserInfoUpdateModal 컴포넌트를 표시하거나 숨깁니다. */}
-      {showModal && (
+      <button onClick={() => setIsModalOpen(true)}>
+        {t("mypagebutton.update")}
+      </button>
+
+      {isModalOpen && (
         <UserInfoUpdateModal
-          onClose={() => setShowModal(false)}
-          userInfo={userInfo}
+          language={language}
+          token={token}
+          closeModal={() => setIsModalOpen(false)}
         />
       )}
     </div>

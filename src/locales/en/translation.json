@@ -74,5 +74,30 @@
   },
   "signup": {
     "SignUp": "SignUp"
+  },
+  "mypagebutton": {
+    "article": "Board",
+    "reply": "Reply",
+    "like": "Like",
+    "update": "Update",
+    "upload": "Upload Button"
+  },
+  "mypagelist": {
+    "board": "Board",
+    "title": "Title",
+    "createAt": "CreateAt",
+    "likecount": "LikeCount",
+    "reply": "Reply",
+    "author": "Author"
+  },
+  "userinfo": {
+    "email": "Email",
+    "nickname": "NickName",
+    "createAt": "CreateAt"
+  },
+  "userinfomodal": {
+    "newPassword": "New Password",
+    "nickname": "Current NickName",
+    "newNickname": "New NickName"
   }
 }

@@ -77,8 +77,7 @@ const ArticleDetail = (props) => {
       }
     } catch (error) {
       console.error("좋아요 업데이트 중 오류 발생");
-      console.log(articleId);
-      console.log(token);
+      console.log(error);
     }
   };
 
