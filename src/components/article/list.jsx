@@ -1,55 +1,81 @@
 import React, { useState, useEffect } from "react";
 import { listArticle as articleAxios } from "../../api/ArticleApi";
 import styled from "styled-components";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { useNavigate, useParams } from "react-router";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import PaginationComponent from "../common/PaginationComponent";
+import { isNull } from "../../utils/NullUtils";
+import "../common/pagination.css"
 
 const ListArticleForm = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
   const { boardId } = useParams();
 
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+
   const customLinkStyle = {
     textDecoration: 'none',
     color: 'black'
   }
 
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const page = isNull(searchParams.get("page")) ? 0 : searchParams.get("page");
+  const articleLimit = isNull(searchParams.get("articleLimit"))
+    ? 10
+    : searchParams.get("articleLimit");
+
+  const getListSearch = () => {
+    articleAxios(boardId, `?page=${page}&articleLimit=${articleLimit}`, i18n.language)
+    .then((response) => {
+      console.log(response);
+      if (response.data.data && response.data.data.length > 0) {
+        setData(response.data.data);
+        setTotalPage(response.data.totalPage);
+        setTotalElements(response.data.totalElements);
+      }
+    })
+    .catch((error) => {
+      if (error.response) {
+        console.log("Server Error:", error.response.data);
+      } else if (error.request) {
+        console.log("No response from server:", error.request);
+      } else {
+        console.log("Request Error:", error.message);
+      }
+    });
+  };
+
+  const pageHandler = (number) => {
+    console.log('PageNumber', number)
+    navigate(`/article/list/${boardId}?page=${number}&articleLimit=${articleLimit}`);
+  };
+
   useEffect(() => {
+
     const languageChangeHandler = () => {
-      // 언어 변경 이벤트가 발생하면 새로운 언어로 업데이트
-      articleAxios(boardId, i18n.language)
-        .then((response) => {
-          if (response.data && response.data.length > 0) {
-            setData(response.data);
-            console.log(response.data);
-          }
-        })
-        .catch((error) => {
-          if (error.response) {
-            console.log("Server Error:", error.response.data);
-          } else if (error.request) {
-            console.log("No response from server:", error.request);
-          } else {
-            console.log("Request Error:", error.message);
-          }
-        });
+      getListSearch()
     };
 
     languageChangeHandler();
 
     // 리스너 등록
-    i18n.on("languageChanged", languageChangeHandler);
+    i18n.on("languageChanged", languageChangeHandler, getListSearch);
 
     // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
-      i18n.off("languageChanged", languageChangeHandler);
+      i18n.off("languageChanged", languageChangeHandler, getListSearch);
     };
-  }, [i18n, boardId]);
+  }, [i18n, page, articleLimit, boardId]);
 
   console.log(data);
 
+  
   return (
     <>
       <TableContainer className="list-container">
@@ -83,6 +109,13 @@ const ListArticleForm = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="centered-container">
+      <PaginationComponent className="pagination"
+        totalItems={totalElements}
+        itemsPerPage={articleLimit}
+        onPageChange={pageHandler}
+      />
+      </div>
       <Row className="mt-5">
         <Col
           className="d-flex justify-content-end justify-content-center"
