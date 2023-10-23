@@ -5,9 +5,14 @@ import { Link, useLocation } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 
-const NoticeList = ({props}) => {
+const NoticeList = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
+  const token = props.token;
+  const role = props.role;
+
+  console.log("role: ", role);
+  console.log("token: ", token);
 
   const customLinkStyle = {
     textDecoration: 'none',
@@ -90,9 +95,11 @@ const NoticeList = ({props}) => {
     </TableContainer>
     <Row className="mt-5">
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+        {role === 'ADMIN' && (
         <Link to={{ pathname:'/notice/add' }}>
           <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.New Article')}</Button>
         </Link>
+        )}
       </Col>
     </Row>
     </>

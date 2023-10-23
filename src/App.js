@@ -90,10 +90,10 @@ const App = () => {
 
               <Route path="/notice/add" element={<NoticeAdd role={role} token={token}/>} />
 
-              <Route path="/notice" element={<NoticeList />} />
+              <Route path="/notice" element={<NoticeList role={role} />} />
               <Route
                 path="/notice/:noticeArticleId"
-                element={<NoticeDetail />}
+                element={<NoticeDetail role={role} token={token} />}
               />
               <Route
                 path="/notice/update/:noticeArticleId"
