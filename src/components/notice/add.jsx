@@ -5,39 +5,23 @@ import { TextField } from "@mui/material";
 import { addNotice as noticeAxios } from "../../api/NoticeApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Container, Formats } from "../../utils/QuillEditorUtils";
 
 const NoticeAdd = (props) => {
   const { t, i18n } = useTranslation();
-  const [quillValue, setQuillValue] = useState("");
+  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState(i18n.language);
   const quillRef = useRef(null);
   const token = props.token;
-
-  const handleQuillChange = (e) => {
-    console.log(e);
-    setQuillValue(e);
-  };
+  const navigate = useNavigate();
 
   const modules = useMemo(() => {
     return {
       toolbar: {
-        container: [
-          [{ header: [1, 2, false] }],
-          ["bold", "italic", "underline", "strike", "blockquote"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          ["link", "image"],
-
-          [{ align: [] }, { color: [] }, { background: [] }],
-          ["clean"],
-        ],
+        container: Container,
         handlers: {
           image: () => {
             const input = document.createElement("input");
@@ -69,23 +53,6 @@ const NoticeAdd = (props) => {
     };
   }, []);
 
-  let formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "color",
-    "background",
-  ];
-
   const languageChangeHandler =
     (() => {
       languageChangeHandler();
@@ -101,19 +68,16 @@ const NoticeAdd = (props) => {
     [i18n]);
 
   const handleButtonClick = async () => {
-    console.log("title : ", title);
-    console.log("quillValue : ", quillValue);
-
     const addNoticeForm = {
       language: language,
       title: title,
-      content: quillValue,
+      content: content,
     };
 
-    console.log("토큰 잘 넘어오니? : ", token);
     noticeAxios(addNoticeForm, i18n.language, token)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
+    navigate(-1);
   };
 
   return (
@@ -156,9 +120,9 @@ const NoticeAdd = (props) => {
             style={{ height: "100%", width: "100%" }}
             theme="snow"
             modules={modules}
-            formats={formats}
-            value={quillValue}
-            onChange={handleQuillChange}
+            formats={Formats}
+            value={content}
+            onChange={(e) => setContent(e)}
           />
         </Col>
       </Row>

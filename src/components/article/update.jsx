@@ -10,6 +10,7 @@ import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Button, Col, Row } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Container, Formats } from "../../utils/QuillEditorUtils";
 
 const ArticleUpdate = (props) => {
   const { t, i18n } = useTranslation();
@@ -62,24 +63,7 @@ const ArticleUpdate = (props) => {
   const modules = useMemo(() => {
     return {
       toolbar: {
-        container: [
-          [{ header: [1, 2, false] }],
-          ["bold", "italic", "underline", "strike", "blockquote"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          ["link", "image"],
-          [
-            // dropdown with defaults from theme
-            { align: [] },
-            { color: [] },
-            { background: [] },
-          ],
-          ["clean"],
-        ],
+        container: Container,
         handlers: {
           image: () => {
             const input = document.createElement("input");
@@ -101,7 +85,6 @@ const ArticleUpdate = (props) => {
                 const range = editor.getSelection();
                 editor.insertEmbed(range.index, "image", IMG_URL);
                 editor.setSelection(range.index + 1);
-                // setQuillValue(quillValue+IMG_URL)
               } catch (error) {
                 console.log("이미지 업로드 실패");
               }
@@ -111,23 +94,6 @@ const ArticleUpdate = (props) => {
       },
     };
   }, []);
-
-  let formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "color",
-    "background",
-  ];
 
   const updateArticleHandler = async () => {
     const updateForm = {
@@ -184,7 +150,7 @@ const ArticleUpdate = (props) => {
             style={{ height: "100%", width: "100%" }}
             theme="snow"
             modules={modules}
-            formats={formats}
+            formats={Formats}
             value={newContent}
             onChange={setNewContent}
           />
