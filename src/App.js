@@ -41,7 +41,7 @@ const App = () => {
   let storageProfile = getCookie("profile");
 
   const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "GUEST" : storageRole);
+  const [role, setRole] = useState(isNull(storageRole) ? "" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
@@ -118,7 +118,10 @@ const App = () => {
               />
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
 
-              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
+              <Route
+                path="/notice/add"
+                element={<NoticeAdd role={role} token={token} />}
+              />
 
               <Route path="/notice" element={<NoticeList />} />
               <Route
@@ -127,7 +130,7 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate token={token} />}
+                element={<NoticeUpdate role={role} token={token} />}
               />
               <Route path="/verifyEmail" element={<EmailVerification />} />
               <Route
