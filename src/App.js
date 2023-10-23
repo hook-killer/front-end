@@ -123,7 +123,7 @@ const App = () => {
                 element={<NoticeAdd role={role} token={token} />}
               />
 
-              <Route path="/notice" element={<NoticeList role={role} />} />
+              <Route path="/notice" element={<NoticeList role={role} token={token} />} />
               <Route
                 path="/notice/:noticeArticleId"
                 element={<NoticeDetail role={role} token={token} />}

@@ -27,7 +27,7 @@ const NoticeUpdate = (props) => {
   console.log("role : ", role);
   console.log("token : ", token);
 
-  const orgTitle=null, orgContent=null;
+  const orgTitle=null, orgContent=null
 
   const modules = useMemo(() => {
     return {
@@ -63,7 +63,7 @@ const NoticeUpdate = (props) => {
               formData.append("naverObjectStorageUsageType", "ARTICLE");
 
               try {
-                const result = await imageAxios(formData);
+                const result = await imageAxios(formData, i18n.language, token);
 
                 const IMG_URL = `${process.env.REACT_APP_IMG_URL}${result.data.filePath}`;
                 const editor = quillRef.current.getEditor();
@@ -145,7 +145,7 @@ const NoticeUpdate = (props) => {
     .then(response => console.log(response))
     .catch(error => console.log(error));
   };
-
+  
   console.log('languageChangeHandler Before Data , ', data)
 
   return (

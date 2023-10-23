@@ -12,8 +12,10 @@ import Pagination from "react-bootstrap/Pagination";
 import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
+import { CenterFocusStrong } from "@mui/icons-material";
+import "./pagination.css"
 
-const NoticeList = ({ props }) => {
+const NoticeList = ( props ) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
   const token = props.token;
@@ -107,6 +109,7 @@ const NoticeList = ({ props }) => {
         </Table>
       </TableContainer>
       <PaginationComponent
+        className="pagination"
         totalItems={totalElements}
         itemsPerPage={articleLimit}
         onPageChange={pageHandler}
@@ -127,6 +130,7 @@ const NoticeList = ({ props }) => {
             </Button>
           </Link>
           )}
+          
         </Col>
       </Row>
     </>

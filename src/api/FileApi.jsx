@@ -1,4 +1,4 @@
-import {multiPartClient} from "./MainCustomClient";
+import {multiPartClient} from "./DefaultClient";
 
 let requestMapping = "/file";
 
@@ -8,9 +8,9 @@ let requestMapping = "/file";
  * @param {*} imageList
  * @returns
  */
-export const uploadImgList = (imageList) =>
-  multiPartClient.post(requestMapping + "/images", imageList);
+export const uploadImgList = (imageList, language, token) =>
+  multiPartClient(language, token).post(requestMapping + "/images", imageList);
 
 
-export const uploadImg = (image) =>
-  multiPartClient.post(requestMapping + "/image", image);
+export const uploadImg = (image, language, token) =>
+  multiPartClient(language, token).post(requestMapping + "/image", image);
