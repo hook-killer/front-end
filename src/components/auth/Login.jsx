@@ -14,12 +14,15 @@ const KakaoLogin = (e) => {
   window.location.href = KAKAO_AUTH_URL;
 };
 
-const LoginForm = ( props ) => {
+const LoginForm = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigater = useNavigate();
   const setToken = props.tokenSet;
+  const setRole = props.roleSet;
+  const setNickName = props.nickNameSet;
   const [t, i18n] = useTranslation();
+  const sevenDays = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -38,12 +41,16 @@ const LoginForm = ( props ) => {
     }
 
     login(AuthRequest, i18n.language)
-      .then(response => {        
-        if(response.status == 200){
-          console.log('토큰저장', response.data.token)
+      .then(response => {
+        console.log(response)
+        if (response.status === 200) {
           setToken(response.data.token)
-          setCookie('jwtToken', response.data.token)
-          navigater('/article/9');
+          setRole(response.data.role)
+          setNickName(response.data.nickName)
+          setCookie('jwtToken', response.data.token, { expires: sevenDays });
+          setCookie('role', response.data.role, { expires: sevenDays });
+          setCookie('nickName', response.data.nickName, { expires: sevenDays });
+          navigater("/");
         }
       })
       .catch(error => {
@@ -60,7 +67,7 @@ const LoginForm = ( props ) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>{t('login.로그인')}</TitleH1>
+            <TitleH1>{t('login.Login')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
@@ -111,7 +118,7 @@ const LoginForm = ( props ) => {
                 className="me-3"
                 height="80%"
               />
-              카카오 로그인
+              {t('login.KaKaoLogin')}
             </KakaoButton>
           </Col>
         </Row>

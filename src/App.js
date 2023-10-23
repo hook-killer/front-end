@@ -1,5 +1,11 @@
 import "normalize.css";
-import { BrowserRouter, Route, Link, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Link,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import PopularBox from "./components/main/PopularBox";
@@ -16,7 +22,8 @@ import EmailVerification from "./components/auth/EmailVerification";
 import ArticleAdd from "./components/article/add";
 import ArticleList from "./components/article/list";
 import ArticleDetail from "./components/article/detail";
-import ArticleDelete from "./components/article/delete";
+import ReplyList from "./components/reply/list";
+import ReplyAdd from "./components/reply/add";
 import NoticeAdd from "./components/notice/add";
 import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
@@ -31,15 +38,13 @@ const App = () => {
   let storageToken = getCookie("token");
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
-  // let storageThumbnail = getCookie("thumbnail");
 
   const [token, setToken] = useState(
     isNull(storageToken)
-      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3ODU4MDMwLCJleHAiOjE2OTc4OTQwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.hib0k4qspUgZgrIEjk4cgsR3BAZQoY4fU2juUSmD8pDULEITBnptZP7z_FA9Eqm7wsmk8yMaLf7x2axZnea5Qg"
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4MDIyODM5LCJleHAiOjE2OTgwNTg4MzksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.XHXkl8PNgEe4WPKS1mxnW36QHzvQ2RVnm8Ebz8F3BurKslskpVgoXGgGiiQo2j5yP9Q0H0ersxC9nyJsO9DVog"
       : storageToken
   );
-
-  const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
+  const [role, setRole] = useState(isNull(storageRole) ? "GEUST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
@@ -49,10 +54,6 @@ const App = () => {
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
   );
-
-  // const [thumbnail, setThumbnail] = useState(
-  //   isNull(storageThumbnail) ? "" : storageThumbnail
-  // );
 
   return (
     <>
@@ -69,8 +70,6 @@ const App = () => {
             nickNameSet={setNickName}
             profile={profile}
             profileSet={setProfile}
-            // thumbnail={thumbnail}
-            // thumbnailSet={setThumbnail}
           />
           <Container>
             <Routes>
@@ -82,12 +81,21 @@ const App = () => {
               />
               <Route
                 path="/login"
-                element={<LoginForm tokenSet={setToken} roleSet={setRole} />}
+                element={
+                  <LoginForm
+                    tokenSet={setToken}
+                    roleSet={setRole}
+                    nickNameSet={setNickName}
+                  />
+                }
               />
               <Route
                 path="/register"
-                element={<RegisterForm tokenSet={setToken} roleSet={setRole} />}
+                element={
+                  <RegisterForm roleSet={setRole} nickNameSet={setNickName} />
+                }
               />
+
               <Route
                 path="/article/add"
                 element={<ArticleAdd token={token} />}
@@ -97,15 +105,25 @@ const App = () => {
                 path="/article/:articleId"
                 element={<ArticleDetail token={token} />}
               />
-              <Route
-                path="/article/delete/:articleId"
-                element={<ArticleDelete token={token} />}
-              />
+
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
+
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
+              <Route
+                path="/reply/list/:articleId"
+                element={<ReplyList token={token} />}
+              />
+              <Route
+                path="/reply/add/:articleId"
+                element={<ReplyAdd token={token} />}
+              />
+              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
+
               <Route path="/notice/add" element={<NoticeAdd token={token} />} />
+
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -116,7 +134,16 @@ const App = () => {
                 element={<NoticeUpdate token={token} />}
               />
               <Route path="/verifyEmail" element={<EmailVerification />} />
-              <Route path="/kakao/callback" element={<KakaoLogin />} />
+              <Route
+                path="/auth/oauth/kakao"
+                element={
+                  <KakaoLogin
+                    tokenSet={setToken}
+                    roleSet={setRole}
+                    nickNameSet={setNickName}
+                  />
+                }
+              />
               <Route />
             </Routes>
           </Container>

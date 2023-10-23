@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { myPageList as myPageListAxios } from "../../api/MypageApi";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 const TableBodyContent = (searchType, rowDatas) => {
   if (searchType == "article") {
@@ -43,14 +44,14 @@ const LikeRow = (rowDatas) =>
   ));
 
 const MypageList = ({ language, token }) => {
-  // const { searchType } = useParams(); // URL에서 searchType을 가져옴
+  const { t, i18n } = useTranslation();
   const [searchType, setSearchType] = useState("article");
 
   const [items, setItems] = useState([]);
 
   const myCreatedListRender = async () => {
     try {
-      const response = await myPageListAxios(language, token, searchType);
+      const response = await myPageListAxios(i18n.language, token, searchType);
       if (response.status == 200) {
         setItems(response.data);
         return;
@@ -64,6 +65,16 @@ const MypageList = ({ language, token }) => {
     myCreatedListRender();
   }, [searchType]);
 
+  useEffect(() => {
+    myCreatedListRender();
+    // 리스너 등록
+    i18n.on("languageChanged", myCreatedListRender);
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", myCreatedListRender);
+    };
+  }, [i18n]);
+
   const changeSearchType = (searchTypeValue) => {
     setSearchType(searchTypeValue);
   };
@@ -71,9 +82,15 @@ const MypageList = ({ language, token }) => {
   return (
     <>
       <div>
-        <button onClick={() => changeSearchType("article")}>게시글</button>
-        <button onClick={() => changeSearchType("reply")}>댓글</button>
-        <button onClick={() => changeSearchType("like")}>좋아요</button>
+        <button onClick={() => changeSearchType("article")}>
+          {t("mypagebutton.article")}
+        </button>
+        <button onClick={() => changeSearchType("reply")}>
+          {t("mypagebutton.reply")}
+        </button>
+        <button onClick={() => changeSearchType("like")}>
+          {t("mypagebutton.like")}
+        </button>
       </div>
 
       <TableContainer className="mypagelist-container">
@@ -88,26 +105,26 @@ const MypageList = ({ language, token }) => {
             <tr>
               {searchType === "article" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>작성일</th>
-                  <th>추천수</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.createAt")}</th>
+                  <th>{t("mypagelist.likecount")}</th>
                 </>
               )}
               {searchType === "reply" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>댓글</th>
-                  <th>작성일</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.reply")}</th>
+                  <th>{t("mypagelist.likecount")}</th>
                 </>
               )}
               {searchType === "like" && (
                 <>
-                  <th>게시판</th>
-                  <th>제목</th>
-                  <th>작성자</th>
-                  <th>작성일</th>
+                  <th>{t("mypagelist.board")}</th>
+                  <th>{t("mypagelist.title")}</th>
+                  <th>{t("mypagelist.author")}</th>
+                  <th>{t("mypagelist.createAt")}</th>
                 </>
               )}
             </tr>

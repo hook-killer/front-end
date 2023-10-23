@@ -14,7 +14,6 @@ const RegisterForm = ({ props }) => {
   const [nickName, setNickName] = useState("");
   const [password, setPassword] = useState("");
   const naviater = useNavigate();
-
   const [t, i18n] = useTranslation();
 
   const handleEmailChange = (e) => {
@@ -42,27 +41,27 @@ const RegisterForm = ({ props }) => {
       const response = await register(singUpRequest, i18n.language);
 
       if (response.data.id) {
-        alert("회원가입이 성공적으로 완료되었습니다. 이메일 인증을 진행해주세요.");
+        alert("회원가입이 성공적으로 완료되었습니다. 이메일 인증을 완료해주세요.");
+        naviater("/login")
+        // const AuthRequest = {
+        //   email,
+        //   password
+        // }
 
-        const AuthRequest = {
-          email,
-          password
-        }
+        // const loginResponse = await login(AuthRequest)
 
-        const loginResponse = await login(AuthRequest)
+        // if (loginResponse.data.token) {
 
-        if (loginResponse.data.token) {
+        //   setCookie('jwtToken', response.data.token);
+        //   console.log(response.data.token);
+        //   alert("로그인 성공");
+        //   naviater("/");
 
-          setCookie('jwtToken', response.data.token);
-          console.log(response.data.token);
-          alert("로그인 성공");
-          naviater("/");
+        // } else if (response.data.status === NOT_ACITVE) {
 
-        } else if (response.data.status === NOT_ACITVE) {
+        //   alert("이메일 인증을 완료하지 않아서 로그인 페이지로 이동합니다.");
 
-          alert("이메일 인증을 완료하지 않아서 로그인 페이지로 이동합니다.");
-          naviater("/login")
-        }
+        // }
       } else {
         alert("회원가입에 실패했습니다.");
       }
@@ -81,7 +80,7 @@ const RegisterForm = ({ props }) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>{t('signup.회원가입')}</TitleH1>
+            <TitleH1>{t('signup.SignUp')}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">

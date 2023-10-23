@@ -2,7 +2,7 @@ import React from "react";
 import UserThumbnail from "../components/mypage/UserThumbnail";
 import UserProfile from "../components/mypage/UserProfile";
 import MypageList from "../components/mypage/MypageList";
-import "./Mypage.css";
+import "./mypage.css";
 
 const Mypage = ({ token, language }) => {
   return (

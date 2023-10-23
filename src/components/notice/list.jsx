@@ -49,9 +49,9 @@ const NoticeList = ({props}) => {
 
   return (
     <>
-    <h4 style={{
+    {/* <h4 style={{
       marginTop: "30px"}}
-      >공지사항</h4>
+      >공지사항</h4> */}
     <TableContainer className="list-container">
       <Table className="notice-table">
         <ColGroup>
@@ -61,9 +61,9 @@ const NoticeList = ({props}) => {
         </ColGroup>
         <TableHead>
           <tr>
-            <th>{t('noticelist.번호')}</th>
-            <th>{t('noticelist.제목')}</th>
-            <th>{t('noticelist.작성일')}</th>
+            <th>{t('noticelist.No')}</th>
+            <th>{t('noticelist.Title')}</th>
+            <th>{t('noticelist.Date')}</th>
           </tr>
         </TableHead>
         <TableBody>
@@ -80,7 +80,7 @@ const NoticeList = ({props}) => {
     <Row className="mt-5">
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         <Link to={{ pathname:'/notice/add' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.새글')}</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t('noticelist.New Article')}</Button>
         </Link>
       </Col>
     </Row>
@@ -91,10 +91,13 @@ const NoticeList = ({props}) => {
 export default NoticeList;
 
 const TableContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
+border-radius: 5px;
+display: flex;
+box-sizing: border-box;
+justify-content: center;
+padding: 10px;
+align-items: center;
+margin-top: 30px;
 `;
 
 const Table = styled.table`

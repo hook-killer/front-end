@@ -55,23 +55,23 @@ console.log(data);
       <Table>
         <TableBody>
           <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.번호')}</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.No')}</th>
             <td>{data.id}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.제목')}</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.Title')}</th>
             <td>{data.title}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.작성일')}</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.Date')}</th>
             <td>{data.createAt}</td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.내용')}</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.Content')}</th>
             <td dangerouslySetInnerHTML={{ __html : data.content }}></td>
           </tr>
           <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.첨부파일')}</th>
+            <th style={{textAlign: 'center'}}>{t('noticedetail.Attachment')}</th>
             <td>{data.file}</td>
           </tr>
         </TableBody>
@@ -82,19 +82,19 @@ console.log(data);
       <Col className="d-flex justify-content-end justify-content-center" xs={12}>
         
         <Link to={ `/notice/update/${data.id}` }>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.수정")}</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.Modification")}</Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.목록")}</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.List")}</Button>
         </Link>
 
         &nbsp;&nbsp;
 
         <Link to={{ pathname:'/notice' }}>
-          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.삭제")}</Button>
+          <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">{t("noticedetail.Delete")}</Button>
         </Link>
       </Col>
     </Row>
@@ -105,10 +105,13 @@ console.log(data);
 export default NoticeDetail;
 
 const TableContainer = styled.div`
+  border-radius: 5px;
   display: flex;
+  box-sizing: border-box;
   justify-content: center;
+  padding: 10px;
   align-items: center;
-  height: 50vh;
+  margin-top: 30px;
 `;
 
 const Table = styled.table`

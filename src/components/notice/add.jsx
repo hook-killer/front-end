@@ -121,7 +121,7 @@ const NoticeAdd = (props) => {
           marginTop: "30px",
         }}
       >
-        {t("noticeadd.공지사항")}
+        {t("noticeadd.Notice")}
       </h4>
       <Row>
         <Col className="w-100">
@@ -180,7 +180,7 @@ const NoticeAdd = (props) => {
               style={{ backgroundColor: "#6A24FE", border: "none" }}
               onClick={handleButtonClick}
             >
-              {t("noticeadd.작성")}
+              {t("noticeadd.Add")}
             </Button>
           </Link>
         </Col>

@@ -16,4 +16,10 @@ export const detailArticle = (articleId, language) =>
   MainCustomClient(language).get(`${addRequestMapping}/${articleId}`);
 
 export const deleteArticle = (articleId, language, token) =>
-  DefaultClient(language, token).delete(addRequestMapping, articleId);
+  DefaultClient(language, token).delete(`${addRequestMapping}/${articleId}`);
+
+export const likeArticle = (articleId, language, token) =>
+  DefaultClient(language, token).post(`${addRequestMapping}/like/${articleId}`);
+
+export const dislikedArticle = (articleId, language, token) =>
+  DefaultClient(language, token).get(`${addRequestMapping}/like/${articleId}`)
