@@ -108,37 +108,44 @@ const App = () => {
                   element={<ArticleUpdate token={token} />}
                 />
               </Route>
+
+              {/* 게시물조회 */}
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
 
-              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
-              <Route
-                path="/reply/list/:articleId"
-                element={<ReplyList token={token} />}
-              />
-              <Route
-                path="/reply/add/:articleId"
-                element={<ReplyAdd token={token} />}
-              />
-              {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
-              <Route
-                path="/notice/add"
-                element={<NoticeAdd role={role} token={token} />}
-              />
+              {/* 댓글기능 */}
+              <Route path="/reply">
+                <Route
+                  path="list/:articleId"
+                  element={<ReplyList token={token} />}
+                />
+                <Route
+                  path="add/:articleId"
+                  element={<ReplyAdd token={token} />}
+                />
+              </Route>
+
+              {/* 공지사항 */}
               <Route
                 path="/notice"
                 element={<NoticeList role={role} token={token} />}
-              />
-              <Route
-                path="/notice/:noticeArticleId"
-                element={<NoticeDetail role={role} token={token} />}
-              />
-              <Route
-                path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate role={role} token={token} />}
-              />
+              >
+                <Route
+                  path="add"
+                  element={<NoticeAdd role={role} token={token} />}
+                />
+                <Route
+                  path=":noticeArticleId"
+                  element={<NoticeDetail role={role} token={token} />}
+                />
+                <Route
+                  path="update/:noticeArticleId"
+                  element={<NoticeUpdate role={role} token={token} />}
+                />
+              </Route>
+
               <Route path="/verifyEmail" element={<EmailVerification />} />
               <Route
                 path="/auth/oauth/kakao"
