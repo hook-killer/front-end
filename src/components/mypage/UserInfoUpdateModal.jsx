@@ -3,7 +3,7 @@ import { updateUserInfo, getUserInfo } from "../../api/MypageApi";
 import jwtDecode from "jwt-decode";
 
 const UserInfoUpdateModal = () => {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("jwtToken");
   const decodedToken = jwtDecode(token);
   const userId = decodedToken.id;
 

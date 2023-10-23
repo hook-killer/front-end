@@ -1,5 +1,11 @@
 import "normalize.css";
-import { BrowserRouter, Route, Link, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Link,
+  Routes,
+  useLocation,
+} from "react-router-dom";
 import Header from "./components/common/Header";
 import Footer from "./components/common/Footer";
 import PopularBox from "./components/main/PopularBox";
@@ -25,7 +31,7 @@ import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
-
+import ArticleUpdate from "./components/article/update";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -40,7 +46,7 @@ const App = () => {
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "관리자" : storageNickName
+    isNull(storageNickName) ? "" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
@@ -69,26 +75,53 @@ const App = () => {
               <Route path="/mypage" element={<Mypage token={token} />} />
               <Route
                 path="/login"
-                element={<LoginForm tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
+                element={
+                  <LoginForm
+                    tokenSet={setToken}
+                    roleSet={setRole}
+                    nickNameSet={setNickName}
+                  />
+                }
               />
               <Route
                 path="/register"
-                element={<RegisterForm roleSet={setRole} nickNameSet={setNickName} />}
+                element={
+                  <RegisterForm roleSet={setRole} nickNameSet={setNickName} />
+                }
               />
-              <Route path="/article/add" element={<ArticleAdd token={token} />} />
+              <Route
+                path="/article/add"
+                element={<ArticleAdd token={token} />}
+              />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
-              <Route path="/article/:articleId" element={<ArticleDetail token={token} />} />
+              <Route
+                path="/article/:articleId"
+                element={<ArticleDetail token={token} />}
+              />
+              <Route
+                path="/article/update/:articleId"
+                element={<ArticleUpdate token={token} />}
+              />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
               />
 
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
-              <Route path="/reply/list/:articleId" element={<ReplyList token={token}/>} />
-              <Route path="/reply/add/:articleId" element={<ReplyAdd token={token} />} />
+              <Route
+                path="/reply/list/:articleId"
+                element={<ReplyList token={token} />}
+              />
+              <Route
+                path="/reply/add/:articleId"
+                element={<ReplyAdd token={token} />}
+              />
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
 
-              <Route path="/notice/add" element={<NoticeAdd role={role} token={token}/>} />
+              <Route
+                path="/notice/add"
+                element={<NoticeAdd role={role} token={token} />}
+              />
 
               <Route path="/notice" element={<NoticeList role={role} />} />
               <Route
@@ -99,13 +132,16 @@ const App = () => {
                 path="/notice/update/:noticeArticleId"
                 element={<NoticeUpdate role={role} token={token} />}
               />
-              <Route
-                path="/verifyEmail"
-                element={<EmailVerification />}
-              />
+              <Route path="/verifyEmail" element={<EmailVerification />} />
               <Route
                 path="/auth/oauth/kakao"
-                element={<KakaoLogin tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
+                element={
+                  <KakaoLogin
+                    tokenSet={setToken}
+                    roleSet={setRole}
+                    nickNameSet={setNickName}
+                  />
+                }
               />
               <Route />
             </Routes>
