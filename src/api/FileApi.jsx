@@ -1,6 +1,5 @@
 import { multiPartClient } from "./DefaultClient";
 
-
 let requestMapping = "/file";
 
 /**
