@@ -13,7 +13,7 @@ const NoticeDetail = (props) => {
   const role = props.role;
   const [data, setData] = useState('');
   const navigate = useNavigate();
-  
+
   console.log("Role이 뭐냐? ", role);
   console.log("token: ", token);
   console.log("상세보기 페이지", props);
@@ -30,6 +30,7 @@ const NoticeDetail = (props) => {
           console.log("test")
           console.log("test : ", response.content);
           console.log("토큰 들어오냐??? ", token);
+          console.log("language: ", i18n.language);
         }
       })
       .catch((error) => {

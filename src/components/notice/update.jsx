@@ -17,15 +17,8 @@ const NoticeUpdate = (props) => {
   const quillRef = useRef(null);
   const token = props.token;
   const role = props.role;
-  const [ language, setLanguage ] = useState(i18n.language);
   const { noticeArticleId } = useParams();
-
-  const handleQuillChange = (e) => {
-    setNewContent(e);
-  };
-
-  console.log("role : ", role);
-  console.log("token : ", token);
+  const [ orgLanguage, setOrgLanguage] = useState("KO");
 
   const orgTitle=null, orgContent=null
 
@@ -106,6 +99,7 @@ const NoticeUpdate = (props) => {
             setData(response.data);
             setNewTitle(response.data.title);
             setNewContent(response.data.content)
+            setOrgLanguage(response.data.orgLanguage);
             orgTitle=response.data.title;
             orgContent=response.data.content;
           }
@@ -120,6 +114,7 @@ const NoticeUpdate = (props) => {
           }
         });
     };
+
     languageChangeHandler();
   // 리스너 등록
   i18n.on("languageChanged", languageChangeHandler);
@@ -134,7 +129,7 @@ const NoticeUpdate = (props) => {
 
     const noticeUpdateForm = {
       noticeArticleId: noticeArticleId,
-      language: language,
+      language: orgLanguage,
       orgTitle: orgTitle,
       newTitle: newTitle,
       orgContent: orgContent,
@@ -145,8 +140,7 @@ const NoticeUpdate = (props) => {
     .then(response => console.log(response))
     .catch(error => console.log(error));
   };
-  
-  console.log('languageChangeHandler Before Data , ', data)
+
 
   return (
     <>
@@ -170,8 +164,8 @@ const NoticeUpdate = (props) => {
         <Col xs={2}>{t("noticeadd.orgLanguage")} :</Col>
         <Col xs={10}>
           <select
-            onChange={(e) => setLanguage(e.target.value)}
-            value={language}
+            onChange={(e) => setOrgLanguage(e.target.value)}
+            value={orgLanguage}
             style={{ width: "100%" }}
           >
             <option value="KO">{t("noticeadd.kr")}</option>
@@ -191,7 +185,7 @@ const NoticeUpdate = (props) => {
             modules={modules}
             formats={formats}
             value={newContent}
-            onChange={handleQuillChange}
+            onChange={(e)=>setNewContent(e)}
           />
         </Col>
       </Row>
