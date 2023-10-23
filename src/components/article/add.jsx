@@ -6,7 +6,7 @@ import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const ArticleAdd = (props) => {
@@ -17,18 +17,8 @@ const ArticleAdd = (props) => {
   const { boardId } = useParams();
   const quillRef = useRef(null);
   const token = props.token;
-  const role = props.role;
-  
-  // const language = i18n.language;
 
-  console.log("token : ", token, " language : ", language);
-  console.log("role : ", role);
-
-  console.log('게시물 작성 페이지', props)
-  const handleQuillChange = (e) => {
-    console.log(e);
-    setQuillValue(e);
-  };
+  const navigate = useNavigate();
 
   const modules = useMemo(() => {
     return {
@@ -100,32 +90,33 @@ const ArticleAdd = (props) => {
     "background",
   ];
 
-  const languageChangeHandler = (() => {
-    languageChangeHandler();
+  const languageChangeHandler =
+    (() => {
+      languageChangeHandler();
 
-  // 리스너 등록
-  i18n.on("languageChanged", languageChangeHandler);
+      // 리스너 등록
+      i18n.on("languageChanged", languageChangeHandler);
 
-  // 컴포넌트가 언마운트될 때 리스너 제거
-  return () => {
-    i18n.off("languageChanged", languageChangeHandler);
-  };
-}, [i18n]);
+      // 컴포넌트가 언마운트될 때 리스너 제거
+      return () => {
+        i18n.off("languageChanged", languageChangeHandler);
+      };
+    },
+    [i18n]);
 
   const handleButtonClick = async () => {
-    console.log("title : ", title);
-    console.log("quillValue : ", quillValue);
-
     const addArticleForm = {
       boardId: boardId,
       orgArticleLanguage: language,
       title: title,
       content: quillValue,
     };
-    console.log(token)
+
     articleAxios(addArticleForm, i18n.language, token)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
+
+    navigate(`/article/list/${boardId}`);
   };
 
   return (
@@ -134,7 +125,7 @@ const ArticleAdd = (props) => {
         <Col className="w-100">
           <TextField
             type="text"
-            placeholder={t('articleadd.제목을 입력하세요.')}
+            placeholder={t("articleadd.제목을 입력하세요.")}
             style={{
               marginTop: "10px",
               marginBottom: "10px",
@@ -147,12 +138,12 @@ const ArticleAdd = (props) => {
         </Col>
       </Row>
       <Row className="pb-2">
-        <Col xs={2}>{t('articleadd.orgLanguage')}</Col>
+        <Col xs={2}>{t("articleadd.orgLanguage")}</Col>
         <Col xs={10}>
           <select
-          onChange={(e) => setLanguage(e.target.value)}
-          value={language}
-          style={{ width: "100%"}}
+            onChange={(e) => setLanguage(e.target.value)}
+            value={language}
+            style={{ width: "100%" }}
           >
             <option value="KO">{t("articleadd.kr")}</option>
             <option value="EN">{t("articleadd.en")}</option>
@@ -170,7 +161,7 @@ const ArticleAdd = (props) => {
             modules={modules}
             formats={formats}
             value={quillValue}
-            onChange={handleQuillChange}
+            onChange={(e) => setQuillValue(e)}
           />
         </Col>
       </Row>
@@ -179,16 +170,14 @@ const ArticleAdd = (props) => {
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
-          <Link to={{ pathname: "/" }}>
-            <Button
-              variant="primary"
-              className="w-100 text-center"
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
-              onClick={handleButtonClick}
-            >
-              {t('articleadd.Add')}
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            className="w-100 text-center"
+            style={{ backgroundColor: "#6A24FE", border: "none" }}
+            onClick={handleButtonClick}
+          >
+            {t("articleadd.Add")}
+          </Button>
         </Col>
       </Row>
     </>
