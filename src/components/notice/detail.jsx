@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { noticeDetail as noticeAxios, noticeDelete as noticeDeleteAxios } from "../../api/NoticeApi";
-import styled from"styled-components";
 import { useParams } from "react-router";
 import { Link, useNavigate } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
+import "./detail.css"
 
 const NoticeDetail = (props) => {
-  const { t, i18n } = useTranslation();
-  const [data, setData] = useState('');
-  const token = props.token;
   const {noticeArticleId} = useParams();
+  const { t, i18n } = useTranslation();
+  const token = props.token;
+  const role = props.role;
+  const [data, setData] = useState('');
   const navigate = useNavigate();
+
+  console.log("Role이 뭐냐? ", role);
+  console.log("token: ", token);
+  console.log("상세보기 페이지", props);
 
   useEffect(() => {
     const languageChangeHandler = () => {
@@ -24,6 +29,8 @@ const NoticeDetail = (props) => {
           setData(response.data);
           console.log("test")
           console.log("test : ", response.content);
+          console.log("토큰 들어오냐??? ", token);
+          console.log("language: ", i18n.language);
         }
       })
       .catch((error) => {
@@ -55,6 +62,7 @@ const NoticeDetail = (props) => {
     const confirmed = window.confirm("정말로 삭제하시겠습니까?");
 
     if (confirmed) {
+      console.log("token 들어옴? ", token);
       try {
         const response = await noticeDeleteAxios(noticeArticleId, i18n.language, token);
         if (response.status === 200) {
@@ -70,116 +78,59 @@ const NoticeDetail = (props) => {
   }
 
   return (
-    <>
-    <TableContainer className="noticeDetailTable"> 
-      <Table>
-        <TableBody>
-          <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.No')}</th>
-            <td>{data.id}</td>
-          </tr>
-          <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.Title')}</th>
-            <td>{data.title}</td>
-          </tr>
-          <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.Date')}</th>
-            <td>{data.createAt}</td>
-          </tr>
-          <tr>
-            <th style={{textAlign: 'center'}}>{t('noticedetail.Content')}</th>
-            <td dangerouslySetInnerHTML={{ __html : data.content }}></td>
-          </tr>
-        </TableBody>
-      </Table>
-    </TableContainer>
-    
-    <Row className="mt-5">
-      <Col className="d-flex justify-content-end justify-content-center" xs={12}>
-        
-        <Link to={ `/notice/update/${data.id}` }>
-          <Button 
-            style={{backgroundColor:'#6A24FE', border:'none'}} 
-            variant="primary" 
-            className="w-100 text-center">
-            {t("noticedetail.Modification")}
+    <div className="noticeDetailContainer">
+      <div className="noticeInfo">
+        <div className="titleColumn">
+          <h2 className="noticeTitle">{data.title}</h2>
+        </div>
+        <div className="numberDateColumn">
+          <div className="noticeNumber">
+            <small>게시번호: {data.id}</small>
+          </div>
+          <div className="createdDate">
+            <small>작성일: {data.createAt}</small>
+          </div>
+        </div>
+      </div>
+
+      <div className="noticeContent" dangerouslySetInnerHTML={{__html: data.content}}></div>
+      <div className="noticeActions">
+
+      </div>
+      <Row className="mmt-5">
+        <Col className="d-flex justify-content-end justify-content-center" xs={12}>
+          {role === 'ADMIN' && (
+          <Link to={`/notice/update/${data.id}`}>
+            <Button 
+              style={{ backgroundColor: '#6A24FE', border: 'none' }} 
+              variant="primary" 
+              className="w-100 text-center">
+              {t('noticedetail.Modification')}
+            </Button>
+          </Link>
+          )}
+          &nbsp;&nbsp;
+          <Link to={{ pathname: '/notice' }}>
+            <Button 
+              style={{ backgroundColor: '#6A24FE', border: 'none' }} 
+              variant="primary" 
+              className="w-100 text-center">
+              {t('noticedetail.List')}
+            </Button>
+          </Link>
+          &nbsp;&nbsp;
+          {role === 'ADMIN' && (
+          <Button
+            style={{ backgroundColor: "#6A24FE", border: "none", padding: "5px 10px" }}
+            variant="primary"
+            onClick={handleDelete}>
+            {t('noticedetail.Delete')}
           </Button>
-        </Link>
-
-        &nbsp;&nbsp;
-
-        <Link to={{ pathname:'/notice' }}>
-          <Button 
-            style={{backgroundColor:'#6A24FE', border:'none'}} 
-            variant="primary" 
-            className="w-100 text-center">
-            {t("noticedetail.List")}
-          </Button>
-        </Link>
-
-        &nbsp;&nbsp;
-
-        <Button 
-          style={{backgroundColor:'#6A24FE', border:'none'}} 
-          variant="primary" 
-          onClick={() => handleDelete()}>
-          {t("noticedetail.Delete")}
-        </Button>
-      </Col>  
-    </Row>
-    </>
+          )}
+        </Col>
+      </Row>
+    </div>
   );
 };
 
 export default NoticeDetail;
-
-const ContentDiv = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow: auto; /* Enable scrolling */
-  overflow-x: hidden;
-  word-break: break-all;
-  white-space: pre-wrap;
-  ::-webkit-scrollbar {
-    width: 10px; /* Set the width of the scrollbar */
-  }
-  ::-custom-scrollbar-container {
-    background-color: #f1f1f1;
-  }
-  ::-webkit-scrollbar-thumb {
-    background-color: #888; /* Set the color of the scrollbar thumb */
-    border-radius: 5px; /* Round the edges of the scrollbar thumb */
-  }
-`;
-
-const TableContainer = styled.div`
-  border-radius: 5px;
-  display: flex;
-  box-sizing: border-box;
-  justify-content: center;
-  padding: 10px;
-  align-items: center;
-  margin-top: 30px;
-`;
-
-const Table = styled.table`
-  // background-color: transparent;
-  width: 80%;
-  margin-top: 10px;
-  border: 2px solid #C9E5DF;
-`;
-
-const TableBody = styled.tbody`
-align-item: center;
-  tr {
-    td {
-      white-space: nowrap;
-      border: 1px solid #C9E5DF;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-spacing: 0;
-    }
-  }
-`;
-

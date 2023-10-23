@@ -12,10 +12,17 @@ import Pagination from "react-bootstrap/Pagination";
 import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
+import { CenterFocusStrong } from "@mui/icons-material";
+import "../common/pagination.css"
 
-const NoticeList = ({ props }) => {
+const NoticeList = ( props ) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
+  const token = props.token;
+  const role = props.role;
+
+  console.log("role: ", role);
+  console.log("token: ", token);
 
   const [totalPage, setTotalPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -101,16 +108,20 @@ const NoticeList = ({ props }) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div className="centered-container">
       <PaginationComponent
+        className="pagination"
         totalItems={totalElements}
         itemsPerPage={articleLimit}
         onPageChange={pageHandler}
       />
+      </div>
       <Row className="mt-5">
         <Col
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
+          {role === 'ADMIN' && (
           <Link to={{ pathname: "/notice/add" }}>
             <Button
               style={{ backgroundColor: "#6A24FE", border: "none" }}
@@ -120,6 +131,8 @@ const NoticeList = ({ props }) => {
               {t("noticelist.New Article")}
             </Button>
           </Link>
+          )}
+          
         </Col>
       </Row>
     </>

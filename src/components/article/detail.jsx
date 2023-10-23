@@ -13,8 +13,8 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ReplyAdd from "../reply/add";
 import "./detail.css";
-import dislike from "../../asset/싫어요.png";
-import like from "../../asset/좋아요.png";
+import dislike from "../../asset/dislike.png";
+import like from "../../asset/like.png";
 
 const ArticleDetail = (props) => {
   const { t, i18n } = useTranslation();

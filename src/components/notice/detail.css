@@ -1,0 +1,27 @@
+.noticeInfo {
+  display: flex; /* 요소들을 가로로 나란히 표시합니다. */
+  justify-content: space-between; /* 요소들을 좌우로 분산 정렬합니다. */
+  align-items: center; /* 요소들을 세로 가운데 정렬합니다. */
+  margin-bottom: 20px; /* 아래 여백을 설정합니다. */
+}
+
+.noticeTitle {
+  font-size: 30px; /* 원하는 크기로 설정하세요. */
+  font-weight: bold; /* 볼드체 스타일을 적용합니다. */
+  margin-top: 50px; /* 상단 여백을 설정합니다. */
+}
+
+.noticeNumebr,
+.createdDate {
+  margin: 0; /* 작성자와 작성일 요소의 상하 여백을 제거합니다. */
+}
+
+
+.noticeContent {
+  padding: 50px; /* 원하는 패딩 크기를 설정하세요. */
+}
+
+.noticeActions {
+  margin-top: 20px; /* 원하는 간격을 설정합니다. */
+}
+

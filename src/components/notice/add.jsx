@@ -61,7 +61,7 @@ const NoticeAdd = (props) => {
               formData.append("naverObjectStorageUsageType", "ARTICLE");
 
               try {
-                const result = await imageAxios(formData);
+                const result = await imageAxios(formData, i18n.language, token);
 
                 const IMG_URL = `${process.env.REACT_APP_IMG_URL}${result.data.filePath}`;
                 const editor = quillRef.current.getEditor();

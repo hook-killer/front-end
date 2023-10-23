@@ -29,7 +29,7 @@ import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
-import Mypage from "./pages/mypage";
+import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
 
@@ -128,10 +128,10 @@ const App = () => {
                 path="/notice/add"
                 element={<NoticeAdd role={role} token={token} />}
               />
-              <Route path="/notice" element={<NoticeList />} />
+              <Route path="/notice" element={<NoticeList role={role} token={token} />} />
               <Route
                 path="/notice/:noticeArticleId"
-                element={<NoticeDetail />}
+                element={<NoticeDetail role={role} token={token} />}
               />
               <Route
                 path="/notice/update/:noticeArticleId"
