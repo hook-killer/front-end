@@ -6,16 +6,23 @@ import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const ArticleAdd = (props) => {
   const { t, i18n } = useTranslation();
   const [quillValue, setQuillValue] = useState("");
   const [title, setTitle] = useState("");
+  const [language, setLanguage] = useState(i18n.language);
+  const { boardId } = useParams();
   const quillRef = useRef(null);
   const token = props.token;
-  const language = i18n.language;
+  const role = props.role;
+  
+  // const language = i18n.language;
+
+  console.log("token : ", token, " language : ", language);
+  console.log("role : ", role);
 
   console.log('게시물 작성 페이지', props)
   const handleQuillChange = (e) => {
@@ -110,9 +117,8 @@ const ArticleAdd = (props) => {
     console.log("quillValue : ", quillValue);
 
     const addArticleForm = {
-      boardId: 1,
-      articleId: 1,
-      orgArticleLanguage: "KO",
+      boardId: boardId,
+      orgArticleLanguage: language,
       title: title,
       content: quillValue,
     };
@@ -138,6 +144,21 @@ const ArticleAdd = (props) => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
+        </Col>
+      </Row>
+      <Row className="pb-2">
+        <Col xs={2}>{t('articleadd.orgLanguage')}</Col>
+        <Col xs={10}>
+          <select
+          onChange={(e) => setLanguage(e.target.value)}
+          value={language}
+          style={{ width: "100%"}}
+          >
+            <option value="KO">{t("articleadd.kr")}</option>
+            <option value="EN">{t("articleadd.en")}</option>
+            <option value="JP">{t("articleadd.jp")}</option>
+            <option value="CN">{t("articleadd.cn")}</option>
+          </select>
         </Col>
       </Row>
       <Row className="mb-5">

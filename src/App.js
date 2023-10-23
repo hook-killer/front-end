@@ -32,6 +32,7 @@ import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
+import { addArticle } from "./api/ArticleApi";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -97,8 +98,8 @@ const App = () => {
                 }
               />
               <Route
-                path="/article/add"
-                element={<ArticleAdd token={token} />}
+                path="/article/add/:boardId"
+                element={<ArticleAdd role={role} token={token} />}
               />
               <Route path="/article/list/:boardId" element={<ArticleList />} />
               <Route
