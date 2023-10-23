@@ -121,7 +121,7 @@ const ListArticleForm = (props) => {
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
-          <Link to={{ pathname: "/article/add" }}>
+          <Link to={{ pathname: `/article/add/${boardId}` }}>
             {/* <Button style={{backgroundColor:'#6A24FE', border:'none'}} variant="primary" className="w-100 text-center">새글</Button> */}
             <Button
               style={{ backgroundColor: "#6A24FE", border: "none" }}

@@ -16,7 +16,12 @@
   },
   "articleadd": {
     "제목을 입력하세요.": "제목을 입력하세요.",
-    "Add": "작성"
+    "Add": "작성",
+    "orgLanguage": "Posting Language",
+    "kr": "한국어",
+    "en": "영어",
+    "jp": "일어",
+    "cn": "중국어"
   },
   "articledetail": {
     "No": "번호",

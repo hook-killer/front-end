@@ -118,7 +118,7 @@ const RegisterForm = ({ props }) => {
         </Row>
         <Row className="mt-3">
           <Col xs={12} className="text-center">
-            <RegisterSubmit type="submit" value="회원가입" onClick={handleSubmit} />
+            <RegisterSubmit type="submit" value={t('signup.SignUp')} onClick={handleSubmit} />
           </Col>
         </Row>
       </Form>

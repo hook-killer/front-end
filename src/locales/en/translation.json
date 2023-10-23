@@ -16,7 +16,12 @@
   },
   "articleadd": {
     "제목을 입력하세요.": "Please enter a title. ",
-    "Add": "Add"
+    "Add": "Add",
+    "orgLanguage": "Posting Language",
+    "kr": "Korean",
+    "en": "English",
+    "jp": "Japanese",
+    "cn": "Chinese"
   },
   "articleEdit": {
     "title": "Enter the title you wish to modify.",
