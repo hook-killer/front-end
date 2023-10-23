@@ -74,5 +74,30 @@
   },
   "signup": {
     "SignUp": "サインアップ"
+  },
+  "mypagebutton": {
+    "article": "掲示文",
+    "reply": "コメント",
+    "like": "推薦",
+    "update": "しゅうせい",
+    "upload": "アップロードボタン"
+  },
+  "mypagelist": {
+    "board": "掲示板",
+    "title": "題目",
+    "createAt": "作成日",
+    "likecount": "推薦数",
+    "reply": "コメント",
+    "author": "作成者"
+  },
+  "userinfo": {
+    "email": "イーメール",
+    "nickname": "ニックネーム",
+    "createAt": "生成日"
+  },
+  "userinfomodal": {
+    "newPassword": "新しいパスワード",
+    "nickname": "現在のニックネーム",
+    "newNickname": "新しいニックネーム"
   }
 }

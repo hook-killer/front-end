@@ -29,7 +29,7 @@ import NoticeDetail from "./components/notice/detail";
 import NoticeList from "./components/notice/list";
 import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
-import Mypage from "./pages/Mypage";
+import Mypage from "./pages/mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
 
@@ -40,8 +40,12 @@ const App = () => {
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
-  const [role, setRole] = useState(isNull(storageRole) ? "" : storageRole);
+  const [token, setToken] = useState(
+    isNull(storageToken)
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk4MDIyODM5LCJleHAiOjE2OTgwNTg4MzksImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.XHXkl8PNgEe4WPKS1mxnW36QHzvQ2RVnm8Ebz8F3BurKslskpVgoXGgGiiQo2j5yP9Q0H0ersxC9nyJsO9DVog"
+      : storageToken
+  );
+  const [role, setRole] = useState(isNull(storageRole) ? "GEUST" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
@@ -72,7 +76,10 @@ const App = () => {
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
               <Route path="/fuckingBong" element={Test2()} />
-              <Route path="/mypage" element={<Mypage token={token} />} />
+              <Route
+                path="/mypage"
+                element={<Mypage token={token} language={language} />}
+              />
               <Route
                 path="/login"
                 element={
@@ -117,12 +124,10 @@ const App = () => {
                 element={<ReplyAdd token={token} />}
               />
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
-
               <Route
                 path="/notice/add"
                 element={<NoticeAdd role={role} token={token} />}
               />
-
               <Route path="/notice" element={<NoticeList role={role} token={token} />} />
               <Route
                 path="/notice/:noticeArticleId"

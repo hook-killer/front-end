@@ -116,7 +116,11 @@ const LoginMenu = (props) => {
               style={{ margin: "0 -24px 0" }}
             >
               {/* LINK연결하기 */}
-              <Link to="/mypage" style={{ textDecoration: "none" }}>
+
+              <Link
+                to={{ pathname: "/mypage" }}
+                style={{ textDecoration: "none" }}
+              >
                 <button className="list-group-item list-group-item-action px-4">
                   {t("header.mypage")}
                 </button>
