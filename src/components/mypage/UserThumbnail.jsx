@@ -1,26 +1,25 @@
 import React, { useState, useRef } from "react";
-import { updateUserThumbnailPath, postUserProfile } from "../../api/MypageApi";
+import { updateUserThumbnailPath } from "../../api/MypageApi";
+import { uploadImg } from "../../api/FileApi";
 
 const UserThumbnail = ({ language, token }) => {
   const [thumbnail, setThumbnail] = useState("");
   const [usageType, setUsageType] = useState("PROFILE");
   const hiddenFileInput = useRef(null);
+  console.log("language : ", language, " token : ", token);
+  console.log("thumb : ", thumbnail);
 
-  // useEffect(() => {
-  //   const fetchUserInfo = async () => {
-  //     try {
-  //       const response = await getUserInfo(language, token);
-  //       if (response.status === 200) {
-  //         setThumbnail(response.data.thumbnail || "");
-  //         setUserId(response.data.userId || null);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to fetch user info", error);
-  //     }
-  //   };
-
-  //   fetchUserInfo();
-  // }, [language, token]);
+  const updateUserThumbnailImage = (response) => {
+    const filePath = response.filePath;
+    updateUserThumbnailPath({ thumbnail: filePath }, language, token).then(
+      (resp) => {
+        if (resp.status == 200) {
+          setThumbnail(filePath);
+        }
+        alert(resp.data.message);
+      }
+    );
+  };
 
   const handleFileChange = async (selectedFile) => {
     if (!selectedFile) return;
@@ -30,51 +29,22 @@ const UserThumbnail = ({ language, token }) => {
       formData.append("image", selectedFile);
       formData.append("naverObjectStorageUsageType", usageType);
 
-      const uploadResponse = postUserProfile(formData, language, token);
-
-      const newFilePath = uploadResponse.data;
-      console.log("filetoken", token);
-      console.log("uploadResponse", uploadResponse);
-
-      const updateResponse = await updateUserThumbnailPath(
-        { thumbnail: newFilePath },
-        language,
-        token
-      );
-      console.log("token", token);
-
-      if (updateResponse.data.result) {
-        setThumbnail(newFilePath);
-        alert(updateResponse.data.message);
-      } else {
-        alert(updateResponse.data.message);
-      }
+      const responseData = await uploadImg(formData, language, token)
+        .then((response) => {
+          if (response.status == 200) {
+            updateUserThumbnailImage(response.data);
+            console.log("response : ", response.data.filePath);
+            return;
+          }
+          if (response.status != 200) {
+            throw new Error("ImageUpload Fail");
+          }
+        })
+        .catch((error) => console.log(err));
     } catch (error) {
-      alert("썸네일 업데이트 실패!");
+      alert("Thumnail Update Failed");
     }
   };
-
-  // const uploadAndSave = async (selectedFile) => {
-  //   if (selectedFile) {
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("image", selectedFile);
-  //       formData.append("naverObjectStorageUsageType", "PROFILE");
-
-  //       const uploadResponse = await postUserProfile(formData, language, token);
-  //       const newFilePath = uploadResponse.data.filePath;
-
-  //       if (response.data.result) {
-  //         setThumbnail(response.data.thumbnail);
-  //         alert(response.data.message);
-  //       } else {
-  //         alert(response.data.message);
-  //       }
-  //     } catch (error) {
-  //       alert("썸네일 업데이트 실패!");
-  //     }
-  //   }
-  // };
 
   const handleClick = async () => {
     hiddenFileInput.current.click();
@@ -102,7 +72,11 @@ const UserThumbnail = ({ language, token }) => {
           height: "200px",
         }}
       >
-        <img src={thumbnail} alt="" style={{ width: "100%", height: "100%" }} />
+        <img
+          src={`${process.env.REACT_APP_IMG_URL}${thumbnail}`}
+          alt=""
+          style={{ width: "100%", height: "100%" }}
+        />
       </div>
       <div
         onClick={handleClick}

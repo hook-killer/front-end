@@ -1,4 +1,5 @@
 import { jsonClient, multiPartClient } from "./DefaultClient";
+import { uploadImg } from "./FileApi";
 
 var myPageRequestMapping = "/mypage";
 var myPageFileRequestMapping = "/file";
@@ -22,17 +23,6 @@ export const myPageList = (language, token, searchType) =>
   jsonClient(language, token).get(
     `${myPageRequestMapping}/mylist/${searchType}`
   );
-
-export const postUserProfile = (file, usageType, language, token) => {
-  const formData = new FormData();
-  formData.append("image", file);
-  formData.append("naverObjectStorageUsageType", usageType);
-
-  return multiPartClient(language, token).post(
-    `${myPageFileRequestMapping}/image`,
-    formData
-  );
-};
 
 export const updateUserThumbnailPath = (thumbnail, language, token) => {
   return jsonClient(language, token).put(

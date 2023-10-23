@@ -3,7 +3,6 @@ import { myPageList as myPageListAxios } from "../../api/MypageApi";
 import styled from "styled-components";
 
 const TableBodyContent = (searchType, rowDatas) => {
-  console.log("TableBodyContent : >>> ", searchType, rowDatas);
   if (searchType == "article") {
     return ArticleRow(rowDatas);
   }
@@ -53,7 +52,6 @@ const MypageList = ({ language, token }) => {
     try {
       const response = await myPageListAxios(language, token, searchType);
       if (response.status == 200) {
-        console.log("response : ", response);
         setItems(response.data);
         return;
       }

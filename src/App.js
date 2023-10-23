@@ -31,19 +31,28 @@ const App = () => {
   let storageToken = getCookie("token");
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
+  // let storageThumbnail = getCookie("thumbnail");
 
-  const [token, setToken] = useState(isNull(storageToken) ? "" : storageToken);
+  const [token, setToken] = useState(
+    isNull(storageToken)
+      ? "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3ODU4MDMwLCJleHAiOjE2OTc4OTQwMzAsImlzcyI6Imhvb2traWxsZXIiLCJ0eXBlIjoiQUNDRVNTX1RPS0VOIiwicm9sZSI6IkFETUlOIn0.hib0k4qspUgZgrIEjk4cgsR3BAZQoY4fU2juUSmD8pDULEITBnptZP7z_FA9Eqm7wsmk8yMaLf7x2axZnea5Qg"
+      : storageToken
+  );
 
   const [role, setRole] = useState(isNull(storageRole) ? "ADMIN" : storageRole);
   const [language, setLanguage] = useState(
     isNull(storageLanguage) ? "KO" : storageLanguage
   );
   const [nickName, setNickName] = useState(
-    isNull(storageNickName) ? "관리자" : storageNickName
+    isNull(storageNickName) ? "" : storageNickName
   );
   const [profile, setProfile] = useState(
     isNull(storageProfile) ? "" : storageProfile
   );
+
+  // const [thumbnail, setThumbnail] = useState(
+  //   isNull(storageThumbnail) ? "" : storageThumbnail
+  // );
 
   return (
     <>
@@ -60,6 +69,8 @@ const App = () => {
             nickNameSet={setNickName}
             profile={profile}
             profileSet={setProfile}
+            // thumbnail={thumbnail}
+            // thumbnailSet={setThumbnail}
           />
           <Container>
             <Routes>

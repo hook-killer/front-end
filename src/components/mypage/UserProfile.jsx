@@ -49,6 +49,8 @@ const UserProfile = ({ token, language }) => {
         <UserInfoUpdateModal
           onClose={() => setShowModal(false)}
           userInfo={userInfo}
+          language={language}
+          token={token}
         />
       )}
     </div>

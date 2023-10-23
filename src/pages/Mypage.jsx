@@ -15,12 +15,10 @@ const Mypage = ({ token, language }) => {
           </div>
           <div className="left-bottom">
             <UserProfile token={token} language={language}></UserProfile>
-            {console.log("token", token)}
           </div>
         </div>
         <div className="right-section">
           <MypageList token={token} language={language}></MypageList>
-          {console.log("token", token)}
         </div>
       </div>
     </div>
