@@ -6,18 +6,20 @@ import "./Mypage.css";
 
 const Mypage = ({ token, language }) => {
   return (
-    <div className="mypage-container">
+    <div className="mypage-container mt-5">
       <div className="content">
         <div className="left-section">
-          <div className="left-top">
+          <div className="left-top mb-3">
             <UserThumbnail token={token} language={language}></UserThumbnail>
-            {console.log("token", token)}
           </div>
-          <div className="left-bottom">
+          <div className="left-bottom mt-3">
             <UserProfile token={token} language={language}></UserProfile>
           </div>
         </div>
-        <div className="right-section">
+        <div class="d-flex" style={{ height: "100%;" }}>
+          <div class="vr"></div>
+        </div>
+        <div className="right-section ps-4">
           <MypageList token={token} language={language}></MypageList>
         </div>
       </div>

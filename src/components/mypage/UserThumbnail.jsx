@@ -43,18 +43,16 @@ const UserThumbnail = ({ language, token }) => {
       formData.append("image", selectedFile);
       formData.append("naverObjectStorageUsageType", usageType);
 
-      const responseData = await uploadImg(formData, i18n.language, token)
-        .then((response) => {
-          if (response.status == 200) {
-            updateUserThumbnailImage(response.data);
-            console.log("response : ", response.data.filePath);
-            return;
-          }
-          if (response.status != 200) {
-            throw new Error("ImageUpload Fail");
-          }
-        })
-        .catch((error) => console.log(err));
+      await uploadImg(formData, i18n.language, token).then((response) => {
+        if (response.status == 200) {
+          updateUserThumbnailImage(response.data);
+          console.log("response : ", response.data.filePath);
+          return;
+        }
+        if (response.status != 200) {
+          throw new Error("ImageUpload Fail");
+        }
+      });
     } catch (error) {
       alert("Thumnail Update Failed");
     }
@@ -79,25 +77,27 @@ const UserThumbnail = ({ language, token }) => {
   const DEFAULT_THUMBNAIL = "/thumbnail.png";
 
   return (
-    <div>
-      <div
-        style={{
-          borderRadius: "50%",
-          overflow: "hidden",
-          width: "200px",
-          height: "200px",
-        }}
-      >
-        <img
-          src={
-            thumbnail
-              ? `${process.env.REACT_APP_IMG_URL}${thumbnail}`
-              : DEFAULT_THUMBNAIL
-          }
-          alt=""
-          style={{ width: "100%", height: "100%" }}
-        />
-        <img src="../"></img>
+    <>
+      <div className="d-flex justify-content-center">
+        <div
+          style={{
+            borderRadius: "50%",
+            overflow: "hidden",
+            width: "200px",
+            height: "200px",
+          }}
+        >
+          <img
+            src={
+              thumbnail
+                ? `${process.env.REACT_APP_IMG_URL}${thumbnail}`
+                : DEFAULT_THUMBNAIL
+            }
+            alt=""
+            style={{ width: "100%", height: "100%" }}
+          />
+          <img src="../"></img>
+        </div>
       </div>
       <div
         onClick={handleClick}
@@ -120,7 +120,7 @@ const UserThumbnail = ({ language, token }) => {
         }}
         style={{ display: "none" }}
       />
-    </div>
+    </>
   );
 };
 
