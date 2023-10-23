@@ -65,7 +65,6 @@ const App = () => {
           <Container>
             <Routes>
               <Route exact path="/" element={<PopularBox />} />
-              <Route path="/fuckingBong" element={Test2()} />
               <Route
                 path="/mypage"
                 element={<Mypage token={token} language={language} />}
@@ -166,10 +165,6 @@ const App = () => {
 };
 
 export default App;
-
-const Test2 = () => {
-  return <>응애 아 응애에요!!</>;
-};
 
 const LayoutDiv = styled.div`
   min-height: 100%;
