@@ -1,12 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { noticeList as noticeAxios } from "../../api/NoticeApi";
-import styled from "styled-components";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
 import "../common/pagination.css";
+import {
+  ColGroup,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableTH,
+  TableTR,
+  TableTextCenterTD,
+  TableTextLeftTD,
+} from "../styled/ArticleTableComponent";
 
 const NoticeList = (props) => {
   const { t, i18n } = useTranslation();
@@ -15,12 +25,6 @@ const NoticeList = (props) => {
 
   const [totalPage, setTotalPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
-
-  const customLinkStyle = {
-    textDecoration: "none",
-    color: "black",
-  };
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -57,6 +61,11 @@ const NoticeList = (props) => {
     navigate("/notice/add");
   };
 
+  const ArticleTitleLinkStyle = {
+    textDecoration: "none",
+    color: "black",
+  };
+
   useEffect(() => {
     getListSearch();
 
@@ -71,31 +80,31 @@ const NoticeList = (props) => {
 
   return (
     <>
-      <TableContainer className="list-container">
+      <TableContainer className="list-container mt-5 mb-5">
         <Table className="notice-table">
           <ColGroup>
-            <col span="1" style={{ width: "5%" }} />
-            <col span="1" style={{ width: "35%" }} />
-            <col span="1" style={{ width: "11%" }} />
+            <col span="1" style={{ width: "10%", minWidth: "45px" }} />
+            <col span="1" style={{ width: "70%" }} />
+            <col span="1" style={{ width: "20", minWidth: "180px" }} />
           </ColGroup>
           <TableHead>
-            <tr>
-              <th>{t("noticelist.No")}</th>
-              <th>{t("noticelist.Title")}</th>
-              <th>{t("noticelist.Date")}</th>
-            </tr>
+            <TableTR>
+              <TableTH>{t("noticelist.No")}</TableTH>
+              <TableTH>{t("noticelist.Title")}</TableTH>
+              <TableTH>{t("noticelist.Date")}</TableTH>
+            </TableTR>
           </TableHead>
           <TableBody>
             {data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.id}</td>
-                <td>
-                  <Link style={customLinkStyle} to={`/notice/${item.id}`}>
+              <TableTR key={index}>
+                <TableTextCenterTD>{item.id}</TableTextCenterTD>
+                <TableTextLeftTD>
+                  <Link style={ArticleTitleLinkStyle} to={`/notice/${item.id}`}>
                     {item.title}
                   </Link>
-                </td>
-                <td>{item.createAt}</td>
-              </tr>
+                </TableTextLeftTD>
+                <TableTextCenterTD>{item.createAt}</TableTextCenterTD>
+              </TableTR>
             ))}
           </TableBody>
         </Table>
@@ -130,48 +139,3 @@ const NoticeList = (props) => {
 };
 
 export default NoticeList;
-
-const TableContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-`;
-
-const Table = styled.table`
-  // background-color: transparent;
-  width: 80%;
-  margin-top: 10px;
-  border: 2px solid #c9e5df;
-`;
-
-const ColGroup = styled.colgroup`
-  border: 1px solid white;
-  background-color: #ffffff;
-  padding: 8px;
-`;
-
-const TableHead = styled.thead`
-  tr {
-    th {
-      border: 1px solid #c9e5df;
-      text-align: center;
-      background-color: #ffffff;
-      height: 50px;
-    }
-  }
-`;
-
-const TableBody = styled.tbody`
-  align-item: center;
-  tr {
-    td {
-      white-space: nowrap;
-      border: 1px solid #c9e5df;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-spacing: 0;
-    }
-  }
-`;
