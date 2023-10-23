@@ -4,9 +4,8 @@ import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
 import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
-import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 const ArticleAdd = (props) => {

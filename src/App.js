@@ -7,8 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Container } from "react-bootstrap";
 import styled from "styled-components";
 import "./App.css";
-import React, { useState, useEffect } from "react";
-import { getCookie, setCookie } from "./utils/ReactCookie";
+import React, { useState } from "react";
+import { getCookie } from "./utils/ReactCookie";
 import { isNull } from "./utils/NullUtils";
 import LoginForm from "./components/auth/Login";
 import RegisterForm from "./components/auth/Register";
@@ -86,7 +86,7 @@ const App = () => {
                   <RegisterForm roleSet={setRole} nickNameSet={setNickName} />
                 }
               />
-              <Route path="/article">
+              <Route path="article/*">
                 {/* 게시물 추가 */}
                 <Route
                   path="add/:boardId"
@@ -116,7 +116,7 @@ const App = () => {
               />
 
               {/* 댓글기능 */}
-              <Route path="/reply">
+              <Route path="reply/*">
                 <Route
                   path="list/:articleId"
                   element={<ReplyList token={token} />}
@@ -128,10 +128,8 @@ const App = () => {
               </Route>
 
               {/* 공지사항 */}
-              <Route
-                path="/notice"
-                element={<NoticeList role={role} token={token} />}
-              >
+              <Route path="/notice" element={<NoticeList role={role} />} />
+              <Route path="notice/*">
                 <Route
                   path="add"
                   element={<NoticeAdd role={role} token={token} />}

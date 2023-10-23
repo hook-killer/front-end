@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { noticeList as noticeAxios } from "../../api/NoticeApi";
 import styled from "styled-components";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
-import Pagination from "react-bootstrap/Pagination";
 import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
-import { CenterFocusStrong } from "@mui/icons-material";
-import "../common/pagination.css"
+import "../common/pagination.css";
 
-const NoticeList = ( props ) => {
+const NoticeList = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
-  const token = props.token;
   const role = props.role;
-
-  console.log("role: ", role);
-  console.log("token: ", token);
 
   const [totalPage, setTotalPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
@@ -43,7 +32,6 @@ const NoticeList = ( props ) => {
   const getListSearch = () => {
     noticeAxios(`?page=${page}&articleLimit=${articleLimit}`, i18n.language)
       .then((response) => {
-        console.log(response);
         if (response.data.data && response.data.data.length > 0) {
           setData(response.data.data);
           setTotalPage(response.data.totalPage);
@@ -64,6 +52,11 @@ const NoticeList = ( props ) => {
   const pageHandler = (number) => {
     navigate(`/notice?page=${number}&articleLimit=${articleLimit}`);
   };
+
+  const newNoticeOnCLikc = (e) => {
+    navigate("/notice/add");
+  };
+
   useEffect(() => {
     getListSearch();
 
@@ -76,7 +69,6 @@ const NoticeList = ( props ) => {
     };
   }, [i18n, page, articleLimit]);
 
-  console.log(`totalPage : ${totalPage}, totalElements : ${totalElements}`);
   return (
     <>
       <TableContainer className="list-container">
@@ -108,33 +100,31 @@ const NoticeList = ( props ) => {
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="centered-container">
-      <PaginationComponent
-        className="pagination"
-        totalItems={totalElements}
-        itemsPerPage={articleLimit}
-        onPageChange={pageHandler}
-      />
-      </div>
-      <Row className="mt-5">
-        <Col
-          className="d-flex justify-content-end justify-content-center"
-          xs={12}
-        >
-          {role === 'ADMIN' && (
-          <Link to={{ pathname: "/notice/add" }}>
+
+      <Row className="mt-1 mb-1 d-flex justify-content-center">
+        <Col xs={12} className="d-flex justify-content-center">
+          <PaginationComponent
+            className="pagination"
+            totalItems={totalElements}
+            itemsPerPage={articleLimit}
+            onPageChange={pageHandler}
+          />
+        </Col>
+      </Row>
+      {role === "ADMIN" && (
+        <Row className="mt-0 d-flex justify-content-end">
+          <Col xs={4}>
             <Button
               style={{ backgroundColor: "#6A24FE", border: "none" }}
               variant="primary"
               className="w-100 text-center"
+              onClick={newNoticeOnCLikc}
             >
               {t("noticelist.New Article")}
             </Button>
-          </Link>
-          )}
-          
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      )}
     </>
   );
 };

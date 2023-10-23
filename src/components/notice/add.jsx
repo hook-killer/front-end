@@ -15,12 +15,7 @@ const NoticeAdd = (props) => {
   const [language, setLanguage] = useState(i18n.language);
   const quillRef = useRef(null);
   const token = props.token;
-  const role = props.role;
-  // const language = i18n.language;
-  console.log("token : ", token, " language : ", language);
-  console.log("role : ", role);
 
-  console.log('게시물 작성 페이지', props)
   const handleQuillChange = (e) => {
     console.log(e);
     setQuillValue(e);
@@ -40,11 +35,7 @@ const NoticeAdd = (props) => {
           ],
           ["link", "image"],
 
-          [
-            { align: [] },
-            { color: [] },
-            { background: [] },
-          ],
+          [{ align: [] }, { color: [] }, { background: [] }],
           ["clean"],
         ],
         handlers: {
@@ -119,10 +110,10 @@ const NoticeAdd = (props) => {
       content: quillValue,
     };
 
-    console.log("토큰 잘 넘어오니? : ", token)
+    console.log("토큰 잘 넘어오니? : ", token);
     noticeAxios(addNoticeForm, i18n.language, token)
-    .then((response) => console.log("response : ", response))
-    .catch((error) => console.log("error : ", error));
+      .then((response) => console.log("response : ", response))
+      .catch((error) => console.log("error : ", error));
   };
 
   return (
