@@ -1,29 +1,62 @@
-import React, { useState, useRef, useMemo } from "react";
+import React, { useState, useRef, useMemo, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
-import { addNotice as noticeAxios } from "../../api/NoticeApi";
+import {
+  detailArticle as detailArticleAxios,
+  updateArticle as updateArticleAxios,
+} from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-const NoticeAdd = (props) => {
+const ArticleUpdate = (props) => {
   const { t, i18n } = useTranslation();
-  const [quillValue, setQuillValue] = useState("");
-  const [title, setTitle] = useState("");
-  const [language, setLanguage] = useState(i18n.language);
-  const quillRef = useRef(null);
   const token = props.token;
-  const role = props.role;
-  // const language = i18n.language;
-  console.log("token : ", token, " language : ", language);
-  console.log("role : ", role);
+  const quillRef = useRef(null);
 
-  console.log('게시물 작성 페이지', props)
-  const handleQuillChange = (e) => {
-    console.log(e);
-    setQuillValue(e);
+  const { articleId } = useParams();
+  const navigate = useNavigate();
+  const [data, setData] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
+  const [orgArticleLanguage, setOrgArticleLanguage] = useState(i18n.language);
+
+  useEffect(() => {
+    settingDetailData();
+  }, []);
+
+  useEffect(() => {
+    const languageChangedListener = () => {
+      settingDetailData();
+    };
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangedListener);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangedListener);
+    };
+  }, [i18n]);
+
+  const settingDetailData = async () => {
+    try {
+      await detailArticleAxios(articleId, i18n.language).then((res) => {
+        console.log("Update Response :", res);
+        if (res.status == 200 && res.data) {
+          setData(res.data);
+          setNewTitle(res.data.title);
+          setNewContent(res.data.content);
+          setOrgArticleLanguage(res.data.orgArticleLanguage);
+        }
+      });
+    } catch (Error) {
+      console.log("Update Search Detail Error", Error);
+      alert(t("articleEdit.notFoundArticle"));
+      navigate(-1);
+    }
   };
 
   const modules = useMemo(() => {
@@ -39,8 +72,8 @@ const NoticeAdd = (props) => {
             { indent: "+1" },
           ],
           ["link", "image"],
-
           [
+            // dropdown with defaults from theme
             { align: [] },
             { color: [] },
             { background: [] },
@@ -68,8 +101,9 @@ const NoticeAdd = (props) => {
                 const range = editor.getSelection();
                 editor.insertEmbed(range.index, "image", IMG_URL);
                 editor.setSelection(range.index + 1);
+                // setQuillValue(quillValue+IMG_URL)
               } catch (error) {
-                console.log("이미지 업로드에 실패했습니다.");
+                console.log("이미지 업로드 실패");
               }
             });
           },
@@ -95,34 +129,19 @@ const NoticeAdd = (props) => {
     "background",
   ];
 
-  const languageChangeHandler =
-    (() => {
-      languageChangeHandler();
-
-      // 리스너 등록
-      i18n.on("languageChanged", languageChangeHandler);
-
-      // 컴포넌트가 언마운트될 때 리스너 제거
-      return () => {
-        i18n.off("languageChanged", languageChangeHandler);
-      };
-    },
-    [i18n]);
-
-  const handleButtonClick = async () => {
-    console.log("title : ", title);
-    console.log("quillValue : ", quillValue);
-
-    const addNoticeForm = {
-      language: language,
-      title: title,
-      content: quillValue,
+  const updateArticleHandler = async () => {
+    const updateForm = {
+      boardId: data.boardId,
+      articleId: articleId,
+      orgArticleLanguage: orgArticleLanguage,
+      title: data.title,
+      newTitle: newTitle,
+      content: data.content,
+      newContent: newContent,
     };
-
-    console.log("토큰 잘 넘어오니? : ", token)
-    noticeAxios(addNoticeForm, i18n.language, token)
-    .then((response) => console.log("response : ", response))
-    .catch((error) => console.log("error : ", error));
+    updateArticleAxios(updateForm, i18n.language, token);
+    alert(t("articleEdit.updateSuccess"));
+    navigate(-1);
   };
 
   return (
@@ -131,15 +150,15 @@ const NoticeAdd = (props) => {
         <Col className="w-100">
           <TextField
             type="text"
-            placeholder={t("noticeadd.제목을 입력하세요.")}
+            placeholder={t("articleEdit.title")}
             style={{
               marginTop: "10px",
               marginBottom: "10px",
               fontSize: "24px",
               width: "100%",
             }}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
           />
         </Col>
       </Row>
@@ -147,8 +166,8 @@ const NoticeAdd = (props) => {
         <Col xs={2}>{t("noticeadd.orgLanguage")} :</Col>
         <Col xs={10}>
           <select
-            onChange={(e) => setLanguage(e.target.value)}
-            value={language}
+            onChange={(e) => setOrgArticleLanguage(e.target.value)}
+            value={orgArticleLanguage}
             style={{ width: "100%" }}
           >
             <option value="KO">{t("noticeadd.kr")}</option>
@@ -166,31 +185,28 @@ const NoticeAdd = (props) => {
             theme="snow"
             modules={modules}
             formats={formats}
-            value={quillValue}
-            onChange={handleQuillChange}
+            value={newContent}
+            onChange={setNewContent}
           />
         </Col>
       </Row>
-
       <Row className="mt-5">
         <Col
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
-          <Link to={{ pathname: "/notice" }}>
-            <Button
-              variant="primary"
-              className="w-100 text-center"
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
-              onClick={handleButtonClick}
-            >
-              {t("noticeadd.Add")}
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            className="w-100 text-center"
+            style={{ backgroundColor: "#6A24FE", border: "none" }}
+            onClick={updateArticleHandler}
+          >
+            {t("articleEdit.update")}
+          </Button>
         </Col>
       </Row>
     </>
   );
 };
 
-export default NoticeAdd;
+export default ArticleUpdate;

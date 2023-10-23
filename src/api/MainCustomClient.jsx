@@ -11,7 +11,7 @@ export const jsonClient = (language) =>
     timeout: 5000,
     headers: {
       Authorization:
-        "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
+        "Bearer " + isNull(getCookie("jwtToken")) ? "" : getCookie("jwtToken"),
       language: language,
       "Content-Type": "application/json",
     },
@@ -24,7 +24,7 @@ export const multiPartClient = (language) =>
     timeout: 5000,
     headers: {
       Authorization:
-        "Bearer " + isNull(getCookie("token")) ? "" : getCookie("token"),
+        "Bearer " + isNull(getCookie("jwtToken")) ? "" : getCookie("jwtToken"),
       language: language,
       "Content-Type": "multipart/form-data",
     },

@@ -19,6 +19,12 @@
     "제목을 입력하세요.": "请输入标题。 ",
     "Add": "撰写"
   },
+  "articleEdit": {
+    "title": "请输入希望修改的题目。",
+    "update": "更新",
+    "notFound Article": "不存在的帖子。",
+    "Update Success": "修改已完成。"
+  },
   "articledetail": {
     "No": "数字",
     "Title": "标题",
@@ -66,7 +72,7 @@
   },
   "login": {
     "Login": "登录",
-    "KaKaoLogin" : "KaKao Login"
+    "KaKaoLogin": "KaKao Login"
   },
   "signup": {
     "SignUp": "报名"

@@ -67,7 +67,7 @@ const LoginMenu = (props) => {
   let t = props.trans;
 
   const onClickLogout = (e) => {
-    removeCookie("token");
+    removeCookie("jwtToken");
     removeCookie("role");
     removeCookie("nickName");
     removeCookie("profile");

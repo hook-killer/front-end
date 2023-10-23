@@ -31,11 +31,12 @@ import NoticeUpdate from "./components/notice/update";
 import SearchResultList from "./components/search/result";
 import Mypage from "./pages/mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
+import ArticleUpdate from "./components/article/update";
 
 const App = () => {
   let storageLanguage = getCookie("language");
   let storageRole = getCookie("role");
-  let storageToken = getCookie("token");
+  let storageToken = getCookie("jwtToken");
   let storageNickName = getCookie("nickName");
   let storageProfile = getCookie("profile");
 
@@ -95,7 +96,6 @@ const App = () => {
                   <RegisterForm roleSet={setRole} nickNameSet={setNickName} />
                 }
               />
-
               <Route
                 path="/article/add"
                 element={<ArticleAdd token={token} />}
@@ -105,7 +105,10 @@ const App = () => {
                 path="/article/:articleId"
                 element={<ArticleDetail token={token} />}
               />
-
+              <Route
+                path="/article/update/:articleId"
+                element={<ArticleUpdate token={token} />}
+              />
               <Route
                 path="/search/result/:word"
                 element={<SearchResultList />}
@@ -121,9 +124,10 @@ const App = () => {
                 element={<ReplyAdd token={token} />}
               />
               {/* reply test용 페이지들입니다. 추후 삭제가 필요합니다. */}
-
-              <Route path="/notice/add" element={<NoticeAdd token={token} />} />
-
+              <Route
+                path="/notice/add"
+                element={<NoticeAdd role={role} token={token} />}
+              />
               <Route path="/notice" element={<NoticeList />} />
               <Route
                 path="/notice/:noticeArticleId"
@@ -131,7 +135,7 @@ const App = () => {
               />
               <Route
                 path="/notice/update/:noticeArticleId"
-                element={<NoticeUpdate token={token} />}
+                element={<NoticeUpdate role={role} token={token} />}
               />
               <Route path="/verifyEmail" element={<EmailVerification />} />
               <Route

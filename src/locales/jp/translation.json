@@ -18,6 +18,12 @@
     "제목을 입력하세요.": "タイトルを入力してください。",
     "Add": "作成"
   },
+  "articleEdit": {
+    "title": "修正を希望するタイトルを入力してください。",
+    "update": "更新する",
+    "notFoundArticle": "存在しない投稿です。",
+    "updateSuccess": "修正が完了しました。"
+  },
   "articledetail": {
     "No": "番号",
     "Title": "題目",
@@ -64,7 +70,7 @@
   },
   "login": {
     "Login": "ログイン",
-    "KaKaoLogin" : "KaKao Login"
+    "KaKaoLogin": "KaKao Login"
   },
   "signup": {
     "SignUp": "サインアップ"
