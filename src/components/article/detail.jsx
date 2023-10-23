@@ -15,6 +15,7 @@ import ReplyAdd from "../reply/add";
 import "./detail.css";
 import dislike from "../../asset/dislike.png";
 import like from "../../asset/like.png";
+import jwtDecode from "jwt-decode";
 
 const ArticleDetail = (props) => {
   const { t, i18n } = useTranslation();
@@ -25,15 +26,17 @@ const ArticleDetail = (props) => {
   const { articleId } = useParams();
   const [liked, setLiked] = useState(false);
 
+  const decodeToken = token != "" ? jwtDecode(token) : "";
+  const loginId = token == "" ? 0 : decodeToken.sub;
+  const loginRole = token == "" ? "GUEST" : decodeToken.role;
+  const [createdUserId, setCreatedUserId] = useState("");
+
   const setArticleByServer = async () => {
     try {
-      console.log("useEffect 들어옴");
       detailArticleAxios(articleId, i18n.language, token).then((res) => {
-        console.log("res : ", res);
-        console.log("res.data : ", res.data);
         if (res.data) {
           setData(res.data);
-          console.log("data set test : ", data);
+          setCreatedUserId(res.data.createdUser.id);
         }
       });
     } catch (error) {
@@ -56,9 +59,7 @@ const ArticleDetail = (props) => {
       );
       if (response.status === 200) {
         setLiked(response.data.result); // 서버에서 받은 정보에 따라 좋아요 상태 설정
-        console.log("좋아요 상태 확인 : ", response);
       } else {
-        console.error("좋아요 상태 확인 실패");
       }
     } catch (error) {
       console.error("좋아요 상태 확인 중 오류 발생");
@@ -70,10 +71,8 @@ const ArticleDetail = (props) => {
       const response = await likeArticleAxios(articleId, i18n.language, token);
 
       if (response.status === 200) {
-        console.log("좋아요 업데이트 성공");
         setLiked(!liked);
       } else {
-        console.error("좋아요 업데이트 실패");
       }
     } catch (error) {
       console.error("좋아요 업데이트 중 오류 발생");
@@ -121,120 +120,90 @@ const ArticleDetail = (props) => {
   };
 
   return (
-    <div className="article-detail-container">
-      <div className="article-info">
-        <div className="title-column">
-          <h2 className="article-title">{data.title}</h2>
-        </div>
-        <div className="author-date-column">
-          <div className="article-author">
-            <small>
-              작성자:{" "}
-              {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"}
-            </small>
-          </div>
-          <div className="article-date">
-            <small>작성일: {data.createAt}</small>
-          </div>
-        </div>
-      </div>
-
-      <div
-        className="article-content"
-        dangerouslySetInnerHTML={{ __html: data.content }}
-      ></div>
-      <div className="article-actions"></div>
+    <div className="ps-5 pe-5">
       <Row className="mt-5">
-        <Col
-          className="d-flex justify-content-end justify-content-center"
-          xs={12}
-        >
-          <Link to={`/article/update/${data.articleId}`}>
+        <Col xs={8}>
+          <h1>{data.title}</h1>
+        </Col>
+        <Col className="text-align-center">
+          <small>추천 : {data.likeCount}</small>
+        </Col>
+        <Col xs={2}>
+          <small>
+            {" "}
+            {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"} /
+          </small>
+          <br />
+          <small>{data.createAt}</small>
+        </Col>
+      </Row>
+      <hr />
+      <Row className="article-content">
+        <Col xs={12} dangerouslySetInnerHTML={{ __html: data.content }}></Col>
+      </Row>
+      <div className="article-actions"></div>
+      {token != "" && (
+        <Row className="mt-5 d-flex justify-content-center">
+          <Col xs={3}>
             <Button
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
-              variant="primary"
-              className="w-100 text-center"
+              variant={liked ? "danger" : "primary"}
+              onClick={handleLike}
+              style={{ width: "100%" }}
             >
-              {t("articledetail.Modification")}
+              <img
+                src={liked ? dislike : like}
+                style={{ width: "20px", height: "20px" }} // 이미지의 가로와 세로 크기를 조절
+                alt="Like/Dislike"
+                className="me-2"
+              />
+              {liked ? "DisLike" : "Like"}
             </Button>
-          </Link>
-          &nbsp;&nbsp;
+          </Col>
+        </Row>
+      )}
+      <Row className="mt-2 d-flex justify-content-end">
+        {(loginRole == "ADMIN" || loginId == createdUserId) && (
+          <>
+            <Col xs={1}>
+              <Link to={`/article/update/${data.articleId}`}>
+                <Button
+                  style={{ backgroundColor: "#6A24FE", border: "none" }}
+                  className="w-100 text-center"
+                >
+                  {t("articledetail.Modification")}
+                </Button>
+              </Link>
+            </Col>
+            <Col xs={1}>
+              <Button
+                style={{
+                  backgroundColor: "#6A24FE",
+                  border: "none",
+                  padding: "5px 10px",
+                }} // 버튼의 패딩을 조절
+                className="w-100 text-center"
+                onClick={handleDelete}
+              >
+                {t("articledetail.Delete")}
+              </Button>
+            </Col>
+          </>
+        )}
+        <Col xs={1}>
           <Link to={{ pathname: "/" }}>
             <Button
               style={{ backgroundColor: "#6A24FE", border: "none" }}
-              variant="primary"
               className="w-100 text-center"
             >
               {t("articledetail.List")}
             </Button>
           </Link>
-          &nbsp;&nbsp;
-          <Button
-            style={{
-              backgroundColor: "#6A24FE",
-              border: "none",
-              padding: "5px 10px",
-            }} // 버튼의 패딩을 조절
-            variant="primary"
-            onClick={handleDelete}
-          >
-            {t("articledetail.Delete")}
-          </Button>
-          &nbsp;&nbsp;
-          <Button
-            style={{
-              backgroundColor: "#FFFFFF",
-              border: "none",
-              padding: "5px",
-            }} // 버튼의 패딩을 조절
-            variant="primary"
-            onClick={handleLike}
-          >
-            <img
-              src={liked ? dislike : like}
-              style={{ width: "20px", height: "20px" }} // 이미지의 가로와 세로 크기를 조절
-              alt="Like/Dislike"
-            />
-          </Button>
         </Col>
       </Row>
-      <div className="article-actions">
-        {/* 추가 작업이 필요하다면 이 공간에 추가 내용을 넣을 수 있습니다. */}
-      </div>
+      <hr />
       <ReplyAdd />
     </div>
   );
 };
 
 export default ArticleDetail;
-
-const TableContainer = styled.div`
-  border-radius: 5px;
-  display: flex;
-  box-sizing: border-box;
-  justify-content: center;
-  padding: 10px;
-  align-items: center;
-  margin-top: 30px;
-`;
-
-const Table = styled.table`
-  // background-color: transparent;
-  width: 80%;
-  margin-top: 10px;
-  border: 2px solid #c9e5df;
-`;
-
-const TableBody = styled.tbody`
-  align-item: center;
-  tr {
-    td {
-      white-space: nowrap;
-      border: 1px solid #c9e5df;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-spacing: 0;
-    }
-  }
-`;

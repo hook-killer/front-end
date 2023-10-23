@@ -11,7 +11,6 @@
   margin-top: 50px; /* 상단 여백을 설정합니다. */
 }
 
-
 .author-date-info {
   display: flex; /* 작성자와 작성일을 가로로 나란히 표시합니다. */
   justify-content: flex-end; /* 작성자와 작성일을 우측 정렬합니다. */
@@ -23,12 +22,11 @@
   margin: 0; /* 작성자와 작성일 요소의 상하 여백을 제거합니다. */
 }
 
-
 .article-content {
-  padding: 50px; /* 원하는 패딩 크기를 설정하세요. */
+  min-width: 100%;
+  min-height: 300px;
 }
 
 .article-actions {
   margin-top: 20px; /* 원하는 간격을 설정합니다. */
 }
-
