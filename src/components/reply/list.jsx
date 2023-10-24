@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { listReply, deleteReply } from "../../api/ReplyApi";
 import { useParams } from "react-router";
-import { Button } from "react-bootstrap";
+import { Button, Card, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import Accordion from "react-bootstrap/Accordion";
 import ListGroup from "react-bootstrap/ListGroup";
 import { useAccordionButton } from "react-bootstrap/AccordionButton";
+import Profile from "../common/Profile";
 
 const ReplyList = (props) => {
   const { t, i18n } = useTranslation();
@@ -40,13 +41,12 @@ const ReplyList = (props) => {
     const confirmed = window.confirm(i18n.t("reply.deleteConfirm"));
     if (confirmed) {
       deleteReply(replyId, i18n.language, token)
-      .then((res) => {
-        console.log(res)
-        alert(i18n.t("reply.successConfirm"))
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+        .then((res) => {
+          alert(i18n.t("reply.successConfirm"));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       console.log("사용자가 취소를 누름");
     }
@@ -61,7 +61,7 @@ const ReplyList = (props) => {
         style={{ backgroundColor: "pink" }}
         onClick={decoratedOnClick}
       >
-        {t('reply.wholeComment')}
+        {t("reply.wholeComment")}
       </button>
     );
   };
@@ -91,8 +91,11 @@ const ReplyList = (props) => {
                 style={{ width: "100%" }}
                 key={index}
               >
-                <div className="ms-2 me-auto">
-                  <div className="fw-bold">
+                <div className="p-2">
+                  <Profile thumnail={item.createUser.thumbnail} />
+                </div>
+                <div className="p-2 flex-grow-1">
+                  <div className="fw-bold ">
                     {t("reply.writer")} : {item.createUser.nickName}
                   </div>
                   {item.content.length > 10
@@ -101,17 +104,19 @@ const ReplyList = (props) => {
                   <Accordion defaultActiveKey="1">
                     <CustomToggle eventKey="0"></CustomToggle>
                     <Accordion.Collapse eventKey="0">
-                      <div>{item.content}</div>
+                      <Card.Body>{item.content}</Card.Body>
                     </Accordion.Collapse>
                   </Accordion>
                 </div>
-                <Button
-                  onClick={() => handleButtonClick(item.replyId)}
-                  variant="warning"
-                  style={{ whiteSpace: "nowrap" }}
-                >
-                  {t("reply.delete")}
-                </Button>
+                <div className="p-2 ">
+                  <Button
+                    onClick={() => handleButtonClick(item.replyId)}
+                    variant="warning"
+                    style={{ whiteSpace: "nowrap" }}
+                  >
+                    {t("reply.delete")}
+                  </Button>
+                </div>
               </ListGroup.Item>
             ))}
           </ListGroup>
