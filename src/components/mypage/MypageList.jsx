@@ -115,7 +115,13 @@ const MypageList = ({ language, token }) => {
 
   return (
     <CustomTableContainer className="mypagelist-container mt-2">
-      <ButtonGroup aria-label="SearchType" className="w-100">
+      <ButtonGroup
+        style={{
+          zIndex: 5,
+        }}
+        aria-label="SearchType"
+        className="w-100"
+      >
         <Button
           variant={searchType != "article" ? "secondary" : "primary"}
           onClick={() => changeSearchType("article")}

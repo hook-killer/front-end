@@ -36,15 +36,17 @@ const ReplyList = (props) => {
   };
 
   const handleButtonClick = (replyId) => {
-    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
+    const token = props.token;
+    const confirmed = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmed) {
-      deleteReply(replyId, "십새야", token)
-        .then((res) => {
-          alert("삭제 성공!");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      deleteReply(replyId, i18n.language, token)
+      .then((res) => {
+        console.log(res)
+        alert("삭제 성공!")
+      })
+      .catch((error) => {
+        console.log(error);
+      })
     } else {
       console.log("사용자가 취소를 누름");
     }

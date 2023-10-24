@@ -115,6 +115,7 @@ const modalBackgroundStyle = {
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
+  zIndex: 10,
 };
 
 const modalContentStyle = {

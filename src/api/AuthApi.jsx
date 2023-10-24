@@ -30,7 +30,7 @@ export const verifyEmail = (verificationToken, language) =>
   jsonClient(language).get(`${requestMapping}/verifyEmail?verificationToken=${verificationToken}`)
 
 export const kakaoBack = (kakoLoginForm) =>
-  jsonClient.get(`${requestMapping}/oauth/kakao/link`, kakoLoginForm)
+  jsonClient.get(`${requestMapping}/oauth/kakao`, kakoLoginForm)
 
 /**
  * 해당 API의 경우에는 일단 내가 기능 만들어 줄 때 logout Mapping값이 존재해서 일단 만들어줌
