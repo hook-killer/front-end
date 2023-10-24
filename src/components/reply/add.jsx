@@ -45,7 +45,7 @@ const ReplyAdd = (props) => {
       .then((response) => {
         setHookVal(hookVal + 1);
         setContent("");
-        alert();
+        alert(i18n.t("reply.successWrite"));
       })
       .catch((error) => {
         console.log("error : ", error);
