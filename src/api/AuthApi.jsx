@@ -23,7 +23,7 @@ export const register = (registerForm, language) =>
 /**
 * 인증메일
 * "AuthCotnroller"의 GET, "/verifyEmail
-* @param {} verify
+* @param {} verificationToken
 * @returns
 */
 export const verifyEmail = (verificationToken, language) =>

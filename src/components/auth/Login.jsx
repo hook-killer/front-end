@@ -274,6 +274,7 @@ const GoogleButton = styled.button`
   border-radius: 6px;
   color: #000000;
   font-size: 16px;
-  background-color: #ffffff;
+  background-color: #FFFFFF;
+  border: solid black 1px;
   text-align: center;
 `;
