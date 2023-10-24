@@ -36,9 +36,10 @@ const ReplyList = (props) => {
   };
 
   const handleButtonClick = (replyId) => {
+    const token = props.token;
     const confirmed = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmed) {
-      deleteReply(replyId, "십새야", token)
+      deleteReply(replyId, i18n.language, token)
       .then((res) => {
         console.log(res)
         alert("삭제 성공!")
