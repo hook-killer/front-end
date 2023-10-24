@@ -5,9 +5,9 @@ var myPageRequestMapping = "/mypage";
 export const getUserInfo = (language, token) =>
   jsonClient(language, token).get(`${myPageRequestMapping}`);
 
-export const myPageList = (language, token, searchType) =>
+export const myPageList = (language, token, searchType, params) =>
   jsonClient(language, token).get(
-    `${myPageRequestMapping}/mylist/${searchType}`
+    `${myPageRequestMapping}/mylist/${searchType}${params}`
   );
 
 export const updateUserInfo = (data, language, token) => {

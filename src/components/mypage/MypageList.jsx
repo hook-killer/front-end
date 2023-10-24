@@ -15,7 +15,9 @@ import {
 import styled from "styled-components";
 import Button from "react-bootstrap/Button";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { Col, Row } from "react-bootstrap";
+import PaginationComponent from "../common/PaginationComponent";
 
 const TableBodyContent = (searchType, rowDatas) => {
   if (searchType == "article") {
@@ -82,21 +84,44 @@ const MypageList = ({ language, token }) => {
 
   const [items, setItems] = useState([]);
 
+  const [totalPage, setTotalPage] = useState(0);
+  const [totalElements, setTotalElements] = useState(0);
+  const [page, setPage] = useState(0);
+  const [limit, setLimit] = useState(10);
+
   const myCreatedListRender = async () => {
     try {
-      const response = await myPageListAxios(i18n.language, token, searchType);
-      if (response.status == 200) {
-        setItems(response.data);
-        return;
-      }
-      throw new Error("Not Success Error");
+      await myPageListAxios(
+        i18n.language,
+        token,
+        searchType,
+        `?page=${page}&limit=${limit}`
+      ).then((response) => {
+        if (response.status == 200) {
+          console.log("mylist", response);
+          setItems(response.data.data);
+          setTotalPage(response.data.totalPage);
+          setTotalElements(response.data.totalElements);
+          return;
+        }
+        throw new Error("Not Success Error");
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  const pageHandler = (number) => {
+    setPage(number);
+  };
+
+  const changeSearchType = (searchTypeValue) => {
+    setSearchType(searchTypeValue);
+    setPage(0);
+  };
+
   useEffect(() => {
     myCreatedListRender();
-  }, [searchType]);
+  }, [searchType, page]);
 
   useEffect(() => {
     const changeLanguage = () => {
@@ -112,90 +137,98 @@ const MypageList = ({ language, token }) => {
     };
   }, [i18n]);
 
-  const changeSearchType = (searchTypeValue) => {
-    setSearchType(searchTypeValue);
-  };
-
   return (
-    <CustomTableContainer className="mypagelist-container mt-2">
-      <ButtonGroup
-        style={{
-          zIndex: 5,
-        }}
-        aria-label="SearchType"
-        className="w-100"
-      >
-        <Button
-          variant={searchType != "article" ? "secondary" : "primary"}
-          onClick={() => changeSearchType("article")}
+    <>
+      <CustomTableContainer className="mypagelist-container mt-2">
+        <ButtonGroup
+          style={{
+            zIndex: 5,
+          }}
+          aria-label="SearchType"
+          className="w-100"
         >
-          {t("mypagebutton.article")}
-        </Button>
-        <Button
-          variant={searchType != "reply" ? "secondary" : "primary"}
-          onClick={() => changeSearchType("reply")}
-        >
-          {" "}
-          {t("mypagebutton.reply")}
-        </Button>
-        <Button
-          variant={searchType != "like" ? "secondary" : "primary"}
-          onClick={() => changeSearchType("like")}
-        >
-          {t("mypagebutton.like")}
-        </Button>
-      </ButtonGroup>
-      <Table className="post-table w-100 mt-0">
-        {searchType === "article" && (
-          <ColGroup>
-            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
-            <col span="1" style={{ width: "64%" }} />
-            <col span="1" style={{ width: "20%", minWidth: "180px" }} />
-            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
-          </ColGroup>
-        )}
-        {searchType === "reply" && (
-          <ColGroup>
-            <col span="1" style={{ width: "70%" }} />
-            <col span="1" style={{ width: "30%" }} />
-          </ColGroup>
-        )}
-        {searchType === "like" && (
-          <ColGroup>
-            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
-            <col span="1" style={{ width: "64%" }} />
-            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
-            <col span="1" style={{ width: "20%", minWidth: "180px" }} />
-          </ColGroup>
-        )}
-
-        <TableHead>
+          <Button
+            variant={searchType != "article" ? "secondary" : "primary"}
+            onClick={() => changeSearchType("article")}
+          >
+            {t("mypagebutton.article")}
+          </Button>
+          <Button
+            variant={searchType != "reply" ? "secondary" : "primary"}
+            onClick={() => changeSearchType("reply")}
+          >
+            {" "}
+            {t("mypagebutton.reply")}
+          </Button>
+          <Button
+            variant={searchType != "like" ? "secondary" : "primary"}
+            onClick={() => changeSearchType("like")}
+          >
+            {t("mypagebutton.like")}
+          </Button>
+        </ButtonGroup>
+        <Table className="post-table w-100 mt-0">
           {searchType === "article" && (
-            <TableTR>
-              <TableTH>{t("mypagelist.board")}</TableTH>
-              <TableTH>{t("mypagelist.title")}</TableTH>
-              <TableTH>{t("mypagelist.createAt")}</TableTH>
-              <TableTH>{t("mypagelist.likecount")}</TableTH>
-            </TableTR>
+            <ColGroup>
+              <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+              <col span="1" style={{ width: "64%" }} />
+              <col span="1" style={{ width: "20%", minWidth: "180px" }} />
+              <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+            </ColGroup>
           )}
           {searchType === "reply" && (
-            <TableTR>
-              <TableTH>{t("mypagelist.reply")}</TableTH>
-              <TableTH>{t("mypagelist.createAt")}</TableTH>
-            </TableTR>
+            <ColGroup>
+              <col span="1" style={{ width: "70%" }} />
+              <col span="1" style={{ width: "30%" }} />
+            </ColGroup>
           )}
           {searchType === "like" && (
-            <TableTR>
-              <TableTH>{t("mypagelist.board")}</TableTH>
-              <TableTH>{t("mypagelist.title")}</TableTH>
-              <TableTH>{t("mypagelist.author")}</TableTH>
-              <TableTH>{t("mypagelist.createAt")}</TableTH>
-            </TableTR>
+            <ColGroup>
+              <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+              <col span="1" style={{ width: "64%" }} />
+              <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+              <col span="1" style={{ width: "20%", minWidth: "180px" }} />
+            </ColGroup>
           )}
-        </TableHead>
-        <TableBody>{TableBodyContent(searchType, items)}</TableBody>
-      </Table>
-    </CustomTableContainer>
+
+          <TableHead>
+            {searchType === "article" && (
+              <TableTR>
+                <TableTH>{t("mypagelist.board")}</TableTH>
+                <TableTH>{t("mypagelist.title")}</TableTH>
+                <TableTH>{t("mypagelist.createAt")}</TableTH>
+                <TableTH>{t("mypagelist.likecount")}</TableTH>
+              </TableTR>
+            )}
+            {searchType === "reply" && (
+              <TableTR>
+                <TableTH>{t("mypagelist.reply")}</TableTH>
+                <TableTH>{t("mypagelist.createAt")}</TableTH>
+              </TableTR>
+            )}
+            {searchType === "like" && (
+              <TableTR>
+                <TableTH>{t("mypagelist.board")}</TableTH>
+                <TableTH>{t("mypagelist.title")}</TableTH>
+                <TableTH>{t("mypagelist.author")}</TableTH>
+                <TableTH>{t("mypagelist.createAt")}</TableTH>
+              </TableTR>
+            )}
+          </TableHead>
+          <TableBody>{TableBodyContent(searchType, items)}</TableBody>
+        </Table>
+      </CustomTableContainer>
+      <Row className="mt-1 mb-1 d-flex justify-content-center">
+        <Col xs={12} className="d-flex justify-content-center">
+          <PaginationComponent
+            className="pagination"
+            totalItems={totalElements}
+            itemsPerPage={limit}
+            onPageChange={pageHandler}
+          />
+        </Col>
+      </Row>
+    </>
   );
 };
 
