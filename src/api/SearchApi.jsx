@@ -1,12 +1,12 @@
-import { jsonClient } from "./SearchCustomClient";
+import { jsonClient } from "./MainCustomClient";
 
 var addRequestMapping = "/search";
 
-export const searchListDown = (word, offset, limit) =>
-  jsonClient.get(`${addRequestMapping}/${word}?offset=${offset}&limit=${limit}`)
+export const searchListDown = (language, word, offset, limit) =>
+  jsonClient(language).get(`${addRequestMapping}/${word}?offset=${offset}&limit=${limit}`)
 
-export const searchResult = (word, offset, limit) =>
-  jsonClient.get(`${addRequestMapping}/${word}?offset=${offset}&limit=${limit}`)
+export const searchResult = (language, word, offset, limit) =>
+  jsonClient(language).get(`${addRequestMapping}/${word}?offset=${offset}&limit=${limit}`)
 
-export const searchAllResult = (word) =>
-  jsonClient.get(`${addRequestMapping}/all/${word}`)
+export const searchAllResult = (language, word) =>
+  jsonClient(language).get(`${addRequestMapping}/all/${word}`)

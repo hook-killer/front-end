@@ -46,7 +46,11 @@
     "popular[3]": "중국어게시판 인기 게시물"
   },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ",
+    "NoResult" : "해당 언어를 포함하는 제목을 가진 게시글이 없습니다.",
+    "advice" : "다른 검색어를 입력하거나 메인페이지로 돌아갑니다.",
+    "Message" : "검색어 없음!",
+    "GoToMain" : "메인페이지로 돌아가기"
   },
   "noticelist": {
     "No": "번호",

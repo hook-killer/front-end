@@ -10,6 +10,5 @@ export const listReply = (articleId, language) =>
   MainCustomClient(language).get(`${requestMapping}/${articleId}`);
 
 export const deleteReply = (replyId, language, token) =>
-  // console.log('응애 시발!, ', replyId, requestMapping, language, token)
    DefaultClient(language, token).delete(`${requestMapping}/${replyId}`);
 
