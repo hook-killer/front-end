@@ -1,5 +1,5 @@
 import { jsonClient as DefaultClient } from "./DefaultClient";
-import { jsonClient as MainCustomClient, multiPartClient } from "./MainCustomClient";
+import { jsonClient as MainCustomClient } from "./MainCustomClient";
 
 var requestMapping = "/reply";
 
@@ -9,5 +9,7 @@ export const addReply = (addReplyForm, language, token) =>
 export const listReply = (articleId, language) =>
   MainCustomClient(language).get(`${requestMapping}/${articleId}`);
 
-export const deleteReply = (replyId, language, token) =>
-  DefaultClient(language, token).delete(`${requestMapping}/${replyId}`,{});
+export const deleteReply = (replyId, language, token) =>{
+  console.log('응애 시발!, ', replyId, requestMapping, language, token)
+  return DefaultClient(language, token).delete(`${requestMapping}/${replyId}`);
+}

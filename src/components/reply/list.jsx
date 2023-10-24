@@ -12,6 +12,8 @@ const ReplyList = (props) => {
   const [data, setData] = useState([]);
   const { articleId } = useParams();
   const [show, setShow] = useState();
+  const token = props.token;
+  console.log("token : ",token)
 
   const languageChangeHandler = () => {
     // 언어 변경 이벤트가 발생하면 새로운 언어로 업데이트
@@ -34,10 +36,8 @@ const ReplyList = (props) => {
   };
 
   const handleButtonClick = (replyId) => {
-    const token = props.token
     const confirmed = window.confirm('정말로 삭제하시겠습니까?');
     if (confirmed) {
-      console.log(props.token)
       deleteReply(replyId, "십새야", token)
       .then((res) => {
         console.log(res)
