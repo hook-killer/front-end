@@ -1,37 +1,30 @@
 import React, { useState, useEffect } from "react";
 import { noticeList as noticeAxios } from "../../api/NoticeApi";
-import styled from "styled-components";
-import {
-  Link,
-  useLocation,
-  useNavigate,
-  useSearchParams,
-} from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button, Col, Row } from "react-bootstrap";
-import Pagination from "react-bootstrap/Pagination";
 import { useTranslation } from "react-i18next";
 import { isNull } from "../../utils/NullUtils";
 import PaginationComponent from "../common/PaginationComponent";
-import { CenterFocusStrong } from "@mui/icons-material";
-import "../common/pagination.css"
+import "../common/pagination.css";
+import {
+  ColGroup,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableTH,
+  TableTR,
+  TableTextCenterTD,
+  TableTextLeftTD,
+} from "../styled/ArticleTableComponent";
 
-const NoticeList = ( props ) => {
+const NoticeList = (props) => {
   const { t, i18n } = useTranslation();
   const [data, setData] = useState([]);
-  const token = props.token;
   const role = props.role;
-
-  console.log("role: ", role);
-  console.log("token: ", token);
 
   const [totalPage, setTotalPage] = useState(0);
   const [totalElements, setTotalElements] = useState(0);
-
-  const customLinkStyle = {
-    textDecoration: "none",
-    color: "black",
-  };
-
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
 
@@ -43,7 +36,6 @@ const NoticeList = ( props ) => {
   const getListSearch = () => {
     noticeAxios(`?page=${page}&articleLimit=${articleLimit}`, i18n.language)
       .then((response) => {
-        console.log(response);
         if (response.data.data && response.data.data.length > 0) {
           setData(response.data.data);
           setTotalPage(response.data.totalPage);
@@ -64,6 +56,16 @@ const NoticeList = ( props ) => {
   const pageHandler = (number) => {
     navigate(`/notice?page=${number}&articleLimit=${articleLimit}`);
   };
+
+  const newNoticeOnCLikc = (e) => {
+    navigate("/notice/add");
+  };
+
+  const ArticleTitleLinkStyle = {
+    textDecoration: "none",
+    color: "black",
+  };
+
   useEffect(() => {
     getListSearch();
 
@@ -76,112 +78,64 @@ const NoticeList = ( props ) => {
     };
   }, [i18n, page, articleLimit]);
 
-  console.log(`totalPage : ${totalPage}, totalElements : ${totalElements}`);
   return (
     <>
-      <TableContainer className="list-container">
+      <TableContainer className="list-container mt-5 mb-5">
         <Table className="notice-table">
           <ColGroup>
-            <col span="1" style={{ width: "5%" }} />
-            <col span="1" style={{ width: "35%" }} />
-            <col span="1" style={{ width: "11%" }} />
+            <col span="1" style={{ width: "10%", minWidth: "45px" }} />
+            <col span="1" style={{ width: "70%" }} />
+            <col span="1" style={{ width: "20", minWidth: "180px" }} />
           </ColGroup>
           <TableHead>
-            <tr>
-              <th>{t("noticelist.No")}</th>
-              <th>{t("noticelist.Title")}</th>
-              <th>{t("noticelist.Date")}</th>
-            </tr>
+            <TableTR>
+              <TableTH>{t("noticelist.No")}</TableTH>
+              <TableTH>{t("noticelist.Title")}</TableTH>
+              <TableTH>{t("noticelist.Date")}</TableTH>
+            </TableTR>
           </TableHead>
           <TableBody>
             {data.map((item, index) => (
-              <tr key={index}>
-                <td>{item.id}</td>
-                <td>
-                  <Link style={customLinkStyle} to={`/notice/${item.id}`}>
+              <TableTR key={index}>
+                <TableTextCenterTD>{item.id}</TableTextCenterTD>
+                <TableTextLeftTD>
+                  <Link style={ArticleTitleLinkStyle} to={`/notice/${item.id}`}>
                     {item.title}
                   </Link>
-                </td>
-                <td>{item.createAt}</td>
-              </tr>
+                </TableTextLeftTD>
+                <TableTextCenterTD>{item.createAt}</TableTextCenterTD>
+              </TableTR>
             ))}
           </TableBody>
         </Table>
       </TableContainer>
-      <div className="centered-container">
-      <PaginationComponent
-        className="pagination"
-        totalItems={totalElements}
-        itemsPerPage={articleLimit}
-        onPageChange={pageHandler}
-      />
-      </div>
-      <Row className="mt-5">
-        <Col
-          className="d-flex justify-content-end justify-content-center"
-          xs={12}
-        >
-          {role === 'ADMIN' && (
-          <Link to={{ pathname: "/notice/add" }}>
+
+      <Row className="mt-1 mb-1 d-flex justify-content-center">
+        <Col xs={12} className="d-flex justify-content-center">
+          <PaginationComponent
+            className="pagination"
+            totalItems={totalElements}
+            itemsPerPage={articleLimit}
+            onPageChange={pageHandler}
+          />
+        </Col>
+      </Row>
+      {role === "ADMIN" && (
+        <Row className="mt-0 d-flex justify-content-end">
+          <Col xs={4}>
             <Button
               style={{ backgroundColor: "#6A24FE", border: "none" }}
               variant="primary"
               className="w-100 text-center"
+              onClick={newNoticeOnCLikc}
             >
               {t("noticelist.New Article")}
             </Button>
-          </Link>
-          )}
-          
-        </Col>
-      </Row>
+          </Col>
+        </Row>
+      )}
     </>
   );
 };
 
 export default NoticeList;
-
-const TableContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-`;
-
-const Table = styled.table`
-  // background-color: transparent;
-  width: 80%;
-  margin-top: 10px;
-  border: 2px solid #c9e5df;
-`;
-
-const ColGroup = styled.colgroup`
-  border: 1px solid white;
-  background-color: #ffffff;
-  padding: 8px;
-`;
-
-const TableHead = styled.thead`
-  tr {
-    th {
-      border: 1px solid #c9e5df;
-      text-align: center;
-      background-color: #ffffff;
-      height: 50px;
-    }
-  }
-`;
-
-const TableBody = styled.tbody`
-  align-item: center;
-  tr {
-    td {
-      white-space: nowrap;
-      border: 1px solid #c9e5df;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-spacing: 0;
-    }
-  }
-`;

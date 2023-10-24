@@ -197,7 +197,7 @@ const LoginMenu = (props) => {
 
 const MemberArea = (props) => {
   let role = props.role;
-  if (role === "GUEST") {
+  if (role == "GUEST") {
     return NotLoginMenu();
   }
   return LoginMenu(props);

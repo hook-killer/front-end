@@ -28,12 +28,12 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
 
     if (enteredPassword === password) {
       setPasswordBorderStyle({ borderColor: "red" });
+      return;
     } else if (enteredPassword.length < 8) {
       setPasswordBorderStyle({ borderColor: "red" });
-    } else {
-      setPasswordBorderStyle({ borderColor: "green" });
+      return;
     }
-
+    setPasswordBorderStyle({ borderColor: "green" });
     setNewPassword(enteredPassword);
   };
 
@@ -42,12 +42,21 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
 
     if (e.target.value === nickName) {
       setNickNameBorderStyle({ borderColor: "red" });
-    } else {
-      setNickNameBorderStyle({ borderColor: "green" });
+      return;
     }
+    setNickNameBorderStyle({ borderColor: "green" });
   };
 
   const handleSubmit = async () => {
+    if (newPassword == password || newPassword.length < 8) {
+      alert("Confirm Password");
+      return;
+    }
+    if (newNickName == "") {
+      alert("Confirm NickName");
+      return;
+    }
+
     try {
       await updateUserInfo(
         {
@@ -80,6 +89,7 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
             placeholder={t("userinfomodal.nickname")}
             value={nickName}
             readOnly
+            disabled
           />
           <input
             type="text"

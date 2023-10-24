@@ -4,7 +4,6 @@ import axios from "axios";
 
 // 기본적으로 사용할 Axios Client
 export const jsonClient = (language, token) => {
-  console.log(language, token);
   return axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
     timeout: 5000,

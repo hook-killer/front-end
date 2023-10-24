@@ -8,41 +8,27 @@ import { Button, Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useParams } from "react-router-dom";
+import { Container, Formats } from "../../utils/QuillEditorUtils";
 
 const NoticeUpdate = (props) => {
   const { t, i18n } = useTranslation();
-  const [ data, setData ] = useState([]);
-  const [ newTitle, setNewTitle ] = useState("");
-  const [ newContent, setNewContent ] = useState("")
+  const [data, setData] = useState([]);
+  const [newTitle, setNewTitle] = useState("");
+  const [newContent, setNewContent] = useState("");
   const quillRef = useRef(null);
   const token = props.token;
   const role = props.role;
   const { noticeArticleId } = useParams();
-  const [ orgLanguage, setOrgLanguage] = useState("KO");
+  const [orgLanguage, setOrgLanguage] = useState("KO");
   const navigate = useNavigate();
 
-  const orgTitle=null, orgContent=null
+  const orgTitle = null,
+    orgContent = null;
 
   const modules = useMemo(() => {
     return {
       toolbar: {
-        container: [
-          [{ header: [1, 2, false] }],
-          ["bold", "italic", "underline", "strike", "blockquote"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          ["link", "image"],
-          [
-            { align: [] },
-            { color: [] },
-            { background: [] },
-          ],
-          ["clean"],
-        ],
+        container: Container,
         handlers: {
           image: () => {
             const input = document.createElement("input");
@@ -50,7 +36,7 @@ const NoticeUpdate = (props) => {
             input.setAttribute("accept", "image/*");
             input.click();
 
-            input.addEventListener("change", async() => {
+            input.addEventListener("change", async () => {
               const file = input.files[0];
               const formData = new FormData();
               formData.append("image", file);
@@ -64,7 +50,6 @@ const NoticeUpdate = (props) => {
                 const range = editor.getSelection();
                 editor.insertEmbed(range.index, "image", IMG_URL);
                 editor.setSelection(range.index + 1);
-              
               } catch (error) {
                 console.log("이미지 업로드에 실패했습니다.");
               }
@@ -73,24 +58,7 @@ const NoticeUpdate = (props) => {
         },
       },
     };
-  },[]);
-
-  let formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "color",
-    "background",
-  ];
+  }, []);
 
   useEffect(() => {
     const languageChangeHandler = () => {
@@ -99,26 +67,26 @@ const NoticeUpdate = (props) => {
           if (response.data) {
             setData(response.data);
             setNewTitle(response.data.title);
-            setNewContent(response.data.content)
+            setNewContent(response.data.content);
             setOrgLanguage(response.data.orgLanguage);
-            orgTitle=response.data.title;
-            orgContent=response.data.content;
+            orgTitle = response.data.title;
+            orgContent = response.data.content;
           }
         })
         .catch((error) => {
           if (error.response) {
-            console.log('Server Error: ', error.response.data);
+            console.log("Server Error: ", error.response.data);
           } else if (error.request) {
-            console.log('No reseponse from Server: ', error.request);
+            console.log("No reseponse from Server: ", error.request);
           } else {
-            console.log('Request Error: ', error.message);
+            console.log("Request Error: ", error.message);
           }
         });
     };
 
     languageChangeHandler();
-  // 리스너 등록
-  i18n.on("languageChanged", languageChangeHandler);
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
 
     // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
@@ -127,7 +95,6 @@ const NoticeUpdate = (props) => {
   }, [i18n]);
 
   const handleButtonClick = async () => {
-
     const noticeUpdateForm = {
       noticeArticleId: noticeArticleId,
       language: orgLanguage,
@@ -138,25 +105,24 @@ const NoticeUpdate = (props) => {
     };
 
     noticeAxios(noticeUpdateForm, i18n.language, token)
-    .then(response => console.log(response))
-    .catch(error => console.log(error));
-    alert(t("articleEdit.updateSuccess"))
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
+    alert(t("articleEdit.updateSuccess"));
     navigate(-1);
   };
-
 
   return (
     <>
       <Row>
         <Col className="w-100">
-          <TextField 
+          <TextField
             type="text"
-            placeholder={t('noticeadd.제목을 입력하세요.')}
+            placeholder={t("noticeadd.제목을 입력하세요.")}
             style={{
               marginTop: "10px",
               marginBottom: "10px",
               fontSize: "24px",
-              width: "100%"
+              width: "100%",
             }}
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
@@ -179,33 +145,35 @@ const NoticeUpdate = (props) => {
         </Col>
       </Row>
       <Row className="mb-5">
-
         <Col className="w-100">
           <ReactQuill
             ref={quillRef}
-            style={{height: "100%", width: "100%"}}
+            style={{ height: "100%", width: "100%" }}
             theme="snow"
             modules={modules}
-            formats={formats}
+            formats={Formats}
             value={newContent}
-            onChange={(e)=>setNewContent(e)}
+            onChange={(e) => setNewContent(e)}
           />
         </Col>
       </Row>
       <Row className="mt-5">
-          <Col className="d-flex justify-content-end justify-content-center" xs={12}>
-
-              <Button 
-                variant="primary" 
-                className="w-100 text-center" 
-                style={{backgroundColor:'#6A24FE', border:'none'}} 
-                onClick={handleButtonClick}>
-                {t("noticeadd.Add")}
-              </Button>
-          </Col>
-        </Row>
-      </>
-  )
+        <Col
+          className="d-flex justify-content-end justify-content-center"
+          xs={12}
+        >
+          <Button
+            variant="primary"
+            className="w-100 text-center"
+            style={{ backgroundColor: "#6A24FE", border: "none" }}
+            onClick={handleButtonClick}
+          >
+            {t("noticeadd.Add")}
+          </Button>
+        </Col>
+      </Row>
+    </>
+  );
 };
 
 export default NoticeUpdate;

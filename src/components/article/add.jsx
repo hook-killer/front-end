@@ -4,53 +4,26 @@ import "react-quill/dist/quill.snow.css";
 import { TextField } from "@mui/material";
 import { addArticle as articleAxios } from "../../api/ArticleApi";
 import { uploadImg as imageAxios } from "../../api/FileApi";
-import { Title } from "@mui/icons-material";
 import { Button, Col, Row } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Container, Formats } from "../../utils/QuillEditorUtils";
 
 const ArticleAdd = (props) => {
   const { t, i18n } = useTranslation();
-  const [quillValue, setQuillValue] = useState("");
+  const [content, setContent] = useState("");
   const [title, setTitle] = useState("");
   const [language, setLanguage] = useState(i18n.language);
   const { boardId } = useParams();
   const quillRef = useRef(null);
   const token = props.token;
-  const role = props.role;
-  
-  // const language = i18n.language;
 
-  console.log("token : ", token, " language : ", language);
-  console.log("role : ", role);
-
-  console.log('게시물 작성 페이지', props)
-  const handleQuillChange = (e) => {
-    console.log(e);
-    setQuillValue(e);
-  };
+  const navigate = useNavigate();
 
   const modules = useMemo(() => {
     return {
       toolbar: {
-        container: [
-          [{ header: [1, 2, false] }],
-          ["bold", "italic", "underline", "strike", "blockquote"],
-          [
-            { list: "ordered" },
-            { list: "bullet" },
-            { indent: "-1" },
-            { indent: "+1" },
-          ],
-          ["link", "image"],
-          [
-            // dropdown with defaults from theme
-            { align: [] },
-            { color: [] },
-            { background: [] },
-          ],
-          ["clean"],
-        ],
+        container: Container,
         handlers: {
           image: () => {
             const input = document.createElement("input");
@@ -72,7 +45,6 @@ const ArticleAdd = (props) => {
                 const range = editor.getSelection();
                 editor.insertEmbed(range.index, "image", IMG_URL);
                 editor.setSelection(range.index + 1);
-                // setQuillValue(quillValue+IMG_URL)
               } catch (error) {
                 console.log("이미지 업로드 실패");
               }
@@ -83,49 +55,33 @@ const ArticleAdd = (props) => {
     };
   }, []);
 
-  let formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "align",
-    "color",
-    "background",
-  ];
+  const languageChangeHandler =
+    (() => {
+      languageChangeHandler();
 
-  const languageChangeHandler = (() => {
-    languageChangeHandler();
+      // 리스너 등록
+      i18n.on("languageChanged", languageChangeHandler);
 
-  // 리스너 등록
-  i18n.on("languageChanged", languageChangeHandler);
-
-  // 컴포넌트가 언마운트될 때 리스너 제거
-  return () => {
-    i18n.off("languageChanged", languageChangeHandler);
-  };
-}, [i18n]);
+      // 컴포넌트가 언마운트될 때 리스너 제거
+      return () => {
+        i18n.off("languageChanged", languageChangeHandler);
+      };
+    },
+    [i18n]);
 
   const handleButtonClick = async () => {
-    console.log("title : ", title);
-    console.log("quillValue : ", quillValue);
-
     const addArticleForm = {
       boardId: boardId,
       orgArticleLanguage: language,
       title: title,
-      content: quillValue,
+      content: content,
     };
-    console.log(token)
+
     articleAxios(addArticleForm, i18n.language, token)
       .then((response) => console.log("response : ", response))
       .catch((error) => console.log("error : ", error));
+
+    navigate(`/article/list/${boardId}`);
   };
 
   return (
@@ -134,7 +90,7 @@ const ArticleAdd = (props) => {
         <Col className="w-100">
           <TextField
             type="text"
-            placeholder={t('articleadd.제목을 입력하세요.')}
+            placeholder={t("articleadd.제목을 입력하세요.")}
             style={{
               marginTop: "10px",
               marginBottom: "10px",
@@ -147,12 +103,12 @@ const ArticleAdd = (props) => {
         </Col>
       </Row>
       <Row className="pb-2">
-        <Col xs={2}>{t('articleadd.orgLanguage')}</Col>
+        <Col xs={2}>{t("articleadd.orgLanguage")}</Col>
         <Col xs={10}>
           <select
-          onChange={(e) => setLanguage(e.target.value)}
-          value={language}
-          style={{ width: "100%"}}
+            onChange={(e) => setLanguage(e.target.value)}
+            value={language}
+            style={{ width: "100%" }}
           >
             <option value="KO">{t("articleadd.kr")}</option>
             <option value="EN">{t("articleadd.en")}</option>
@@ -168,9 +124,9 @@ const ArticleAdd = (props) => {
             style={{ height: "100%", width: "100%" }}
             theme="snow"
             modules={modules}
-            formats={formats}
-            value={quillValue}
-            onChange={handleQuillChange}
+            formats={Formats}
+            value={content}
+            onChange={(e) => setContent(e)}
           />
         </Col>
       </Row>
@@ -179,16 +135,14 @@ const ArticleAdd = (props) => {
           className="d-flex justify-content-end justify-content-center"
           xs={12}
         >
-          <Link to={{ pathname: "/" }}>
-            <Button
-              variant="primary"
-              className="w-100 text-center"
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
-              onClick={handleButtonClick}
-            >
-              {t('articleadd.Add')}
-            </Button>
-          </Link>
+          <Button
+            variant="primary"
+            className="w-100 text-center"
+            style={{ backgroundColor: "#6A24FE", border: "none" }}
+            onClick={handleButtonClick}
+          >
+            {t("articleadd.Add")}
+          </Button>
         </Col>
       </Row>
     </>

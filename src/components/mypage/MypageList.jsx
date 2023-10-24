@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { myPageList as myPageListAxios } from "../../api/MypageApi";
-import styled from "styled-components";
 import { useTranslation } from "react-i18next";
+import {
+  ColGroup,
+  Table,
+  TableBody,
+  TableContainer,
+  TableHead,
+  TableTH,
+  TableTR,
+  TableTextCenterTD,
+  TableTextLeftTD,
+} from "../styled/ArticleTableComponent";
+import styled from "styled-components";
+import Button from "react-bootstrap/Button";
+import ButtonGroup from "react-bootstrap/ButtonGroup";
+import { Link } from "react-router-dom";
 
 const TableBodyContent = (searchType, rowDatas) => {
   if (searchType == "article") {
@@ -15,32 +29,51 @@ const TableBodyContent = (searchType, rowDatas) => {
 
 const ArticleRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
-    <tr key={`ArticleRow_${rowData.boardId}_${index}`}>
-      <td>{rowData.boardId}</td>
-      <td>{rowData.title}</td>
-      <td>{rowData.createAt}</td>
-      <td>{rowData.likeCount}</td>
-    </tr>
+    <TableTR key={`ArticleRow_${rowData.boardId}_${index}`}>
+      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextLeftTD>
+        <Link
+          to={`/article/${rowData.articleId}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          {rowData.title}
+        </Link>
+      </TableTextLeftTD>
+      <TableTextCenterTD>{rowData.createAt}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.likeCount}</TableTextCenterTD>
+    </TableTR>
   ));
 
 const ReplyRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
-    <tr key={`ReplyRow_${rowData.articleId}_${index}`}>
-      <td>{rowData.articleId}</td>
-      <td>{rowData.title}</td>
-      <td>{rowData.content}</td>
-      <td>{rowData.createAt}</td>
-    </tr>
+    <TableTR key={`ReplyRow_${rowData.articleId}_${index}`}>
+      <TableTextLeftTD>
+        <Link
+          to={`/article/${rowData.articleId}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          {rowData.content}
+        </Link>
+      </TableTextLeftTD>
+      <TableTextCenterTD>{rowData.createAt}</TableTextCenterTD>
+    </TableTR>
   ));
 
 const LikeRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
-    <tr key={`LikeRow_${rowData.boardId}_${index}`}>
-      <td>{rowData.boardId}</td>
-      <td>{rowData.title}</td>
-      <td>{rowData.createdUser?.nickName}</td>
-      <td>{rowData.createAt}</td>
-    </tr>
+    <TableTR key={`LikeRow_${rowData.boardId}_${index}`}>
+      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextLeftTD>
+        <Link
+          to={`/article/${rowData.articleId}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          {rowData.title}
+        </Link>
+      </TableTextLeftTD>
+      <TableTextCenterTD>{rowData.createdUser?.nickName}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.createAt}</TableTextCenterTD>
+    </TableTR>
   ));
 
 const MypageList = ({ language, token }) => {
@@ -54,11 +87,12 @@ const MypageList = ({ language, token }) => {
       const response = await myPageListAxios(i18n.language, token, searchType);
       if (response.status == 200) {
         setItems(response.data);
+        console.log(items);
         return;
       }
       throw new Error("Not Success Error");
     } catch (error) {
-      console.log("fucking");
+      console.log(error);
     }
   };
   useEffect(() => {
@@ -80,103 +114,84 @@ const MypageList = ({ language, token }) => {
   };
 
   return (
-    <>
-      <div>
-        <button onClick={() => changeSearchType("article")}>
+    <CustomTableContainer className="mypagelist-container mt-2">
+      <ButtonGroup aria-label="SearchType" className="w-100">
+        <Button
+          variant={searchType != "article" ? "secondary" : "primary"}
+          onClick={() => changeSearchType("article")}
+        >
           {t("mypagebutton.article")}
-        </button>
-        <button onClick={() => changeSearchType("reply")}>
+        </Button>
+        <Button
+          variant={searchType != "reply" ? "secondary" : "primary"}
+          onClick={() => changeSearchType("reply")}
+        >
+          {" "}
           {t("mypagebutton.reply")}
-        </button>
-        <button onClick={() => changeSearchType("like")}>
+        </Button>
+        <Button
+          variant={searchType != "like" ? "secondary" : "primary"}
+          onClick={() => changeSearchType("like")}
+        >
           {t("mypagebutton.like")}
-        </button>
-      </div>
-
-      <TableContainer className="mypagelist-container">
-        <Table className="post-table">
+        </Button>
+      </ButtonGroup>
+      <Table className="post-table w-100 mt-0">
+        {searchType === "article" && (
           <ColGroup>
-            <col span="1" style={{ width: "15%" }} />
-            <col span="1" style={{ width: "20%" }} />
-            <col span="1" style={{ width: "20%" }} />
-            <col span="1" style={{ width: "5%" }} />
+            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+            <col span="1" style={{ width: "64%" }} />
+            <col span="1" style={{ width: "20%", minWidth: "180px" }} />
+            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
           </ColGroup>
-          <TableHead>
-            <tr>
-              {searchType === "article" && (
-                <>
-                  <th>{t("mypagelist.board")}</th>
-                  <th>{t("mypagelist.title")}</th>
-                  <th>{t("mypagelist.createAt")}</th>
-                  <th>{t("mypagelist.likecount")}</th>
-                </>
-              )}
-              {searchType === "reply" && (
-                <>
-                  <th>{t("mypagelist.board")}</th>
-                  <th>{t("mypagelist.title")}</th>
-                  <th>{t("mypagelist.reply")}</th>
-                  <th>{t("mypagelist.likecount")}</th>
-                </>
-              )}
-              {searchType === "like" && (
-                <>
-                  <th>{t("mypagelist.board")}</th>
-                  <th>{t("mypagelist.title")}</th>
-                  <th>{t("mypagelist.author")}</th>
-                  <th>{t("mypagelist.createAt")}</th>
-                </>
-              )}
-            </tr>
-          </TableHead>
-          <TableBody>{TableBodyContent(searchType, items)}</TableBody>
-        </Table>
-      </TableContainer>
-    </>
+        )}
+        {searchType === "reply" && (
+          <ColGroup>
+            <col span="1" style={{ width: "70%" }} />
+            <col span="1" style={{ width: "30%" }} />
+          </ColGroup>
+        )}
+        {searchType === "like" && (
+          <ColGroup>
+            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+            <col span="1" style={{ width: "64%" }} />
+            <col span="1" style={{ width: "8%", minWidth: "60px" }} />
+            <col span="1" style={{ width: "20%", minWidth: "180px" }} />
+          </ColGroup>
+        )}
+
+        <TableHead>
+          {searchType === "article" && (
+            <TableTR>
+              <TableTH>{t("mypagelist.board")}</TableTH>
+              <TableTH>{t("mypagelist.title")}</TableTH>
+              <TableTH>{t("mypagelist.createAt")}</TableTH>
+              <TableTH>{t("mypagelist.likecount")}</TableTH>
+            </TableTR>
+          )}
+          {searchType === "reply" && (
+            <TableTR>
+              <TableTH>{t("mypagelist.reply")}</TableTH>
+              <TableTH>{t("mypagelist.createAt")}</TableTH>
+            </TableTR>
+          )}
+          {searchType === "like" && (
+            <TableTR>
+              <TableTH>{t("mypagelist.board")}</TableTH>
+              <TableTH>{t("mypagelist.title")}</TableTH>
+              <TableTH>{t("mypagelist.author")}</TableTH>
+              <TableTH>{t("mypagelist.createAt")}</TableTH>
+            </TableTR>
+          )}
+        </TableHead>
+        <TableBody>{TableBodyContent(searchType, items)}</TableBody>
+      </Table>
+    </CustomTableContainer>
   );
 };
 
 export default MypageList;
 
-const TableContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-`;
-
-const Table = styled.table`
-  // background-color: transparent;
-  width: 80%;
-  margin-top: 10px;
-  border: 2px solid #c9e5df;
-`;
-
-const ColGroup = styled.colgroup`
-  border: 1px solid white;
-  background-color: #ffffff;
-  padding: 8px;
-`;
-
-const TableHead = styled.thead`
-  tr {
-    th {
-      border: 1px solid #c9e5df;
-      text-align: center;
-      background-color: #ffffff;
-    }
-  }
-`;
-
-const TableBody = styled.tbody`
-  tr {
-    td {
-      white-space: nowrap;
-      border: 1px solid #c9e5df;
-      padding: 8px;
-      text-align: center;
-      font-size: 14px;
-      border-spacing: 0;
-    }
-  }
+const CustomTableContainer = styled.div`
+  height: 100%;
 `;
