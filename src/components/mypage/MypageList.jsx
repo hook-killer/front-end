@@ -30,7 +30,7 @@ const TableBodyContent = (searchType, rowDatas) => {
 const ArticleRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
     <TableTR key={`ArticleRow_${rowData.boardId}_${index}`}>
-      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.boardType}</TableTextCenterTD>
       <TableTextLeftTD>
         <Link
           to={`/article/${rowData.articleId}`}
@@ -62,7 +62,7 @@ const ReplyRow = (rowDatas) =>
 const LikeRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
     <TableTR key={`LikeRow_${rowData.boardId}_${index}`}>
-      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.boardType}</TableTextCenterTD>
       <TableTextLeftTD>
         <Link
           to={`/article/${rowData.articleId}`}
