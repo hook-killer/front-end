@@ -3,9 +3,9 @@ import { listReply, deleteReply } from "../../api/ReplyApi";
 import { useParams } from "react-router";
 import { Button } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
-import Accordion from 'react-bootstrap/Accordion';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { useAccordionButton } from 'react-bootstrap/AccordionButton';
+import Accordion from "react-bootstrap/Accordion";
+import ListGroup from "react-bootstrap/ListGroup";
+import { useAccordionButton } from "react-bootstrap/AccordionButton";
 
 const ReplyList = (props) => {
   const { t, i18n } = useTranslation();
@@ -13,7 +13,7 @@ const ReplyList = (props) => {
   const { articleId } = useParams();
   const [show, setShow] = useState();
   const token = props.token;
-  console.log("token : ",token)
+  const hookVal = props.hookVal;
 
   const languageChangeHandler = () => {
     // 언어 변경 이벤트가 발생하면 새로운 언어로 업데이트
@@ -36,28 +36,27 @@ const ReplyList = (props) => {
   };
 
   const handleButtonClick = (replyId) => {
-    const confirmed = window.confirm('정말로 삭제하시겠습니까?');
+    const confirmed = window.confirm("정말로 삭제하시겠습니까?");
     if (confirmed) {
       deleteReply(replyId, "십새야", token)
-      .then((res) => {
-        console.log(res)
-        alert("삭제 성공!")
-      })
-      .catch((error) => {
-        console.log(error);
-      })
+        .then((res) => {
+          alert("삭제 성공!");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } else {
       console.log("사용자가 취소를 누름");
     }
-  }
+  };
 
   const CustomToggle = ({ children, eventKey }) => {
     const decoratedOnClick = useAccordionButton(eventKey, () => {});
-  
+
     return (
       <button
         type="button"
-        style={{ backgroundColor: 'pink' }}
+        style={{ backgroundColor: "pink" }}
         onClick={decoratedOnClick}
       >
         댓글 내용 전체보기
@@ -75,7 +74,7 @@ const ReplyList = (props) => {
     return () => {
       i18n.off("languageChanged", languageChangeHandler);
     };
-  }, [i18n]);
+  }, [i18n, hookVal]);
 
   return (
     <Accordion defaultActiveKey="0">
@@ -84,15 +83,19 @@ const ReplyList = (props) => {
         <Accordion.Body>
           <ListGroup as="ol">
             {data.map((item, index) => (
-                <ListGroup.Item
+              <ListGroup.Item
                 as="li"
                 className="d-flex justify-content-between align-items-start"
-                style={{ width : "100%" }}
+                style={{ width: "100%" }}
                 key={index}
               >
                 <div className="ms-2 me-auto">
-                  <div className="fw-bold">작성자 : {item.createUser.nickName}</div>
-                    {item.content.length > 10 ? item.content.slice(0, 9) : item.content}
+                  <div className="fw-bold">
+                    작성자 : {item.createUser.nickName}
+                  </div>
+                  {item.content.length > 10
+                    ? item.content.slice(0, 9)
+                    : item.content}
                   <Accordion defaultActiveKey="1">
                     <CustomToggle eventKey="0"></CustomToggle>
                     <Accordion.Collapse eventKey="0">
@@ -100,7 +103,13 @@ const ReplyList = (props) => {
                     </Accordion.Collapse>
                   </Accordion>
                 </div>
-                <Button onClick={() => handleButtonClick(item.replyId)} variant="warning" style={{whiteSpace: 'nowrap'}}>삭제</Button>
+                <Button
+                  onClick={() => handleButtonClick(item.replyId)}
+                  variant="warning"
+                  style={{ whiteSpace: "nowrap" }}
+                >
+                  삭제
+                </Button>
               </ListGroup.Item>
             ))}
           </ListGroup>

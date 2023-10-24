@@ -6,10 +6,13 @@ import { useTranslation } from "react-i18next";
 
 const ReplyAdd = (props) => {
   const { t, i18n } = useTranslation();
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
   const token = props.token;
 
-  const {articleId} = useParams();
+  const { articleId } = useParams();
+
+  const setHookVal = props.setHook;
+  const hookVal = props.hookVal;
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -17,37 +20,37 @@ const ReplyAdd = (props) => {
     handleButtonSubmit(inputValue); // 버튼 클릭 핸들러 호출
   };
 
-  const languageChangeHandler = (() => {
-    languageChangeHandler();
+  const languageChangeHandler =
+    (() => {
+      languageChangeHandler();
 
-    // 리스너 등록
-    i18n.on("languageChanged", languageChangeHandler);
+      // 리스너 등록
+      i18n.on("languageChanged", languageChangeHandler);
 
-    // 컴포넌트가 언마운트될 때 리스너 제거
-    return () => {
-      i18n.off("languageChanged", languageChangeHandler);
-    };
-  }, [i18n]);
-  
-  const handleButtonSubmit = (value) => {
-    const replyContent = value;
+      // 컴포넌트가 언마운트될 때 리스너 제거
+      return () => {
+        i18n.off("languageChanged", languageChangeHandler);
+      };
+    },
+    [i18n]);
+
+  const handleButtonSubmit = () => {
     // value로 입력된 내용을 받아서 처리
     const addReplyForm = {
       articleId: parseInt(articleId),
       orgReplyLanguage: i18n.language, // i18n 혹은 현재 설정된 언어를 받아와야함
-      content: replyContent
+      content: content,
     };
     addReply(addReplyForm, i18n.language, token)
-    .then(
-      (response) => {
-        console.log("response : ", response)
+      .then((response) => {
+        setHookVal(hookVal + 1);
+        setContent("");
         alert("댓글 작성 완료!");
-      }
-    )
-    .catch((error) => {
-      console.log("error : ", error);
-      alert(i18n.t("reply.alertContent"));
-    });
+      })
+      .catch((error) => {
+        console.log("error : ", error);
+        alert(i18n.t("reply.alertContent"));
+      });
   };
 
   return (
@@ -56,23 +59,29 @@ const ReplyAdd = (props) => {
         <Accordion.Header>{t("reply.addReply")}</Accordion.Header>
         <Accordion.Body>
           <Form onSubmit={(e) => handleFormSubmit(e)}>
-            <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
-              <Form.Label column sm={2}>
-                {t("reply.addReply")}
-              </Form.Label>
+            <Form.Group
+              as={Row}
+              className="mb-3"
+              controlId="formHorizontalEmail"
+            >
               <Col sm={10}>
-                <Form.Control 
-                as="textarea"
-                rows={10}
-                placeholder={t("reply.writeComment")}
-                style={{ resize: 'none' }}
-              />
+                <Form.Control
+                  as="textarea"
+                  rows={5}
+                  placeholder={t("reply.writeComment")}
+                  style={{ resize: "none" }}
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                />
               </Col>
-            </Form.Group>
-
-            <Form.Group as={Row} className="mb-3">
-              <Col sm={{ span: 10, offset: 2 }}>
-                <Button type="submit" onSubmit={() => handleButtonSubmit(this.value)}>작성하기</Button>
+              <Col sm={2}>
+                <Button
+                  type="submit"
+                  style={{ width: "100%", height: "100%" }}
+                  onSubmit={() => handleButtonSubmit()}
+                >
+                  작성하기
+                </Button>
               </Col>
             </Form.Group>
           </Form>
@@ -80,6 +89,6 @@ const ReplyAdd = (props) => {
       </Accordion.Item>
     </Accordion>
   );
-}
+};
 
 export default ReplyAdd;
