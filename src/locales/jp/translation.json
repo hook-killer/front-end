@@ -46,7 +46,11 @@
     "popular[3]": "中国語掲示板 人気 掲示板"
   },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "検索語を入力してください ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "検索語を入力してください ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ",
+    "NoResult" : "その言語を含むタイトルの投稿はありません。",
+    "advice" : "他の検索語を入力したり、メインページに戻ります。",
+    "Message" : "該当検索ワードなし！",
+    "GoToMain" : "メインページに戻る"
   },
   "noticelist": {
     "No": "番号",

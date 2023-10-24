@@ -27,7 +27,7 @@
     "title": "Enter the title you wish to modify.",
     "update": "update",
     "notFoundArticle": "Post that doesn't exist",
-    "updateSuccess": "Modification completed"
+    "updateSuccess": "Update completed"
   },
   "articledetail": {
     "No": "No",
@@ -35,7 +35,7 @@
     "Author": "Author",
     "Date": "Date",
     "Content": "Content",
-    "Modification": "Modification",
+    "Modification": "Update",
     "List": "List",
     "Delete": "Delete",
     "DirectToArticle" : "View Post"
@@ -46,7 +46,11 @@
     "popular[3]": "Chinese Popular Articles"
   },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "Please enter your search term. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ",
+    "NoResult" : "No posts have titles containing that language.",
+    "advice" : "Enter another search term or return to the main page.",
+    "Message" : "No search word!",
+    "GoToMain" : "Return to Main Page"
   },
   "noticelist": {
     "No": "No",
@@ -60,7 +64,7 @@
     "Date": "Date",
     "Content": "Content",
     "Attachment": "Attachment",
-    "Modification": "Modification",
+    "Modification": "Update",
     "List": "List",
     "Delete": "Delete"
   },

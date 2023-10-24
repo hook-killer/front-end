@@ -4,6 +4,7 @@ import { searchResult, searchAllResult } from "../../api/SearchApi"
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import PaginationComponent from "../common/PaginationComponent";
+import NoResultPage from "./NoResult"
 import "../common/pagination.css";
 import { Col, Row } from "react-bootstrap";
 import {
@@ -18,7 +19,6 @@ import {
   TableTextLeftTD,
 } from "../styled/ArticleTableComponent";
 import { useTranslation } from "react-i18next";
-
 
 const SearchResultList = () => {
   const [data, setData] = useState([]);
@@ -59,7 +59,7 @@ const SearchResultList = () => {
     // 결과 데이터는 setData를 사용하여 업데이트합니다.
     console.log("fetch에서의 Offset : ", offset, " limit : ", limit);
 
-    searchResult(word, offset, limit)
+    searchResult(i18n.language, word, offset, limit)
       .then((res) => {
         if (res.data && res.data.length > 0) {
           setData(res.data);
@@ -79,7 +79,7 @@ const SearchResultList = () => {
   };
 
   useEffect(() => {
-    searchAllResult(word)
+    searchAllResult(i18n.language, word)
       .then((res) => {
         if (res.data && res.data.length > 0) {
           setWholeData(res.data);
@@ -98,7 +98,7 @@ const SearchResultList = () => {
   }, [data])
 
   useEffect(() => {
-    searchResult(word, myOffset, state.limit)
+    searchResult(i18n.language, word, myOffset, state.limit)
       .then((res) => {
         if (res.data && res.data.length > 0) {
           setData(res.data);
@@ -115,58 +115,65 @@ const SearchResultList = () => {
       })
   }, [data]);
 
-  return (
-    <>
-      <Row className="d-flex justify-content-center">
-        <Col xs={12}>
-          <TableContainer>
-            <Table>
-              <ColGroup>
-                <col span="1" style={{ width: "10%", minWidth: "45px" }} />
-                <col span="1" style={{ width: "85%" }} />
-                <col span="1" style={{ width: "5%", minWidth: "45px" }} />
-              </ColGroup>
-              <TableHead>
-                <TableTR>
-                  <TableTH>{t("articlelist.Author")}</TableTH>
-                  <TableTH>{t("articlelist.Title")}</TableTH>
-                  <TableTH>{t("articlelist.Recommend")}</TableTH>
-                </TableTR>
-              </TableHead>
-              <TableBody>
-                {data.map((item, index) => (
-                  <TableTR key={index} style={{ backgroundColor: '#FFFFFF' }}>
-                    <TableTextCenterTD>{item.createdUserNickName}</TableTextCenterTD>
-                    {item.title.length > maxLength ? (
-                      <TableTextLeftTD>
-                        {item.title.slice(0, maxLength) + '...'}
-                      </TableTextLeftTD>
-                    ) : (
-                      <TableTextLeftTD>
-                        <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none", color: "black" }}>
-                          {item.title}
-                        </Link>
-                      </TableTextLeftTD>
-                    )}
-                    <TableTextCenterTD>{item.likeCount}</TableTextCenterTD>
+  console.log("Data : ", data)
+
+  if (data.length > 0) {
+    return (
+      <>
+        <Row className="d-flex justify-content-center">
+          <Col xs={12}>
+            <TableContainer>
+              <Table>
+                <ColGroup>
+                  <col span="1" style={{ width: "10%", minWidth: "45px" }} />
+                  <col span="1" style={{ width: "85%" }} />
+                  <col span="1" style={{ width: "5%", minWidth: "45px" }} />
+                </ColGroup>
+                <TableHead>
+                  <TableTR>
+                    <TableTH>{t("articlelist.Author")}</TableTH>
+                    <TableTH>{t("articlelist.Title")}</TableTH>
+                    <TableTH>{t("articlelist.Recommend")}</TableTH>
                   </TableTR>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Col>
-      </Row>
-      <Row className="mt-1 mb-1 d-flex justify-content-center">
-        <Col xs={12} className="d-flex justify-content-center">
-          <PaginationComponent
-            className="pagination"
-            totalItems={wholeDataSize} // 전체 아이템 수 (API에서 받아온 값으로 대체)
-            itemsPerPage={state.limit} // 페이지당 아이템 수
-            onPageChange={handlePageChange} // 페이지 변경 시 호출될 함수
-          />
-        </Col>
-      </Row></>
-  )
+                </TableHead>
+                <TableBody>
+                  {data.map((item, index) => (
+                    <TableTR key={index} style={{ backgroundColor: '#FFFFFF' }}>
+                      <TableTextCenterTD>{item.createdUserNickName}</TableTextCenterTD>
+                      {item.title.length > maxLength ? (
+                        <TableTextLeftTD>
+                          {item.title.slice(0, maxLength) + '...'}
+                        </TableTextLeftTD>
+                      ) : (
+                        <TableTextLeftTD>
+                          <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none", color: "black" }}>
+                            {item.title}
+                          </Link>
+                        </TableTextLeftTD>
+                      )}
+                      <TableTextCenterTD>{item.likeCount}</TableTextCenterTD>
+                    </TableTR>
+                  ))}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </Col>
+        </Row>
+        <Row className="mt-1 mb-1 d-flex justify-content-center">
+          <Col xs={12} className="d-flex justify-content-center">
+            <PaginationComponent
+              className="pagination"
+              totalItems={wholeDataSize} // 전체 아이템 수 (API에서 받아온 값으로 대체)
+              itemsPerPage={state.limit} // 페이지당 아이템 수
+              onPageChange={handlePageChange} // 페이지 변경 시 호출될 함수
+            />
+          </Col>
+        </Row></>
+    )
+  } else {
+    return <NoResultPage />
+  }
+  
 }
 
 export default SearchResultList;

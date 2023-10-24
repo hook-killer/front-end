@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { searchListDown } from "../../api/SearchApi";
 import styled from 'styled-components';
+import { searchListDown } from  '../../api/SearchApi';
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
@@ -24,7 +24,7 @@ const RelatedSearches = ({ searchTerm }) => {
   }, [i18n]);
 
   if (searchTerm.length > 0) {
-    searchListDown(searchTerm, 0, 7)
+    searchListDown(i18n.language, searchTerm, 0, 7)
     .then((res) => {
       if (res.data && res.data.length > 0) {
         setData(res.data);
@@ -52,11 +52,6 @@ const RelatedSearches = ({ searchTerm }) => {
                 </SearchResultInnerBox>
                 ) : ( 
                 <SearchResultInnerBox>{item.title}</SearchResultInnerBox>
-              )}
-              {item.content.length > maxLength ? (
-                <SearchResultInnerBox dangerouslySetInnerHTML={{ __html : item.content }} />
-                ) : (
-                  <SearchResultInnerBox dangerouslySetInnerHTML={{ __html : item.content}} />
               )}
               <SearchResultInnerBox>{item.likeCount}</SearchResultInnerBox>
               <SearchResultInnerBox>
@@ -88,6 +83,6 @@ const SearchResultInfo = styled.div`
 `;
 
 const SearchResultInnerBox = styled.div`
-  width: 20%;
+  width: 25%;
   text-align: center;
 `;

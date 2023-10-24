@@ -27,6 +27,7 @@ import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
 import GoogleLogin from "./components/auth/GoogleLogin";
+import NoResult from "./components/search/NoResult"
 
 
 const App = () => {
@@ -161,6 +162,10 @@ const App = () => {
                 element={<GoogleLogin tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
               />
               <Route />
+              <Route
+                path="/noresult"
+                element={<NoResult />}
+              />
             </Routes>
           </Container>
         </BrowserRouter>

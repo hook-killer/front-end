@@ -47,7 +47,11 @@
     "popular[3]": "中文留言板人气留言板"
   },
   "searchBar": {
-    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "请输入您的搜索词 ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ"
+    "검색어를 입력해주세요. ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ": "请输入您的搜索词 ex) 응애, BongGuSu BabBurger~, 塔拉克电力钟原, モヤメルンダ",
+    "NoResult" : "没有具备包含该语言题目。",
+    "advice" : "输入其他搜索词或回到主页。",
+    "Message" : "无相应搜索！",
+    "GoToMain" : "返回主页"
   },
   "noticelist": {
     "No": "数字",
