@@ -31,6 +31,9 @@ const KakaoLogin = (props) => {
           setRole(res.data.role);
           setNickName(res.data.nickName);
           setProfile(res.data.thumbnail);
+          setCookie("jwtToken", res.data.refreshToken, {
+            expires: expireSevenDays,
+          });
           setCookie("refreshToken", res.data.refreshToken, {
             expires: expireSevenDays,
           });

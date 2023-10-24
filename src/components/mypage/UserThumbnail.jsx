@@ -1,32 +1,28 @@
 import React, { useState, useRef, useEffect } from "react";
-import { getUserInfo, updateUserThumbnailPath } from "../../api/MypageApi";
+import { updateUserThumbnailPath } from "../../api/MypageApi";
 import { uploadImg } from "../../api/FileApi";
 import { useTranslation } from "react-i18next";
+import {
+  expireSevenDays,
+  removeCookie,
+  setCookie,
+} from "../../utils/ReactCookie";
 
-const UserThumbnail = ({ language, token }) => {
+const UserThumbnail = ({ language, token, profile, profileSet }) => {
   const { t, i18n } = useTranslation();
-  const [thumbnail, setThumbnail] = useState("");
-  const [usageType, setUsageType] = useState("PROFILE");
   const hiddenFileInput = useRef(null);
-
-  useEffect(() => {
-    getUserInfo(i18n.language, token)
-      .then((response) => {
-        if (response.status === 200) {
-          setThumbnail(response.data.thumbnail);
-        }
-      })
-      .catch((error) => {
-        console.error("Failed to fetch user thumbnail:", error);
-      });
-  }, [language, token]);
+  const usageType = "PROFILE";
 
   const updateUserThumbnailImage = (response) => {
     const filePath = response.filePath;
     updateUserThumbnailPath({ thumbnail: filePath }, i18n.language, token).then(
       (resp) => {
         if (resp.status == 200) {
-          setThumbnail(filePath);
+          removeCookie("profile");
+          setCookie("profile", filePath, {
+            expires: expireSevenDays,
+          });
+          profileSet(filePath);
         }
         alert(resp.data.message);
       }
@@ -46,9 +42,7 @@ const UserThumbnail = ({ language, token }) => {
           updateUserThumbnailImage(response.data);
           return;
         }
-        if (response.status != 200) {
-          throw new Error("ImageUpload Fail");
-        }
+        throw new Error("ImageUpload Fail");
       });
     } catch (error) {
       alert("Thumnail Update Failed");
@@ -84,16 +78,27 @@ const UserThumbnail = ({ language, token }) => {
             height: "200px",
           }}
         >
-          <img
-            src={
-              thumbnail
-                ? `${process.env.REACT_APP_IMG_URL}${thumbnail}`
-                : DEFAULT_THUMBNAIL
-            }
-            alt=""
-            style={{ width: "100%", height: "100%" }}
-          />
-          <img src="../"></img>
+          {profile == "" && (
+            <img
+              src={`${DEFAULT_THUMBNAIL}`}
+              alt="ProfileImage"
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
+          {profile.startsWith("http") && (
+            <img
+              src={`${profile}`}
+              alt="ProfileImage"
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
+          {(profile.startsWith("dev") || profile.startsWith("local")) && (
+            <img
+              src={`${process.env.REACT_APP_IMG_URL}${profile}`}
+              alt="ProfileImage"
+              style={{ width: "100%", height: "100%" }}
+            />
+          )}
         </div>
       </div>
       <div
