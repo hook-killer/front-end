@@ -4,7 +4,7 @@ import styled from "styled-components";
 import SearchBar from "../search/searchBar";
 import ReleatedSearches from "../search/RelatedSearches";
 import { Row, Col, Button, Container, Nav, Navbar } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { getCookie, removeCookie, setCookie } from "../../utils/ReactCookie";
 import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
@@ -65,6 +65,7 @@ const LoginMenu = (props) => {
   let nickName = props.nickName;
   let profile = props.profile;
   let t = props.trans;
+  const navigate = useNavigate();
 
   const onClickLogout = (e) => {
     removeCookie("jwtToken");
@@ -75,6 +76,7 @@ const LoginMenu = (props) => {
     props.roleSet("GUEST");
     props.nickNameSet("");
     props.profileSet("");
+    navigate("/");
   };
 
   return (
