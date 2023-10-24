@@ -100,12 +100,16 @@ const MypageList = ({ language, token }) => {
   }, [searchType]);
 
   useEffect(() => {
-    myCreatedListRender();
+    const changeLanguage = () => {
+      setSearchType("article");
+      myCreatedListRender();
+    };
+
     // 리스너 등록
-    i18n.on("languageChanged", myCreatedListRender);
+    i18n.on("languageChanged", changeLanguage);
     // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
-      i18n.off("languageChanged", myCreatedListRender);
+      i18n.off("languageChanged", changeLanguage);
     };
   }, [i18n]);
 
