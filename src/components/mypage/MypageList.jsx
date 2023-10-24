@@ -30,7 +30,7 @@ const TableBodyContent = (searchType, rowDatas) => {
 const ArticleRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
     <TableTR key={`ArticleRow_${rowData.boardId}_${index}`}>
-      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.boardType}</TableTextCenterTD>
       <TableTextLeftTD>
         <Link
           to={`/article/${rowData.articleId}`}
@@ -62,7 +62,7 @@ const ReplyRow = (rowDatas) =>
 const LikeRow = (rowDatas) =>
   rowDatas.map((rowData, index) => (
     <TableTR key={`LikeRow_${rowData.boardId}_${index}`}>
-      <TableTextCenterTD>{rowData.boardId}</TableTextCenterTD>
+      <TableTextCenterTD>{rowData.boardType}</TableTextCenterTD>
       <TableTextLeftTD>
         <Link
           to={`/article/${rowData.articleId}`}
@@ -100,12 +100,16 @@ const MypageList = ({ language, token }) => {
   }, [searchType]);
 
   useEffect(() => {
-    myCreatedListRender();
+    const changeLanguage = () => {
+      setSearchType("article");
+      myCreatedListRender();
+    };
+
     // 리스너 등록
-    i18n.on("languageChanged", myCreatedListRender);
+    i18n.on("languageChanged", changeLanguage);
     // 컴포넌트가 언마운트될 때 리스너 제거
     return () => {
-      i18n.off("languageChanged", myCreatedListRender);
+      i18n.off("languageChanged", changeLanguage);
     };
   }, [i18n]);
 
