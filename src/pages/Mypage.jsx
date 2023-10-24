@@ -4,7 +4,7 @@ import UserProfile from "../components/mypage/UserProfile";
 import MypageList from "../components/mypage/MypageList";
 import "./Mypage.css";
 
-const Mypage = ({ token, language }) => {
+const Mypage = ({ token, language, nickNameSet }) => {
   return (
     <div className="mypage-container mt-5">
       <div className="content">
@@ -13,11 +13,15 @@ const Mypage = ({ token, language }) => {
             <UserThumbnail token={token} language={language}></UserThumbnail>
           </div>
           <div className="left-bottom mt-3">
-            <UserProfile token={token} language={language}></UserProfile>
+            <UserProfile
+              token={token}
+              language={language}
+              nickNameSet={nickNameSet}
+            ></UserProfile>
           </div>
         </div>
-        <div class="d-flex" style={{ height: "100%;" }}>
-          <div class="vr"></div>
+        <div className="d-flex">
+          <div className="vr"></div>
         </div>
         <div className="right-section ps-4">
           <MypageList token={token} language={language}></MypageList>
@@ -28,4 +32,3 @@ const Mypage = ({ token, language }) => {
 };
 
 export default Mypage;
-//

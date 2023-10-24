@@ -27,7 +27,7 @@ import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
 import GoogleLogin from "./components/auth/GoogleLogin";
-import NoResult from "./components/search/NoResult"
+import NoResult from "./components/search/NoResult";
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -69,7 +69,13 @@ const App = () => {
               <Route exact path="/" element={<PopularBox />} />
               <Route
                 path="/mypage"
-                element={<Mypage token={token} language={language} />}
+                element={
+                  <Mypage
+                    token={token}
+                    language={language}
+                    nickNameSet={setNickName}
+                  />
+                }
               />
               <Route
                 path="/login"
@@ -169,10 +175,7 @@ const App = () => {
                 }
               />
               <Route />
-              <Route
-                path="/noresult"
-                element={<NoResult />}
-              />
+              <Route path="/noresult" element={<NoResult />} />
             </Routes>
           </Container>
         </BrowserRouter>
