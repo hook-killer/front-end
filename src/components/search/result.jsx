@@ -4,6 +4,21 @@ import { searchResult, searchAllResult } from "../../api/SearchApi"
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
 import PaginationComponent from "../common/PaginationComponent";
+import "../common/pagination.css";
+import { Col, Row } from "react-bootstrap";
+import {
+  TableContainer,
+  ColGroup,
+  Table,
+  TableBody,
+  TableHead,
+  TableTH,
+  TableTR,
+  TableTextCenterTD,
+  TableTextLeftTD,
+} from "../styled/ArticleTableComponent";
+import { useTranslation } from "react-i18next";
+
 
 const SearchResultList = () => {
   const [data, setData] = useState([]);
@@ -11,12 +26,25 @@ const SearchResultList = () => {
   const [wholeDataSize, setWholeDataSize] = useState(0);
   const [myOffset, setMyOffset] = useState(0);
   const [myLimit, setMyLimit] = useState(10);
+  const { t, i18n } = useTranslation();
 
-  const {word} = useParams();
+  const { word } = useParams();
 
   const maxLength = 15;
 
   const state = window.history.state;
+
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
 
   const handlePageChange = (newOffset, newLimit) => {
     setMyOffset(newOffset);
@@ -32,114 +60,113 @@ const SearchResultList = () => {
     console.log("fetch에서의 Offset : ", offset, " limit : ", limit);
 
     searchResult(word, offset, limit)
-    .then((res) => {
-      if (res.data && res.data.length > 0) {
-        setData(res.data);
-        setMyOffset(offset);
-        setMyLimit(limit);
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.log('Server Error : ', error.response.data)
-      } else if (error.request) {
-        console.log('No response from server : ', error.request);
-      } else {
-        console.log('Request Error : ', error.message);
-      } 
-    })
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setData(res.data);
+          setMyOffset(offset);
+          setMyLimit(limit);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log('Server Error : ', error.response.data)
+        } else if (error.request) {
+          console.log('No response from server : ', error.request);
+        } else {
+          console.log('Request Error : ', error.message);
+        }
+      })
   };
 
   useEffect(() => {
     searchAllResult(word)
-    .then((res) => {
-      if (res.data && res.data.length > 0) {
-        setWholeData(res.data);
-        setWholeDataSize(wholeData.length);
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.log('Server Error : ', error.response.data)
-      } else if (error.request) {
-        console.log('No response from server : ', error.request);
-      } else {
-        console.log('Request Error : ', error.message);
-      } 
-    })
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setWholeData(res.data);
+          setWholeDataSize(wholeData.length);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log('Server Error : ', error.response.data)
+        } else if (error.request) {
+          console.log('No response from server : ', error.request);
+        } else {
+          console.log('Request Error : ', error.message);
+        }
+      })
   }, [data])
 
   useEffect(() => {
     searchResult(word, myOffset, state.limit)
-    .then((res) => {
-      if (res.data && res.data.length > 0) {
-        setData(res.data);
-      }
-    })
-    .catch((error) => {
-      if (error.response) {
-        console.log('Server Error : ', error.response.data)
-      } else if (error.request) {
-        console.log('No response from server : ', error.request);
-      } else {
-        console.log('Request Error : ', error.message);
-      } 
-    })
+      .then((res) => {
+        if (res.data && res.data.length > 0) {
+          setData(res.data);
+        }
+      })
+      .catch((error) => {
+        if (error.response) {
+          console.log('Server Error : ', error.response.data)
+        } else if (error.request) {
+          console.log('No response from server : ', error.request);
+        } else {
+          console.log('Request Error : ', error.message);
+        }
+      })
   }, [data]);
 
   return (
-    <SearchResultInfoContainer>
-      <ul className="list-unstyled">
-        {data.map((item, index) => (
-          <SearchResultInfo key={index} style={{backgroundColor: 'lightblue'}}>
-            <SearchResultInnerBox>{item.createdUserNickName}</SearchResultInnerBox>
-            {item.title.length > maxLength ? (
-              <SearchResultInnerBox>
-                {item.title.slice(0, maxLength) + '...'}
-              </SearchResultInnerBox>
-              ) : ( 
-              <SearchResultInnerBox>{item.title}</SearchResultInnerBox>
-            )}
-            {item.content.length > maxLength ? (
-              <SearchResultInnerBox dangerouslySetInnerHTML={{ __html : item.content }} />
-              ) : (
-                <SearchResultInnerBox dangerouslySetInnerHTML={{ __html : item.content}} />
-            )}
-            <SearchResultInnerBox>{item.likeCount}</SearchResultInnerBox>
-            <SearchResultInnerBox>
-            <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none" }}>
-              <button className="list-group-item list-group-item-action px-4">
-                <small>게시글 바로가기</small>
-              </button>
-            </Link>
-            </SearchResultInnerBox>
-          </SearchResultInfo>
-        ))}
-      </ul>
-
-      <PaginationComponent
-      totalItems={wholeDataSize} // 전체 아이템 수 (API에서 받아온 값으로 대체)
-      itemsPerPage={state.limit} // 페이지당 아이템 수
-      onPageChange={handlePageChange} // 페이지 변경 시 호출될 함수
-      />
-    </SearchResultInfoContainer>
+    <>
+      <Row className="d-flex justify-content-center">
+        <Col xs={12}>
+          <TableContainer>
+            <Table>
+              <ColGroup>
+                <col span="1" style={{ width: "10%", minWidth: "45px" }} />
+                <col span="1" style={{ width: "85%" }} />
+                <col span="1" style={{ width: "5%", minWidth: "45px" }} />
+              </ColGroup>
+              <TableHead>
+                <TableTR>
+                  <TableTH>{t("articlelist.Author")}</TableTH>
+                  <TableTH>{t("articlelist.Title")}</TableTH>
+                  <TableTH>{t("articlelist.Recommend")}</TableTH>
+                </TableTR>
+              </TableHead>
+              <TableBody>
+                {data.map((item, index) => (
+                  <TableTR key={index} style={{ backgroundColor: '#FFFFFF' }}>
+                    <TableTextCenterTD>{item.createdUserNickName}</TableTextCenterTD>
+                    {item.title.length > maxLength ? (
+                      <TableTextLeftTD>
+                        {item.title.slice(0, maxLength) + '...'}
+                      </TableTextLeftTD>
+                    ) : (
+                      <TableTextLeftTD>
+                        <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none", color: "black" }}>
+                          {item.title}
+                        </Link>
+                      </TableTextLeftTD>
+                    )}
+                    <TableTextCenterTD>{item.likeCount}</TableTextCenterTD>
+                  </TableTR>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Col>
+      </Row>
+      <Row className="mt-1 mb-1 d-flex justify-content-center">
+        <Col xs={12} className="d-flex justify-content-center">
+          <PaginationComponent
+            className="pagination"
+            totalItems={wholeDataSize} // 전체 아이템 수 (API에서 받아온 값으로 대체)
+            itemsPerPage={state.limit} // 페이지당 아이템 수
+            onPageChange={handlePageChange} // 페이지 변경 시 호출될 함수
+          />
+        </Col>
+      </Row></>
   )
 }
 
 export default SearchResultList;
-
-const SearchResultInfoContainer = styled.div`
-  position: relative;
-  width: 98%;
-`;
-
-const SearchResultInfo = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-`;
-
-const SearchResultInnerBox = styled.div`
-  width: 20%;
-  text-align: center;
-`;
