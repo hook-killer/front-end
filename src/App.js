@@ -74,6 +74,8 @@ const App = () => {
                     token={token}
                     language={language}
                     nickNameSet={setNickName}
+                    profile={profile}
+                    profileSet={setProfile}
                   />
                 }
               />
