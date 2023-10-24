@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router";
-import { setCookie } from "../../utils/ReactCookie";
+import { expireSevenDays, setCookie } from "../../utils/ReactCookie";
 
 const KakaoLogin = (props) => {
   const location = useLocation();
@@ -12,7 +12,6 @@ const KakaoLogin = (props) => {
   const setRole = props.roleSet;
   const setNickName = props.nickNameSet;
   const setProfile = props.profileSet;
-  const sevenDays = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
   // 쿼리 파라미터 'code'의 값을 가져옵니다.
   const code = queryParams.get("code");
 
@@ -33,11 +32,15 @@ const KakaoLogin = (props) => {
           setNickName(res.data.nickName);
           setProfile(res.data.thumbnail);
           setCookie("refreshToken", res.data.refreshToken, {
-            expires: sevenDays,
+            expires: expireSevenDays,
           });
-          setCookie("role", res.data.role, { expires: sevenDays });
-          setCookie("nickName", res.data.nickName, { expires: sevenDays });
-          setCookie("profile", res.data.thumbnail, { expires: sevenDays });
+          setCookie("role", res.data.role, { expires: expireSevenDays });
+          setCookie("nickName", res.data.nickName, {
+            expires: expireSevenDays,
+          });
+          setCookie("profile", res.data.thumbnail, {
+            expires: expireSevenDays,
+          });
           //로그인이 성공하면 이동할 페이지
           navigate("/");
           return;

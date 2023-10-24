@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { updateUserInfo, getUserInfo } from "../../api/MypageApi";
 import { useTranslation } from "react-i18next";
+import {
+  expireSevenDays,
+  removeCookie,
+  setCookie,
+} from "../../utils/ReactCookie";
 
-const UserInfoUpdateModal = ({ language, token, closeModal }) => {
+const UserInfoUpdateModal = ({ language, token, closeModal, nickNameSet }) => {
   const [password, setPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [nickName, setNickName] = useState("");
@@ -47,7 +52,7 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
     setNickNameBorderStyle({ borderColor: "green" });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (newPassword == password || newPassword.length < 8) {
       alert("Confirm Password");
       return;
@@ -58,16 +63,22 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
     }
 
     try {
-      await updateUserInfo(
+      updateUserInfo(
         {
           password: newPassword,
           nickName: newNickName,
         },
         i18n.language,
         token
-      );
+      ).then((res) => {
+        if (res.status == 200) {
+          nickNameSet(newNickName);
+          removeCookie("nickName");
+          setCookie("nickName", newNickName, { expires: expireSevenDays });
+        }
+      });
       alert("UserInfo update complete.");
-      window.location.reload();
+      closeModal(false);
     } catch (error) {
       console.error("Error updating user data", error);
       alert("UserInfo update fail.");
@@ -75,7 +86,7 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
   };
 
   return (
-    <div style={modalBackgroundStyle} onClick={closeModal}>
+    <div style={modalBackgroundStyle} onClick={() => closeModal(false)}>
       <div style={modalStyle} onClick={(e) => e.stopPropagation()}>
         <div style={modalContentStyle}>
           <input
@@ -99,7 +110,7 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
           />
         </div>
         <button onClick={handleSubmit}>수정</button>
-        <button onClick={closeModal}>닫기</button>
+        <button onClick={(e) => closeModal(false)}>닫기</button>
       </div>
     </div>
   );

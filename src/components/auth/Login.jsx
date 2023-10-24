@@ -5,7 +5,7 @@ import kakaoBtn from "../../asset/kakao.png";
 import googleBtn from "../../asset/google.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import { setCookie } from "../../utils/ReactCookie";
+import { expireSevenDays, setCookie } from "../../utils/ReactCookie";
 import { login } from "../../api/AuthApi";
 import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "../../utils/Oauth";
 import { useTranslation } from "react-i18next";
@@ -26,7 +26,6 @@ const LoginForm = (props) => {
   const setRole = props.roleSet;
   const setNickName = props.nickNameSet;
   const [t, i18n] = useTranslation();
-  const sevenDays = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
   const setProfile = props.profileSet;
 
   const handleEmailChange = (e) => {
@@ -53,10 +52,16 @@ const LoginForm = (props) => {
           setRole(response.data.role);
           setNickName(response.data.nickName);
           setProfile(response.data.thumbnail);
-          setCookie("jwtToken", response.data.token, { expires: sevenDays });
-          setCookie("role", response.data.role, { expires: sevenDays });
-          setCookie("nickName", response.data.nickName, { expires: sevenDays });
-          setCookie("profile", response.data.thumbnail, { expires: sevenDays });
+          setCookie("jwtToken", response.data.token, {
+            expires: expireSevenDays,
+          });
+          setCookie("role", response.data.role, { expires: expireSevenDays });
+          setCookie("nickName", response.data.nickName, {
+            expires: expireSevenDays,
+          });
+          setCookie("profile", response.data.thumbnail, {
+            expires: expireSevenDays,
+          });
           navigater("/");
         }
       })
