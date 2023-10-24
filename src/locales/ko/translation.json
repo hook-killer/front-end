@@ -31,7 +31,8 @@
     "Content": "내용",
     "Modification": "수정",
     "List": "목록",
-    "Delete": "삭제"
+    "Delete": "삭제",
+    "DirectToArticle" : "게시글 바로가기"
   },
   "articleEdit": {
     "title": "수정을 희망하는 제목을 입력하세요.",
@@ -104,5 +105,10 @@
     "newPassword": "새 비밀번호",
     "nickname": "현재 닉네임",
     "newNickname": "새 닉네임"
+  },
+  "reply": {
+    "addReply": "댓글 작성하기",
+    "writeComment": "댓글을 작성해주세요.",
+    "alertContent": "댓글 작성 실패! 권한이 없거나 너무 긴 댓글입니다."
   }
 }

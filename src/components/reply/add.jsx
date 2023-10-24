@@ -16,6 +16,18 @@ const ReplyAdd = (props) => {
     const inputValue = e.target[0].value; // 첫 번째 input의 값 (내용을 입력하는 부분)
     handleButtonSubmit(inputValue); // 버튼 클릭 핸들러 호출
   };
+
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
   
   const handleButtonSubmit = (value) => {
     const replyContent = value;
@@ -26,28 +38,33 @@ const ReplyAdd = (props) => {
       content: replyContent
     };
     addReply(addReplyForm, i18n.language, token)
-    .then((response) => console.log("response : ", response))
+    .then(
+      (response) => {
+        console.log("response : ", response)
+        alert("댓글 작성 완료!");
+      }
+    )
     .catch((error) => {
       console.log("error : ", error);
-      alert("댓글 등록 실패! 내용이 너무 길거나 권한이 없습니다!");
+      alert(i18n.t("reply.alertContent"));
     });
   };
 
   return (
     <Accordion>
       <Accordion.Item eventKey="0">
-        <Accordion.Header>댓글 작성하기</Accordion.Header>
+        <Accordion.Header>{t("reply.addReply")}</Accordion.Header>
         <Accordion.Body>
           <Form onSubmit={(e) => handleFormSubmit(e)}>
             <Form.Group as={Row} className="mb-3" controlId="formHorizontalEmail">
               <Form.Label column sm={2}>
-                댓글 작성
+                {t("reply.addReply")}
               </Form.Label>
               <Col sm={10}>
                 <Form.Control 
                 as="textarea"
                 rows={10}
-                placeholder="내용을 입력하세요." 
+                placeholder={t("reply.writeComment")}
                 style={{ resize: 'none' }}
               />
               </Col>

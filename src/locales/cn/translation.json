@@ -38,7 +38,8 @@
     "Content": "细节",
     "Modification": "更正",
     "List": "列表",
-    "Delete": "删除"
+    "Delete": "删除",
+    "DirectToArticle" : "查看帖子"
   },
   "main": {
     "popular[1]": "韩国留言板人气帖子",
@@ -106,5 +107,10 @@
     "newPassword": "新建密码",
     "nickname": "当前昵称",
     "newNickname": "新建昵称"
+  },
+  "reply": {
+    "addReply": "写评论",
+    "writeComment": "输入内容",
+    "alertContent": "评论登录失败！ 内容太长或者没有权限。"
   }
 }

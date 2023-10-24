@@ -12,6 +12,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ReplyAdd from "../reply/add";
+import ReplyList from "../reply/list"
 import "./detail.css";
 import dislike from "../../asset/dislike.png";
 import like from "../../asset/like.png";
@@ -200,8 +201,11 @@ const ArticleDetail = (props) => {
           </Link>
         </Col>
       </Row>
-      <hr />
-      <ReplyAdd />
+      <div className="article-actions">
+        {/* 추가 작업이 필요하다면 이 공간에 추가 내용을 넣을 수 있습니다. */}
+      </div>
+      <ReplyAdd token={token}/>
+      <ReplyList token={token}/>
     </div>
   );
 };
