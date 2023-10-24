@@ -109,6 +109,14 @@
   "reply": {
     "addReply": "write a comment",
     "writeComment": "write your reply",
-    "alertContent": "Failed to register comments! The content is too long or you are not authorized. "
+    "alertContent": "Failed to register comments! The content is too long or you are not authorized.",
+    "deleteConfirm" : "Are you sure you want to delete it?",
+    "successConfirm" : "Successfully deleted!",
+    "wholeComment" : "Full view of the comments",
+    "viewComment" : "Read comments",
+    "writer" : "Writer",
+    "delete" : "delete",
+    "write" : "write",
+    "successWrite" : "Complete comments!"
   }
 }

@@ -45,7 +45,7 @@ const ReplyAdd = (props) => {
       .then((response) => {
         setHookVal(hookVal + 1);
         setContent("");
-        alert("댓글 작성 완료!");
+        alert();
       })
       .catch((error) => {
         console.log("error : ", error);
@@ -80,7 +80,7 @@ const ReplyAdd = (props) => {
                   style={{ width: "100%", height: "100%" }}
                   onSubmit={() => handleButtonSubmit()}
                 >
-                  작성하기
+                  {t("reply.write")}
                 </Button>
               </Col>
             </Form.Group>
