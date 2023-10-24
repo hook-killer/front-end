@@ -8,7 +8,7 @@ import {
 import styled from "styled-components";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import { Button, Col, Row } from "react-bootstrap";
+import { Button, Col, OverlayTrigger, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ReplyAdd from "../reply/add";
@@ -17,6 +17,8 @@ import "./detail.css";
 import dislike from "../../asset/dislike.png";
 import like from "../../asset/like.png";
 import jwtDecode from "jwt-decode";
+import Popover from "react-bootstrap/Popover";
+import Profile from "../common/Profile";
 
 const ArticleDetail = (props) => {
   const { t, i18n } = useTranslation();
@@ -31,6 +33,7 @@ const ArticleDetail = (props) => {
   const loginId = token == "" ? 0 : decodeToken.sub;
   const loginRole = token == "" ? "GUEST" : decodeToken.role;
   const [createdUserId, setCreatedUserId] = useState("");
+  const [createdUser, setCreatedUser] = useState({});
 
   const [hookVal, setHookVal] = useState(0);
 
@@ -40,6 +43,7 @@ const ArticleDetail = (props) => {
         if (res.data) {
           setData(res.data);
           setCreatedUserId(res.data.createdUser.id);
+          setCreatedUser(res.data.createdUser);
         }
       });
     } catch (error) {
@@ -122,24 +126,71 @@ const ArticleDetail = (props) => {
     }
   };
 
+  console.log(data);
   return (
     <div className="ps-5 pe-5">
       <Row className="mt-5">
-        <Col xs={8}>
+        <Col xs={10}>
           <h1>{data.title}</h1>
         </Col>
-        <Col className="text-align-center">
+        <Col className="py-3 text-end">
           <small>
             {t("articlelist.Recommend")} : {data.likeCount}
           </small>
         </Col>
-        <Col xs={2}>
+      </Row>
+      <Row>
+        <Col>
+          <OverlayTrigger
+            placement="bottom"
+            delay={{ show: 250, hide: 400 }}
+            trigger={["hover", "hover"]}
+            overlay={
+              <Popover id="popover-basic">
+                <Popover.Header as="h3">UserInfo</Popover.Header>
+                <Popover.Body>
+                  <Row className="d-flex justify-content-center">
+                    <Col>
+                      <Profile thumnail={createdUser.thumbnail} />
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <Col>
+                      {t("userinfo.nickname")} :
+                      {createdUser ? createdUser.nickName : "유저 정보 없음"}
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <Col>
+                      {t("userinfo.email")} :
+                      {createdUser ? createdUser.email : "유저 정보 없음"}
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <Col>
+                      Role :{createdUser ? createdUser.role : "유저 정보 없음"}
+                    </Col>
+                  </Row>
+                  <Row className="d-flex justify-content-center">
+                    <Col>
+                      {t("userinfo.createAt")} :
+                      {createdUser ? createdUser.createAt : "유저 정보 없음"}
+                    </Col>
+                  </Row>
+                </Popover.Body>
+              </Popover>
+            }
+          >
+            <small>
+              {t("articlelist.Author")} :
+              {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"}
+            </small>
+          </OverlayTrigger>
+        </Col>
+        <Col className="text-end">
           <small>
-            {" "}
-            {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"}
+            {t("articlelist.Date")} :{data.createAt}
           </small>
-          <br />
-          <small>{data.createAt}</small>
         </Col>
       </Row>
       <hr />
