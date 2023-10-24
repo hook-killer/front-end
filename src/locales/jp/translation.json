@@ -37,7 +37,8 @@
     "Content": "内容",
     "Modification": "修正",
     "List": "リスト",
-    "Delete": "削除"
+    "Delete": "削除",
+    "DirectToArticle" : "掲示物を見る"
   },
   "main": {
     "popular[1]": "韓国掲示板 人気 掲示物",
@@ -104,5 +105,10 @@
     "newPassword": "新しいパスワード",
     "nickname": "現在のニックネーム",
     "newNickname": "新しいニックネーム"
+  },
+  "reply": {
+    "addReply": "コメントを作成する",
+    "writeComment": "コメントを作成する",
+    "alertContent": "コメント登録失敗！ 内容が長すぎるか、あなたの権限がありません。"
   }
 }

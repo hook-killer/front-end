@@ -37,7 +37,8 @@
     "Content": "Content",
     "Modification": "Modification",
     "List": "List",
-    "Delete": "Delete"
+    "Delete": "Delete",
+    "DirectToArticle" : "View Post"
   },
   "main": {
     "popular[1]": "Korean Popular Articles",
@@ -104,5 +105,10 @@
     "newPassword": "New Password",
     "nickname": "Current NickName",
     "newNickname": "New NickName"
+  },
+  "reply": {
+    "addReply": "write a comment",
+    "writeComment": "write your reply",
+    "alertContent": "Failed to register comments! The content is too long or you are not authorized. "
   }
 }

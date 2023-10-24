@@ -85,10 +85,10 @@ const NoticeDetail = (props) => {
         </div>
         <div className="numberDateColumn">
           <div className="noticeNumber">
-            <small>게시번호: {data.id}</small>
+            <small>{t("noticedetail.No")}: {data.id}</small>
           </div>
           <div className="createdDate">
-            <small>작성일: {data.createAt}</small>
+            <small>{t("noticedetail.Date")}: {data.createAt}</small>
           </div>
         </div>
       </div>

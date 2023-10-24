@@ -2,12 +2,26 @@ import React, { useEffect, useState } from 'react';
 import { searchListDown } from "../../api/SearchApi";
 import styled from 'styled-components';
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const RelatedSearches = ({ searchTerm }) => {
   // relatedSearches에 api 통신을 통한 데이터들이 들어올 예정
   const [data, setData] = useState([]);
+  const { t, i18n } = useTranslation();
 
   const maxLength = 15;
+
+  const languageChangeHandler = (() => {
+    languageChangeHandler();
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
 
   if (searchTerm.length > 0) {
     searchListDown(searchTerm, 0, 7)
@@ -48,7 +62,7 @@ const RelatedSearches = ({ searchTerm }) => {
               <SearchResultInnerBox>
               <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none" }}>
                 <button className="list-group-item list-group-item-action px-4">
-                  <small>게시글 바로가기</small>
+                  <small>{t('articledetail.DirectToArticle')}</small>
                 </button>
               </Link>
               </SearchResultInnerBox>
