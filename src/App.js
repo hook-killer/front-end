@@ -26,6 +26,8 @@ import SearchResultList from "./components/search/result";
 import Mypage from "./pages/Mypage";
 import KakaoLogin from "./components/auth/KakaoLogin";
 import ArticleUpdate from "./components/article/update";
+import GoogleLogin from "./components/auth/GoogleLogin";
+
 
 const App = () => {
   let storageLanguage = getCookie("language");
@@ -153,6 +155,10 @@ const App = () => {
                     nickNameSet={setNickName}
                   />
                 }
+              />
+              <Route
+                path="/auth/oauth/google"
+                element={<GoogleLogin tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
               />
               <Route />
             </Routes>
