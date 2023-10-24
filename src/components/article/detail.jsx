@@ -127,7 +127,7 @@ const ArticleDetail = (props) => {
           <h1>{data.title}</h1>
         </Col>
         <Col className="text-align-center">
-          <small>추천 : {data.likeCount}</small>
+          <small>{t("articlelist.Recommend")} : {data.likeCount}</small>
         </Col>
         <Col xs={2}>
           <small>
