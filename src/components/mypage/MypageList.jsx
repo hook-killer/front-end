@@ -87,7 +87,6 @@ const MypageList = ({ language, token }) => {
       const response = await myPageListAxios(i18n.language, token, searchType);
       if (response.status == 200) {
         setItems(response.data);
-        console.log(items);
         return;
       }
       throw new Error("Not Success Error");

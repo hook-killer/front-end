@@ -8,8 +8,6 @@ const UserThumbnail = ({ language, token }) => {
   const [thumbnail, setThumbnail] = useState("");
   const [usageType, setUsageType] = useState("PROFILE");
   const hiddenFileInput = useRef(null);
-  console.log("language : ", language, " token : ", token);
-  console.log("thumb : ", thumbnail);
 
   useEffect(() => {
     getUserInfo(i18n.language, token)
@@ -46,7 +44,6 @@ const UserThumbnail = ({ language, token }) => {
       await uploadImg(formData, i18n.language, token).then((response) => {
         if (response.status == 200) {
           updateUserThumbnailImage(response.data);
-          console.log("response : ", response.data.filePath);
           return;
         }
         if (response.status != 200) {

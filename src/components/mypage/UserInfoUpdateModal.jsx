@@ -25,6 +25,7 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
 
   const handlePasswordChange = (e) => {
     const enteredPassword = e.target.value;
+    setNewPassword(enteredPassword);
 
     if (enteredPassword === password) {
       setPasswordBorderStyle({ borderColor: "red" });
@@ -34,7 +35,6 @@ const UserInfoUpdateModal = ({ language, token, closeModal }) => {
       return;
     }
     setPasswordBorderStyle({ borderColor: "green" });
-    setNewPassword(enteredPassword);
   };
 
   const handleNickNameChange = (e) => {
