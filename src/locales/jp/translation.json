@@ -109,6 +109,14 @@
   "reply": {
     "addReply": "コメントを作成する",
     "writeComment": "コメントを作成する",
-    "alertContent": "コメント登録失敗！ 内容が長すぎるか、あなたの権限がありません。"
+    "alertContent": "コメント登録失敗！ 内容が長すぎるか、あなたの権限がありません。",
+    "deleteConfirm" : "本当に削除しますか？",
+    "successConfirm" : "削除成功！",
+    "wholeComment" : "レスの内容全体を見る",
+    "viewComment" : "コメントを見る",
+    "writer" : "作成者",
+    "delete" : "削除",
+    "write" : "作成",
+    "successWrite" : "コメント作成完了！"
   }
 }

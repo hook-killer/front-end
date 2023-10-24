@@ -37,12 +37,12 @@ const ReplyList = (props) => {
 
   const handleButtonClick = (replyId) => {
     const token = props.token;
-    const confirmed = window.confirm('정말로 삭제하시겠습니까?');
+    const confirmed = window.confirm(i18n.t("reply.deleteConfirm"));
     if (confirmed) {
       deleteReply(replyId, i18n.language, token)
       .then((res) => {
         console.log(res)
-        alert("삭제 성공!")
+        alert(i18n.t("reply.successConfirm"))
       })
       .catch((error) => {
         console.log(error);
@@ -61,7 +61,7 @@ const ReplyList = (props) => {
         style={{ backgroundColor: "pink" }}
         onClick={decoratedOnClick}
       >
-        댓글 내용 전체보기
+        {t('reply.wholeComment')}
       </button>
     );
   };
@@ -81,7 +81,7 @@ const ReplyList = (props) => {
   return (
     <Accordion defaultActiveKey="0">
       <Accordion.Item eventKey="0">
-        <Accordion.Header>댓글 보기</Accordion.Header>
+        <Accordion.Header>{t("reply.viewComment")}</Accordion.Header>
         <Accordion.Body>
           <ListGroup as="ol">
             {data.map((item, index) => (
@@ -93,7 +93,7 @@ const ReplyList = (props) => {
               >
                 <div className="ms-2 me-auto">
                   <div className="fw-bold">
-                    작성자 : {item.createUser.nickName}
+                    {t("reply.writer")} : {item.createUser.nickName}
                   </div>
                   {item.content.length > 10
                     ? item.content.slice(0, 9)
@@ -110,7 +110,7 @@ const ReplyList = (props) => {
                   variant="warning"
                   style={{ whiteSpace: "nowrap" }}
                 >
-                  삭제
+                  {t("reply.delete")}
                 </Button>
               </ListGroup.Item>
             ))}
