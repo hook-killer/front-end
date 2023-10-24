@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import styled from "styled-components";
 import kakaoBtn from "../../asset/kakao.png";
+import googleBtn from "../../asset/google.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { setCookie } from "../../utils/ReactCookie";
 import { login } from "../../api/AuthApi";
-import { KAKAO_AUTH_URL } from "../../utils/Oauth";
+import { GOOGLE_AUTH_URL, KAKAO_AUTH_URL } from "../../utils/Oauth";
 import { useTranslation } from "react-i18next";
 
-// TODO: 로그인 기능 구현하기!!!!!
+const GoogleLogin = (e) => {
+  window.location.href = GOOGLE_AUTH_URL;
+};
+
 const KakaoLogin = (e) => {
   window.location.href = KAKAO_AUTH_URL;
 };
@@ -120,6 +124,19 @@ const LoginForm = (props) => {
               />
               {t('login.KaKaoLogin')}
             </KakaoButton>
+          </Col>
+        </Row>
+        <Row>
+          <Col xs={12}>
+            <GoogleButton onClick={GoogleLogin}>
+              <img
+                src={googleBtn}
+                alt="GoogleLoginBtn"
+                className="me-3"
+                height="80%"
+              />
+              {t('SIGN IN WITH GOOGLE')}
+            </GoogleButton>
           </Col>
         </Row>
       </Form>
@@ -237,5 +254,20 @@ const KakaoButton = styled.button`
   color: #000000;
   font-size: 16px;
   background-color: #fee500;
+  text-align: center;
+`;
+
+
+const GoogleButton = styled.button`
+  width: 100%;
+  height: 40px;
+  padding: 0 10px;
+  box-sizing: border-box;
+  margin-bottom: 16px;
+  border: 0;
+  border-radius: 6px;
+  color: #000000;
+  font-size: 16px;
+  background-color: #FFFFFF;
   text-align: center;
 `;
