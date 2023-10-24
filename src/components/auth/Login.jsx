@@ -27,6 +27,7 @@ const LoginForm = (props) => {
   const setNickName = props.nickNameSet;
   const [t, i18n] = useTranslation();
   const sevenDays = new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000);
+  const setProfile = props.profileSet;
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -41,29 +42,31 @@ const LoginForm = (props) => {
 
     const AuthRequest = {
       email,
-      password
-    }
+      password,
+    };
 
     login(AuthRequest, i18n.language)
-      .then(response => {
-        console.log(response)
+      .then((response) => {
+        console.log(response);
         if (response.status === 200) {
-          setToken(response.data.token)
-          setRole(response.data.role)
-          setNickName(response.data.nickName)
-          setCookie('jwtToken', response.data.token, { expires: sevenDays });
-          setCookie('role', response.data.role, { expires: sevenDays });
-          setCookie('nickName', response.data.nickName, { expires: sevenDays });
+          setToken(response.data.token);
+          setRole(response.data.role);
+          setNickName(response.data.nickName);
+          setProfile(response.data.thumbnail);
+          setCookie("jwtToken", response.data.token, { expires: sevenDays });
+          setCookie("role", response.data.role, { expires: sevenDays });
+          setCookie("nickName", response.data.nickName, { expires: sevenDays });
+          setCookie("profile", response.data.thumbnail, { expires: sevenDays });
           navigater("/");
         }
       })
-      .catch(error => {
+      .catch((error) => {
         if (error.response && error.response.data.success === false) {
           alert(error.response.data.reason);
         } else {
-          console.error('Error', error);
+          console.error("Error", error);
         }
-      })
+      });
   };
 
   return (
@@ -71,7 +74,7 @@ const LoginForm = (props) => {
       <Form onSubmit={handleSubmit} className="w-75">
         <Row className="mt-5">
           <Col xs={12}>
-            <TitleH1>{t('login.Login')}</TitleH1>
+            <TitleH1>{t("login.Login")}</TitleH1>
           </Col>
         </Row>
         <Row className="mt-3">
@@ -107,7 +110,6 @@ const LoginForm = (props) => {
             <Link to="/register">
               <RegisterButton type="button" value="Register" />
             </Link>
-
           </Col>
         </Row>
         <Separator>
@@ -122,7 +124,7 @@ const LoginForm = (props) => {
                 className="me-3"
                 height="80%"
               />
-              {t('login.KaKaoLogin')}
+              {t("login.KaKaoLogin")}
             </KakaoButton>
           </Col>
         </Row>
@@ -135,7 +137,7 @@ const LoginForm = (props) => {
                 className="me-3"
                 height="80%"
               />
-              {t('SIGN IN WITH GOOGLE')}
+              {t("SIGN IN WITH GOOGLE")}
             </GoogleButton>
           </Col>
         </Row>
@@ -257,7 +259,6 @@ const KakaoButton = styled.button`
   text-align: center;
 `;
 
-
 const GoogleButton = styled.button`
   width: 100%;
   height: 40px;
@@ -268,6 +269,6 @@ const GoogleButton = styled.button`
   border-radius: 6px;
   color: #000000;
   font-size: 16px;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   text-align: center;
 `;

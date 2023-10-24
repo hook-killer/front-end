@@ -10,6 +10,7 @@ import { isNull } from "../../utils/NullUtils";
 import { PopupMenu } from "react-simple-widgets";
 import RelatedSearches from "../search/RelatedSearches";
 import { useTranslation } from "react-i18next";
+import Profile from "./Profile";
 
 const SelectLanguage = (props) => {
   const lang = props.language;
@@ -91,23 +92,7 @@ const LoginMenu = (props) => {
 
         <div className="card text-start">
           <div className="card-body px-4 py-4">
-            <AvaterCircleDiv className="text-center mx-auto mb-4">
-              {profile == "" ? (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 448 512"
-                  width={60}
-                  height={60}
-                >
-                  <path d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H418.3c16.4 0 29.7-13.3 29.7-29.7C448 383.8 368.2 304 269.7 304H178.3z" />
-                </svg>
-              ) : (
-                <img
-                  src={`http://ffmiqzmwilfb20007378.cdn.ntruss.com/${profile}?type=f&w=100&h=100`}
-                  alt="User Profile"
-                />
-              )}
-            </AvaterCircleDiv>
+            <Profile thumnail={profile} />
 
             <h5 className="text-center mb-3">{nickName}</h5>
 
@@ -373,6 +358,5 @@ const AvaterCircleDiv = styled.div`
   width: 100px;
   height: 100px;
   border-radius: 50%;
-  background-color: #ffbd30;
   place-items: center;
 `;

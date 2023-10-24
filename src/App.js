@@ -29,7 +29,6 @@ import ArticleUpdate from "./components/article/update";
 import GoogleLogin from "./components/auth/GoogleLogin";
 import NoResult from "./components/search/NoResult"
 
-
 const App = () => {
   let storageLanguage = getCookie("language");
   let storageRole = getCookie("role");
@@ -79,6 +78,7 @@ const App = () => {
                     tokenSet={setToken}
                     roleSet={setRole}
                     nickNameSet={setNickName}
+                    profileSet={setProfile}
                   />
                 }
               />
@@ -154,12 +154,19 @@ const App = () => {
                     tokenSet={setToken}
                     roleSet={setRole}
                     nickNameSet={setNickName}
+                    profileSet={setProfile}
                   />
                 }
               />
               <Route
                 path="/auth/oauth/google"
-                element={<GoogleLogin tokenSet={setToken} roleSet={setRole} nickNameSet={setNickName} />}
+                element={
+                  <GoogleLogin
+                    tokenSet={setToken}
+                    roleSet={setRole}
+                    nickNameSet={setNickName}
+                  />
+                }
               />
               <Route />
               <Route
