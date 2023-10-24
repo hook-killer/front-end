@@ -12,7 +12,7 @@ import { Button, Col, Row } from "react-bootstrap";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import ReplyAdd from "../reply/add";
-import ReplyList from "../reply/list"
+import ReplyList from "../reply/list";
 import "./detail.css";
 import dislike from "../../asset/dislike.png";
 import like from "../../asset/like.png";
@@ -31,6 +31,8 @@ const ArticleDetail = (props) => {
   const loginId = token == "" ? 0 : decodeToken.sub;
   const loginRole = token == "" ? "GUEST" : decodeToken.role;
   const [createdUserId, setCreatedUserId] = useState("");
+
+  const [hookVal, setHookVal] = useState(0);
 
   const setArticleByServer = async () => {
     try {
@@ -127,12 +129,14 @@ const ArticleDetail = (props) => {
           <h1>{data.title}</h1>
         </Col>
         <Col className="text-align-center">
-          <small>{t("articlelist.Recommend")} : {data.likeCount}</small>
+          <small>
+            {t("articlelist.Recommend")} : {data.likeCount}
+          </small>
         </Col>
         <Col xs={2}>
           <small>
             {" "}
-            {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"} /
+            {data.createdUser ? data.createdUser.nickName : "유저 정보 없음"}
           </small>
           <br />
           <small>{data.createAt}</small>
@@ -204,8 +208,8 @@ const ArticleDetail = (props) => {
       <div className="article-actions">
         {/* 추가 작업이 필요하다면 이 공간에 추가 내용을 넣을 수 있습니다. */}
       </div>
-      <ReplyAdd token={token}/>
-      <ReplyList token={token}/>
+      <ReplyAdd token={token} hookVal={hookVal} setHook={setHookVal} />
+      <ReplyList token={token} hookVal={hookVal} />
     </div>
   );
 };
