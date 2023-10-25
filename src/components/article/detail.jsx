@@ -151,7 +151,7 @@ const ArticleDetail = (props) => {
                 <Popover.Body>
                   <Row className="d-flex justify-content-center">
                     <Col>
-                      <Profile thumnail={createdUser.thumbnail} />
+                      <Profile thumnail={createdUser.thumbNail} />
                     </Col>
                   </Row>
                   <Row className="d-flex justify-content-center">

@@ -51,7 +51,7 @@ const LoginForm = (props) => {
           setToken(response.data.token);
           setRole(response.data.role);
           setNickName(response.data.nickName);
-          setProfile(response.data.thumbnail);
+          setProfile(response.data.thumbNail);
           setCookie("jwtToken", response.data.token, {
             expires: expireSevenDays,
           });
@@ -59,7 +59,7 @@ const LoginForm = (props) => {
           setCookie("nickName", response.data.nickName, {
             expires: expireSevenDays,
           });
-          setCookie("profile", response.data.thumbnail, {
+          setCookie("profile", response.data.thumbNail, {
             expires: expireSevenDays,
           });
           navigater("/");
