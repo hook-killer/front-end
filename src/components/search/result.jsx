@@ -34,20 +34,6 @@ const SearchResultList = () => {
 
   const state = window.history.state;
 
-  const languageChangeHandler =
-    (() => {
-      languageChangeHandler();
-
-      // 리스너 등록
-      i18n.on("languageChanged", languageChangeHandler);
-
-      // 컴포넌트가 언마운트될 때 리스너 제거
-      return () => {
-        i18n.off("languageChanged", languageChangeHandler);
-      };
-    },
-    [i18n]);
-
   const handlePageChange = (newOffset, newLimit) => {
     setMyOffset(newOffset);
     setMyLimit(newLimit);
@@ -79,8 +65,7 @@ const SearchResultList = () => {
         }
       });
   };
-
-  useEffect(() => {
+  const getSearchListByWord = () => {
     searchAllResult(i18n.language, word)
       .then((res) => {
         if (res.data && res.data.length > 0) {
@@ -97,9 +82,6 @@ const SearchResultList = () => {
           console.log("Request Error : ", error.message);
         }
       });
-  }, [data]);
-
-  useEffect(() => {
     searchResult(i18n.language, word, myOffset, state.limit)
       .then((res) => {
         if (res.data && res.data.length > 0) {
@@ -115,7 +97,28 @@ const SearchResultList = () => {
           console.log("Request Error : ", error.message);
         }
       });
-  }, [data]);
+  };
+  useEffect(() => {
+    getSearchListByWord();
+  }, []);
+
+  useEffect(() => {
+    getSearchListByWord();
+  }, [word]);
+
+  useEffect(() => {
+    const languageChangeHandler = () => {
+      getSearchListByWord();
+    };
+
+    // 리스너 등록
+    i18n.on("languageChanged", languageChangeHandler);
+
+    // 컴포넌트가 언마운트될 때 리스너 제거
+    return () => {
+      i18n.off("languageChanged", languageChangeHandler);
+    };
+  }, [i18n]);
 
   console.log("Data : ", data);
 
