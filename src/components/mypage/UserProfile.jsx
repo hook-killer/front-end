@@ -4,7 +4,7 @@ import UserInfoUpdateModal from "./UserInfoUpdateModal";
 import { useTranslation } from "react-i18next";
 import { Button, Col, Row } from "react-bootstrap";
 
-const UserProfile = ({ token, language, nickNameSet }) => {
+const UserProfile = ({ token, language }) => {
   const { t, i18n } = useTranslation();
 
   const [userInfo, setUserInfo] = useState({
@@ -64,8 +64,7 @@ const UserProfile = ({ token, language, nickNameSet }) => {
         <UserInfoUpdateModal
           language={language}
           token={token}
-          nickNameSet={nickNameSet}
-          closeModal={setIsModalOpen}
+          closeModal={() => setIsModalOpen(false)}
         />
       )}
     </div>
