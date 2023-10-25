@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { searchResult, searchAllResult } from "../../api/SearchApi"
-import styled from 'styled-components';
+import { searchResult, searchAllResult } from "../../api/SearchApi";
+import styled from "styled-components";
 import { Link } from "react-router-dom";
 import PaginationComponent from "../common/PaginationComponent";
-import NoResultPage from "./NoResult"
+import NoResultPage from "./NoResult";
 import "../common/pagination.css";
 import { Col, Row } from "react-bootstrap";
 import {
@@ -34,17 +34,19 @@ const SearchResultList = () => {
 
   const state = window.history.state;
 
-  const languageChangeHandler = (() => {
-    languageChangeHandler();
+  const languageChangeHandler =
+    (() => {
+      languageChangeHandler();
 
-    // 리스너 등록
-    i18n.on("languageChanged", languageChangeHandler);
+      // 리스너 등록
+      i18n.on("languageChanged", languageChangeHandler);
 
-    // 컴포넌트가 언마운트될 때 리스너 제거
-    return () => {
-      i18n.off("languageChanged", languageChangeHandler);
-    };
-  }, [i18n]);
+      // 컴포넌트가 언마운트될 때 리스너 제거
+      return () => {
+        i18n.off("languageChanged", languageChangeHandler);
+      };
+    },
+    [i18n]);
 
   const handlePageChange = (newOffset, newLimit) => {
     setMyOffset(newOffset);
@@ -69,13 +71,13 @@ const SearchResultList = () => {
       })
       .catch((error) => {
         if (error.response) {
-          console.log('Server Error : ', error.response.data)
+          console.log("Server Error : ", error.response.data);
         } else if (error.request) {
-          console.log('No response from server : ', error.request);
+          console.log("No response from server : ", error.request);
         } else {
-          console.log('Request Error : ', error.message);
+          console.log("Request Error : ", error.message);
         }
-      })
+      });
   };
 
   useEffect(() => {
@@ -88,14 +90,14 @@ const SearchResultList = () => {
       })
       .catch((error) => {
         if (error.response) {
-          console.log('Server Error : ', error.response.data)
+          console.log("Server Error : ", error.response.data);
         } else if (error.request) {
-          console.log('No response from server : ', error.request);
+          console.log("No response from server : ", error.request);
         } else {
-          console.log('Request Error : ', error.message);
+          console.log("Request Error : ", error.message);
         }
-      })
-  }, [data])
+      });
+  }, [data]);
 
   useEffect(() => {
     searchResult(i18n.language, word, myOffset, state.limit)
@@ -106,16 +108,16 @@ const SearchResultList = () => {
       })
       .catch((error) => {
         if (error.response) {
-          console.log('Server Error : ', error.response.data)
+          console.log("Server Error : ", error.response.data);
         } else if (error.request) {
-          console.log('No response from server : ', error.request);
+          console.log("No response from server : ", error.request);
         } else {
-          console.log('Request Error : ', error.message);
+          console.log("Request Error : ", error.message);
         }
-      })
+      });
   }, [data]);
 
-  console.log("Data : ", data)
+  console.log("Data : ", data);
 
   if (data.length > 0) {
     return (
@@ -138,15 +140,25 @@ const SearchResultList = () => {
                 </TableHead>
                 <TableBody>
                   {data.map((item, index) => (
-                    <TableTR key={index} style={{ backgroundColor: '#FFFFFF' }}>
-                      <TableTextCenterTD>{item.createdUserNickName}</TableTextCenterTD>
+                    <TableTR key={index} style={{ backgroundColor: "#FFFFFF" }}>
+                      <TableTextCenterTD>
+                        {item.createdUserNickName}
+                      </TableTextCenterTD>
                       {item.title.length > maxLength ? (
                         <TableTextLeftTD>
-                          {item.title.slice(0, maxLength) + '...'}
+                          <Link
+                            to={`/article/${item.articleId}`}
+                            style={{ textDecoration: "none", color: "black" }}
+                          >
+                            {item.title.slice(0, maxLength) + "..."}
+                          </Link>
                         </TableTextLeftTD>
                       ) : (
                         <TableTextLeftTD>
-                          <Link to={`/article/${item.articleId}`} style={{ textDecoration: "none", color: "black" }}>
+                          <Link
+                            to={`/article/${item.articleId}`}
+                            style={{ textDecoration: "none", color: "black" }}
+                          >
                             {item.title}
                           </Link>
                         </TableTextLeftTD>
@@ -168,12 +180,12 @@ const SearchResultList = () => {
               onPageChange={handlePageChange} // 페이지 변경 시 호출될 함수
             />
           </Col>
-        </Row></>
-    )
+        </Row>
+      </>
+    );
   } else {
-    return <NoResultPage />
+    return <NoResultPage />;
   }
-  
-}
+};
 
 export default SearchResultList;
