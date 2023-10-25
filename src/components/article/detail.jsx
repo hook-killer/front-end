@@ -100,7 +100,7 @@ const ArticleDetail = (props) => {
     return () => {
       i18n.off("languageChanged", setArticleByServer);
     };
-  }, [i18n]);
+  }, [i18n, hookVal]);
 
   const handleDelete = async () => {
     const token = props.token;
@@ -223,7 +223,7 @@ const ArticleDetail = (props) => {
             <Col xs={1}>
               <Link to={`/article/update/${data.articleId}`}>
                 <Button
-                  style={{ backgroundColor: "#6A24FE", border: "none" }}
+                  style={{ backgroundColor: "#6A24FE", border: "none", padding: "5px 10px", }}
                   className="w-100 text-center"
                 >
                   {t("articledetail.Modification")}
@@ -248,7 +248,7 @@ const ArticleDetail = (props) => {
         <Col xs={1}>
           <Link to={{ pathname: "/" }}>
             <Button
-              style={{ backgroundColor: "#6A24FE", border: "none" }}
+              style={{ backgroundColor: "#6A24FE", border: "none", padding: "5px 10px", }}
               className="w-100 text-center"
             >
               {t("articledetail.List")}
@@ -260,7 +260,7 @@ const ArticleDetail = (props) => {
         {/* 추가 작업이 필요하다면 이 공간에 추가 내용을 넣을 수 있습니다. */}
       </div>
       <ReplyAdd token={token} hookVal={hookVal} setHook={setHookVal} />
-      <ReplyList token={token} hookVal={hookVal} />
+      <ReplyList token={token} hookVal={hookVal} setHook={setHookVal} />
     </div>
   );
 };

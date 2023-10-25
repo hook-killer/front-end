@@ -14,7 +14,10 @@ const ReplyList = (props) => {
   const { articleId } = useParams();
   const [show, setShow] = useState();
   const token = props.token;
+  const setHookVal = props.setHook;
   const hookVal = props.hookVal;
+
+  console.log("hookVal : ", hookVal)
 
   const languageChangeHandler = () => {
     // 언어 변경 이벤트가 발생하면 새로운 언어로 업데이트
@@ -42,10 +45,12 @@ const ReplyList = (props) => {
     if (confirmed) {
       deleteReply(replyId, i18n.language, token)
         .then((res) => {
-          alert(i18n.t("reply.successConfirm"));
+          setHookVal(hookVal + 1);
+          alert(i18n.t("reply.deleteSuccess"));
         })
         .catch((error) => {
           console.log(error);
+          alert(i18n.t("reply.deleteFailed"));
         });
     } else {
       console.log("사용자가 취소를 누름");
