@@ -99,7 +99,7 @@ const MypageList = ({ language, token }) => {
       ).then((response) => {
         if (response.status == 200) {
           console.log("mylist", response);
-          setItems(response.data.data);
+          setItems(response.data.data)
           setTotalPage(response.data.totalPage);
           setTotalElements(response.data.totalElements);
           return;

@@ -7,6 +7,35 @@ import {
   removeCookie,
   setCookie,
 } from "../../utils/ReactCookie";
+import { isNull } from "../../utils/NullUtils";
+
+const ThumbNailImgType = ({ profile }) => {
+  console.log(profile)
+  const DEFAULT_THUMBNAIL = "/thumbnail.png";
+  if (isNull(profile) || profile == "") {
+    return (<img
+      src={`${DEFAULT_THUMBNAIL}`}
+      alt="ProfileImage"
+      style={{ width: "100%", height: "100%" }}
+    />)
+  }
+  if (profile.startsWith("http")) {
+    return (
+      <img
+        src={`${profile}`}
+        alt="ProfileImage"
+        style={{ width: "100%", height: "100%" }}
+      />
+    )
+  }
+  return (
+    <img
+      src={`${process.env.REACT_APP_IMG_URL}${profile}`}
+      alt="ProfileImage"
+      style={{ width: "100%", height: "100%" }}
+    />
+  )
+}
 
 const UserThumbnail = ({ language, token, profile, profileSet }) => {
   const { t, i18n } = useTranslation();
@@ -65,8 +94,6 @@ const UserThumbnail = ({ language, token, profile, profileSet }) => {
     }
   };
 
-  const DEFAULT_THUMBNAIL = "/thumbnail.png";
-
   return (
     <>
       <div className="d-flex justify-content-center">
@@ -78,27 +105,7 @@ const UserThumbnail = ({ language, token, profile, profileSet }) => {
             height: "200px",
           }}
         >
-          {profile == "" && (
-            <img
-              src={`${DEFAULT_THUMBNAIL}`}
-              alt="ProfileImage"
-              style={{ width: "100%", height: "100%" }}
-            />
-          )}
-          {profile.startsWith("http") && (
-            <img
-              src={`${profile}`}
-              alt="ProfileImage"
-              style={{ width: "100%", height: "100%" }}
-            />
-          )}
-          {(profile.startsWith("dev") || profile.startsWith("local")) && (
-            <img
-              src={`${process.env.REACT_APP_IMG_URL}${profile}`}
-              alt="ProfileImage"
-              style={{ width: "100%", height: "100%" }}
-            />
-          )}
+          <ThumbNailImgType profile={profile} />
         </div>
       </div>
       <div

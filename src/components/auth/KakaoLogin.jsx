@@ -30,7 +30,7 @@ const KakaoLogin = (props) => {
           setToken(res.data.refreshToken);
           setRole(res.data.role);
           setNickName(res.data.nickName);
-          setProfile(res.data.thumbnail);
+          setProfile(res.data.thumbNail);
           setCookie("jwtToken", res.data.accessToken, {
             expires: expireSevenDays,
           });
@@ -41,7 +41,7 @@ const KakaoLogin = (props) => {
           setCookie("nickName", res.data.nickName, {
             expires: expireSevenDays,
           });
-          setCookie("profile", res.data.thumbnail, {
+          setCookie("profile", res.data.thumbNail, {
             expires: expireSevenDays,
           });
           //로그인이 성공하면 이동할 페이지
