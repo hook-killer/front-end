@@ -27,10 +27,10 @@ const KakaoLogin = (props) => {
         //백에서 완료후 우리사이트 전용 토큰 넘겨주는게 성공했다면
         console.log(res);
         if (res.status === 200) {
-          setToken(res.data.refreshToken);
+          setToken(res.data.accessToken);
           setRole(res.data.role);
           setNickName(res.data.nickName);
-          setProfile(res.data.thumbNail);
+          setProfile(res.data.thumbnail);
           setCookie("jwtToken", res.data.accessToken, {
             expires: expireSevenDays,
           });
@@ -41,7 +41,7 @@ const KakaoLogin = (props) => {
           setCookie("nickName", res.data.nickName, {
             expires: expireSevenDays,
           });
-          setCookie("profile", res.data.thumbNail, {
+          setCookie("profile", res.data.thumbnail, {
             expires: expireSevenDays,
           });
           //로그인이 성공하면 이동할 페이지

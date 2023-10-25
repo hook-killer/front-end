@@ -26,7 +26,7 @@ const GoogleLogin = (props) => {
         //백에서 완료후 우리사이트 전용 토큰 넘겨주는게 성공했다면
         console.log(res);
         if (res.status === 200) {
-          setToken(res.data.refreshToken);
+          setToken(res.data.accessToken);
           setRole(res.data.role);
           setNickName(res.data.nickName);
 
