@@ -86,7 +86,7 @@ const ArticleDetail = (props) => {
   useEffect(() => {
     setArticleByServer();
     checkIfLiked();
-  }, []);
+  }, [liked]);
 
   useEffect(() => {
     setArticleByServer();
