@@ -2,7 +2,8 @@
 
 ## TechStach
 
-![NGINX](https://img.shields.io/badge/NGINX-009639?style=flat&logo=NGINX&logoColor=white)
+### Application
+
 ![React](https://img.shields.io/badge/React-v.18-61DAFB?style=flat&logo=React&logoColor=white)
 ![ReactRouter](https://img.shields.io/badge/ReactRouter-v.6-CA4245?style=flat&logo=React_Router&logoColor=white)
 ![ReactQuery](https://img.shields.io/badge/ReactQuery-v.6-FF4154?style=flat&logo=React_Query&logoColor=white)
@@ -15,6 +16,30 @@
 ![JavaScript](https://img.shields.io/badge/JavaScript-E7DF1E?style=flat&logo=javascript&logoColor=white)
 ![HTML5](https://img.shields.io/badge/html-5-E34F26?style=flat&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/css-3-1572B6?style=flat&logo=css3&logoColor=white)
+
+### Service
+
+![NCP](https://img.shields.io/badge/NCP-Load_Balancer-03C75A?style=flat&logo=Naver&logoColor=white)
+![NCP](https://img.shields.io/badge/NCP-Container_Registry-03C75A?style=flat&logo=Naver&logoColor=white)
+![NCP](https://img.shields.io/badge/NCP-Object_Storage-03C75A?style=flat&logo=Naver&logoColor=white)
+![Kakao](https://img.shields.io/badge/Kakao-OAuth-FFCD00?style=flat&logo=KakaoTalk&logoColor=white)
+![Google](https://img.shields.io/badge/Google-OAuth-4285F4?style=flat&logo=Google&logoColor=white)
+
+### Web Server
+
+![NGINX](https://img.shields.io/badge/NGINX-009639?style=flat&logo=NGINX&logoColor=white)
+
+### CI / CD
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat&logo=Docker&logoColor=white)
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat&logo=Jenkins&logoColor=white)
+
+### ETC
+
+![Github](https://img.shields.io/badge/GitHub-181717?style=flat&logo=GitHub&logoColor=white)
+![VSCode](https://img.shields.io/badge/VSCode-007ACC?style=flat&logo=Visual-Studio-Code&logoColor=white)
+![Slack](https://img.shields.io/badge/Slack-4A154B?style=flat&logo=Slack&logoColor=white)
+![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white)
 
 ## Issue
 
