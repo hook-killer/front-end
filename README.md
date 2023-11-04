@@ -1,6 +1,8 @@
+# README
+
 [![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fhook-killer%2Ffront-end&count_bg=%236FC22F&title_bg=%23C93E3E&icon=react.svg&icon_color=%23E7E7E7&title=%EC%9D%91%EC%95%A0&edge_flat=false)](https://hits.seeyoufarm.com)
 
-## Tech Stack
+## 1️⃣Tech Stack
 
 ### Application
 
@@ -41,12 +43,12 @@
 ![Slack](https://img.shields.io/badge/Slack-4A154B?style=flat&logo=Slack&logoColor=white)
 ![Notion](https://img.shields.io/badge/Notion-000000?style=flat&logo=Notion&logoColor=white)
 
-## Issue
+## 2️⃣Issue
 
 - React Router
   - [`<Switch>` 관련 v6 변화](https://0cddo-room.tistory.com/entry/react-router%EC%82%AC%EC%9A%A9%EA%B3%BC-v6%EC%97%90%EC%84%9C%EC%9D%98-switch%EC%9D%98-%EB%B3%80%ED%99%94)
 
-## Dependencies Reference
+## 3️⃣Dependencies Reference
 
 - React Bootstrap
   - https://react-bootstrap.netlify.app/
@@ -62,3 +64,26 @@
   - https://github.com/orioncactus/pretendard/blob/main/packages/pretendard/docs/en/README.md
 - Axios Documentation
   - https://axios-http.com/docs/api_intro
+
+## 4️⃣How To Start?
+
+> [!WARNING]
+> 해당 방법은 Local에서 실행하는 방법을 기록한 것입니다.
+
+1. BackEnd Running
+2. `npm install`
+3. `npm start`
+
+### Why only npm start?
+
+> [!NOTE]
+> start를 진행할 경우 1순위로 읽는것은 `.env.development` 파일의 환경변수를 읽는다.
+> 해당 프로젝트는 Local기준실행시 `.env.development`의 변수가 필요하기 떄문에 `npm start`만으로 실행이 가능하다.
+
+## 5️⃣추가 필요 항목?
+
+> 없슴.
+
+## 6️⃣ Front End 빌드 및 배포관련 문서 참고사항
+
+- [운영 배포 및 빌드 관련 안내 문서](https://github.com/hook-killer/document/blob/main/Architecture/Build/FE-Build.md)
